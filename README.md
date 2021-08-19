@@ -1,2 +1,2 @@
-# CS - Financial monitor
+# Grupo 4: Financial monitor
 
