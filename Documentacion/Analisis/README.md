@@ -12,7 +12,7 @@ En esta página se encuentran enumerados y detallados los Requerimientos Funcion
 
 ### [Casos de Uso](https://lejmanm.atlassian.net/wiki/spaces/CS/pages/10223657/Casos+de+uso)
 
-En esta página se encuentran documentados el diagrama de casos de uso y la matriz de Casos de Uso y Requerimientos Funcionales.
+En esta página se encuentran documentados el diagrama de casos de uso, la matriz de Casos de Uso y Requerimientos Funcionales y descripción de los casos de uso `CU3 - Vincular cuenta externa` y `CU9 - Notificar cambio de cotización/volumen`.
 
 ### [Documentación API IOL](https://lejmanm.atlassian.net/wiki/spaces/CS/pages/10223664/API+IOL)
 
