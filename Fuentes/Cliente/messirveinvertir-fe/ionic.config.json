@@ -1,0 +1,7 @@
+{
+  "name": "messirveinvertir-fe",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
