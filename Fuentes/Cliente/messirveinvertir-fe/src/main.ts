@@ -26,6 +26,19 @@ import './theme/variables.css';
 const app = createApp(App)
   .use(IonicVue)
   .use(router);
+
+const files = require.context('./components/', true, /\.vue$/i);
+// @ts-ignore
+files.keys().map(key => app.component(key.split('/').pop().split('.')[0], files(key).default));
+
+import * as IonComponents from '@ionic/vue';
+
+Object.keys(IonComponents).forEach(key => {
+  if (/^Ion[A-Z]\w+$/.test(key)) {
+    // @ts-ignore
+    app.component(key, IonComponents[key]);
+  }
+});
   
 router.isReady().then(() => {
   app.mount('#app');
