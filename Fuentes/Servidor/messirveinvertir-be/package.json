@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "node ace serve --watch",
-    "build": "node ace swagger:generate && node ace build --production",
-    "postbuild": "cp -a docs/ build/docs",
+    "build": "node ace build --production",
+    "postbuild": "cd build && node ./../ace swagger:generate && cp -a ./../docs/ docs",
     "start": "node server.js",
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write .",
