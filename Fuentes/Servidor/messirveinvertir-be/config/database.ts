@@ -41,6 +41,9 @@ const databaseConfig: DatabaseConfig = {
         user: Env.get('PG_USER', 'postgres'),
         password: Env.get('PG_PASSWORD', 'root'),
         database: Env.get('PG_DB_NAME', 'messirve_dev'),
+        ssl: {
+          rejectUnauthorized: false,
+        },
       },
       migrations: {
         naturalSort: true,
