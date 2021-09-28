@@ -8,7 +8,17 @@ export default class AppProvider {
   }
 
   public async boot() {
-    // IoC container is ready
+    await this.registerFakeUserProvider()
+  }
+
+  protected async registerFakeUserProvider() {
+    const Auth = this.app.container.resolveBinding('Adonis/Addons/Auth')
+
+    const { FakeAuthProvider } = await import('./FakeAuthProvider')
+
+    Auth.extend('provider', 'fake', (_, __) => {
+      return new FakeAuthProvider()
+    })
   }
 
   public async ready() {
