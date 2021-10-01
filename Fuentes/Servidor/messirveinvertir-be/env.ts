@@ -27,4 +27,5 @@ export default Env.rules({
   PG_USER: Env.schema.string.optional(),
   PG_PASSWORD: Env.schema.string.optional(),
   PG_DB_NAME: Env.schema.string.optional(),
+  IOL_API_BASE: Env.schema.string.optional(),
 })
