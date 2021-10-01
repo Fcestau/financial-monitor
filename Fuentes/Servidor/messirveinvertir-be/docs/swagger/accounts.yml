@@ -1,0 +1,62 @@
+/api/v1/accounts:
+  get:
+    tags:
+      - Accounts
+    summary: Permite recuperar una pagina de las cuentas asociadas al usuario actual.
+    parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/orderById'
+    responses:
+      200:
+        description: Cuentas asociadas al usuario
+  
+  post:
+    tags:
+      - Accounts
+    summary: Permite crear cuentas asociadas al usuario actual.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              accounts:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      required: true
+                      type: string
+                    type:
+                      required: true
+                      type: string
+                      enum: [IOL, Manual]
+    responses:
+      201:
+        description: Lista de ids de las nuevas cuentas
+
+  delete:
+    tags:
+      - Accounts
+    summary: Permite eliminar cuentas asociadas al usuario actual a partir de sus ids.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              accounts:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      required: true
+                      type: string
+    responses:
+      204:
+        description: Las cuentas fueron eliminadas
