@@ -16,6 +16,7 @@ export default {
         version: '1.0.0',
         description: 'API oficial de la fantástica aplicación MessirveInvertir.',
       },
+      security: [{ BearerAuth: [] }],
     },
 
     apis: ['app/**/*.ts', 'docs/swagger/**/*.yml', 'start/routes.ts'],
