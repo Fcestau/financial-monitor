@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts">
-// import { images, square, triangle } from 'ionicons/icons';
+import { images, square, triangle } from 'ionicons/icons';
 
 export default {
-  name: 'Tabs'
-}
+  name: 'Tabs',
+};
 </script>
