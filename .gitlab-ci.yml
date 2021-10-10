@@ -1,0 +1,50 @@
+image: node:latest
+
+before_script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+
+stages:
+    - be-deploy
+    - fe-build
+    - fe-test
+
+be-deploy:
+    type: deploy
+    stage: be-deploy
+    image: ruby:latest
+    script:
+        - cd Fuentes/Servidor/messirveinvertir-be
+        - dpl --provider=heroku --app=$HEROKU_APP_DEVELOPMENT --api-key=$HEROKU_API_KEY
+    only:
+        - dev
+
+fe-build:
+    stage: fe-build
+    image: ruby:latest
+    script:
+        - cd Fuentes/Cliente/messirveinvertir-fe
+        - apt-get install -y npm
+        - npm install -g @vue/cli
+        - npm install -g @vue/cli-service
+        - npm install
+        - npm run build
+    only:
+        - dev
+
+fe-test:
+    stage: fe-test
+    image: ruby:latest
+    script:
+        - cd Fuentes/Cliente/messirveinvertir-fe
+        - apt-get install -y npm
+        - npm install -g @vue/cli
+        - npm install -g @vue/cli-service
+        - npm install
+        - "npm run test:unit
+          --code-coverage
+          --reporters=coverage-istanbul,progress
+          --progress=false"
+    only:
+        - dev

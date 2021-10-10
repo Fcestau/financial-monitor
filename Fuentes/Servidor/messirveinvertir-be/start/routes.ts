@@ -20,7 +20,11 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
+Route.group(() => {
+  require('./routes/api/v1/index')
+}).prefix('/api/v1')
+
 Route.get('/ping', 'PingController.ping')
-Route.get('/', async () => {
-  return { hello: 'world' }
+Route.get('/', async ({ response }) => {
+  return response.redirect('/docs')
 })

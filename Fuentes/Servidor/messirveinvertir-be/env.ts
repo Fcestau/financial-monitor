@@ -15,8 +15,8 @@
 import Env from '@ioc:Adonis/Core/Env'
 
 export default Env.rules({
-  HOST: Env.schema.string({ format: 'host' }),
-  PORT: Env.schema.number(),
+  HOST: Env.schema.string.optional({ format: 'host' }),
+  PORT: Env.schema.number.optional(),
   APP_KEY: Env.schema.string(),
   APP_NAME: Env.schema.string(),
   DRIVE_DISK: Env.schema.enum(['local'] as const),
@@ -27,4 +27,5 @@ export default Env.rules({
   PG_USER: Env.schema.string.optional(),
   PG_PASSWORD: Env.schema.string.optional(),
   PG_DB_NAME: Env.schema.string.optional(),
+  IOL_API_BASE: Env.schema.string.optional(),
 })
