@@ -31,17 +31,13 @@
 </template>
 
 <script lang="ts">
-import { camera, trash, close, images } from 'ionicons/icons';
-import { usePhotoGallery, UserPhoto } from '@/composables/usePhotoGallery';
+import { camera, trash, close } from 'ionicons/icons';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 export default {
-  name: 'Tab2',
+  name: 'BarcodeScanner',
   setup() {
-    const { photos, takePhoto } = usePhotoGallery();
     return {
-      photos,
-      takePhoto,
       camera,
       trash,
       close,
