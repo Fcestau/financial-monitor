@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title> Escaner de codigo</ion-title>
+        <ion-title>{{ $t('prueba') }} </ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>

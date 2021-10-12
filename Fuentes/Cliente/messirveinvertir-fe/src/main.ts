@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router';
 
 import { IonicVue } from '@ionic/vue';
-
+import { createI18n } from 'vue-i18n'
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
 
@@ -29,9 +29,24 @@ import { defineCustomElements } from '@ionic/pwa-elements/loader';
 // Call the element loader after the platform has been bootstrapped
 defineCustomElements(window);
 
+
+const i18n = createI18n({
+  locale: 'es',
+  fallbackLocale: 'es',
+  messages: {
+    es: require('~/locales/es.json'),
+  }
+})
+
+
+
 const app = createApp(App)
   .use(IonicVue)
-  .use(router);
+  .use(router)
+  .use(i18n)
+
+
+
 
 const files = require.context('./components/', true, /\.vue$/i);
 // @ts-ignore
