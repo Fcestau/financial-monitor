@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>{{ $t('prueba') }} </ion-title>
+        <ion-title>{{ $t('test') }} </ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>

@@ -28,17 +28,13 @@ import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
 // Call the element loader after the platform has been bootstrapped
 defineCustomElements(window);
-
+import es from "./locales/es.json";
 
 const i18n = createI18n({
   locale: 'es',
   fallbackLocale: 'es',
-  messages: {
-    es: require('~/locales/es.json'),
-  }
+  messages: { es }
 })
-
-
 
 const app = createApp(App)
   .use(IonicVue)
@@ -53,6 +49,7 @@ const files = require.context('./components/', true, /\.vue$/i);
 files.keys().map(key => app.component(key.split('/').pop().split('.')[0], files(key).default));
 
 import * as IonComponents from '@ionic/vue';
+
 
 Object.keys(IonComponents).forEach(key => {
   if (/^Ion[A-Z]\w+$/.test(key)) {
