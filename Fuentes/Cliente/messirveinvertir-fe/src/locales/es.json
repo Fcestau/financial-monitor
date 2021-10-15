@@ -1,0 +1,13 @@
+{
+  "poc": {
+    "barcodeScannerTitle": "Escaner de código",
+    "chartTitle": "Gráfico",
+    "lineChartTitle": "Line Chart",
+    "pieChartTitle": "Pie Chart",
+    "doughnutChartTitle": "Doughnut Chart"
+  },
+  "external": {
+    "accountListTitle": "Listado de Cuentas",
+    "linkAccountListButton": "Vincular cuenta"
+  }
+}
