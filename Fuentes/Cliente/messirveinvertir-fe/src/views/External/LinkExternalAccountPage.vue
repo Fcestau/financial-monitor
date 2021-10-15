@@ -1,0 +1,3 @@
+<template>
+    <LinkExternalAccount></LinkExternalAccount>
+</template>
