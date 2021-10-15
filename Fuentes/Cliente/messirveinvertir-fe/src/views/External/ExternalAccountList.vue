@@ -2,31 +2,37 @@
   <ion-page>
     <ion-toolbar>
       <ion-buttons slot="start">
-        <ion-menu-button auto-hide="false"></ion-menu-button>
+        <ion-menu-button auto-hide="false" />
       </ion-buttons>
       <ion-title> {{ $t('external.accountListTitle') }} </ion-title>
     </ion-toolbar>
     <ion-content class="ion-padding">
-      <ion-button expand="block" routerLink="./link-external-account">
-        {{ $t('external.linkAccountListButton') }}
-      </ion-button>
-      <ItemsList :items="items" @deleteItem="deleteItem($event)" />
+      <TheButton
+        expand="block"
+        inner-text="external.linkAccountListButton"
+        router-link="./link-external-account"
+        class="ion-margin-bottom"
+      />
+      <TheExternalAccountItem 
+        v-for="item in items" 
+        :key="item" 
+        :item="item" 
+        :action-icon="trashOutline" 
+        :show-amount="true" 
+        @selectedItem="deleteItem(item)" 
+      />
     </ion-content>
   </ion-page>
 </template>
-
 <script>
-import ItemsList from '@/components/general/ItemsList.vue';
 import { alertController } from '@ionic/vue';
-
+import { trashOutline } from 'ionicons/icons';
 export default {
   name: 'ExternalAccountList',
-  components: { ItemsList },
   methods: {
     deleteItem(item) {
       this.deleteItemAlertConfirm(item);
     },
-
     async deleteItemAlertConfirm(item) {
       const alert = await alertController.create({
         header: 'Desvincular cuenta',
@@ -55,6 +61,11 @@ export default {
       });
       return alert.present();
     },
+  },
+  setup() {
+    return {
+      trashOutline,
+    };
   },
   data() {
     return {
@@ -89,6 +100,15 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.items.forEach((element) => {
+      if (element.amount > 0) {
+        element.color = 'success';
+      } else {
+        element.color = 'danger';
+      }
+    });
+  }
 };
 </script>
 <style></style>
