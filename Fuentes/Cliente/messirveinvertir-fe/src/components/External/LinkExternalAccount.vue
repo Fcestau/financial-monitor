@@ -39,7 +39,7 @@ export default ({
       item: { name: this.$t('invertir_online')},
       items: [
         {
-          title: 'IOL',
+          title: 'Invertir Online',
           avatar:
             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMbqQ53w7h-Ns5pWxR4S-Liy-1eTEyDyLSlm7rrAgEXlfU0LsVQ2sZLzzK13W9CqHcDDM&usqp=CAU',
           assetType: 'USD',

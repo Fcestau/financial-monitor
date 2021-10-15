@@ -4,19 +4,17 @@
       <ion-toolbar color="tertiary">
         <ion-title class="ion-text-center ion-text-uppercase">{{ $t('menu.messirveinverir') }}</ion-title>
       </ion-toolbar>
-      <ion-card>
         <ion-avatar class="avatar">
           <img src="https://pbs.twimg.com/media/EUCh095XQAIXfbM.jpg">
         </ion-avatar>
         <div class="ion-text-center user-name">
           <ion-label>Rodrigo Mignola</ion-label>
         </div>
-      </ion-card>
       
     </ion-header>
     <ion-content color="tertiary">
       <ion-list class="ion-list-container">
-          <ion-item color="tertiary" href="/external-accounts"><div style="">{{ $t('menu.account_listing') }}</div></ion-item>
+          <ion-item color="tertiary" href="/external-account"><div style="">{{ $t('menu.account_listing') }}</div></ion-item>
           <ion-item color="tertiary" href=""><div >{{ $t('menu.wallet') }}</div></ion-item>
           <ion-item color="tertiary" href="/chart"><div >{{ $t('menu.charts') }}</div></ion-item>
           <ion-item color="tertiary" href=""><div >{{ $t('menu.operation_history') }}</div></ion-item>
