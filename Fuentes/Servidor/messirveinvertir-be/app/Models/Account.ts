@@ -1,9 +1,9 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 
-export const AccountType = {
-  IOL: 'IOL',
-  Manual: 'Manual'
+export enum AccountType {
+  IOL = 'IOL',
+  Manual = 'Manual'
 }
 
 export default class Account extends BaseModel {
@@ -20,7 +20,7 @@ export default class Account extends BaseModel {
   public uid: string
 
   @column()
-  public type: typeof AccountType
+  public type: AccountType
 
   @column()
   public name: string
