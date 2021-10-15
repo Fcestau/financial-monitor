@@ -1,13 +1,14 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title> Gráficos</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button auto-hide="false"></ion-menu-button>
+      </ion-buttons>
+      <ion-title> {{ $t('poc.chartTitle') }} </ion-title>
+    </ion-toolbar>
+    <ion-content class="ion-padding">
       <ion-text>
-        <h1>Doughnut Chart</h1>
+        <h1>{{ $t('poc.doughnutChartTitle') }}</h1>
       </ion-text>
       <vue3-chart-js
         :id="doughnutChart.id"
@@ -15,7 +16,7 @@
         :data="doughnutChart.data"
       ></vue3-chart-js>
       <ion-text>
-        <h1>Pie Chart</h1>
+        <h1>{{ $t('poc.pieChartTitle') }}</h1>
       </ion-text>
       <vue3-chart-js
         :id="pieChart.id"
@@ -23,7 +24,7 @@
         :data="pieChart.data"
       ></vue3-chart-js>
       <ion-text>
-        <h1>Line Chart</h1>
+        <h1>{{ $t('poc.lineChartTitle') }}</h1>
       </ion-text>
       <vue3-chart-js
         :id="lineChart.id"

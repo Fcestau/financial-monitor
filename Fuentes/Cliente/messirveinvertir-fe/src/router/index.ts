@@ -23,6 +23,10 @@ const routes: Array<RouteRecordRaw> = [
         path: 'chart',
         component: () => import('@/views/Chart.vue'),
       },
+      {
+        path: 'external-account',
+        component: () => import('@/views/ExternalAccountList.vue'),
+      },
     ],
   },
 ];

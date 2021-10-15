@@ -1,11 +1,12 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>{{ $t('test') }} </ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button auto-hide="false"></ion-menu-button>
+      </ion-buttons>
+      <ion-title> {{ $t('poc.barcodeScannerTitle') }} </ion-title>
+    </ion-toolbar>
+    <ion-content class="ion-padding">
       <ion-text color="primary">
         <h1>Barcode data</h1>
         <p>{{ barcodeData }}</p>
@@ -26,7 +27,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 export default {
   name: 'BarcodeScanner',
-  
+
   data() {
     return {
       error: {},
