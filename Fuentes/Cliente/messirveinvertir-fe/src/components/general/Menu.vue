@@ -10,6 +10,7 @@
         <ion-list>
           <ion-item href="/barcode-scanner">PoC Barcode Scanner</ion-item>
           <ion-item href="/chart">PoC Chart.js</ion-item>
+          <ion-item href="/external-account">Listado de Cuentas</ion-item>
         </ion-list>
       </ion-content>
     </ion-menu>
