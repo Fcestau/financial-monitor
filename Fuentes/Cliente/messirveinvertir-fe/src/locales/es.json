@@ -1,4 +1,14 @@
 {
+  "menu": {
+    "messirveinverir":"Messirveinverir",
+    "account_listing": "Listado de Cuentas",
+    "wallet":"Cartera",
+    "charts": "Graficas",
+    "operation_history": "Historial de Operaciones",
+    "scan_qr_code": "Escanear Código QR",
+    "active_alerts":"Alertas Activas",
+    "logout":"Cerrar Sesión"
+  },
   "poc": {
     "barcodeScannerTitle": "Escaner de código",
     "chartTitle": "Gráfico",
