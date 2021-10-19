@@ -1,9 +1,9 @@
 import { mount } from '@vue/test-utils';
-import Home from '@/views/Home.vue';
+import App from '@/App.vue';
 
-describe('Home.vue', () => {
-  it('renders Home view', () => {
-    const wrapper = mount(Home);
+describe('App.vue', () => {
+  it('renders App', () => {
+    const wrapper = mount(App);
     expect(wrapper).toBeTruthy();
   });
 });
