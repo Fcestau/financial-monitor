@@ -1,24 +1,25 @@
 {
   "menu": {
-    "messirveinverir":"Messirveinverir",
+    "messirveinverir": "Messirveinverir",
     "account_listing": "Listado de Cuentas",
-    "wallet":"Cartera",
+    "wallet": "Cartera",
     "charts": "Graficas",
     "operation_history": "Historial de Operaciones",
     "scan_qr_code": "Escanear Código QR",
-    "active_alerts":"Alertas Activas",
-    "logout":"Cerrar Sesión"
+    "active_alerts": "Alertas Activas",
+    "logout": "Cerrar Sesión"
   },
   "scan": "Escanear",
   "invertir_online": "Invertir Online",
-  "email":"Correo electronico",
+  "email": "Correo electronico",
   "password": "Contraseña",
-  "confirm":"Confirmar",
+  "confirm": "Confirmar",
   "external": {
     "link_account": "Vincular cuenta",
     "select_external_account": "Seleccione la cuenta externa",
     "complete_form": "Complete los campos que se muestran en pantalla para poder vincular su cuenta.",
     "accountListTitle": "Listado de Cuentas",
+    "emptyExternalAccountListLinked": "No posee ninguna cuanta externa vinculada.",
     "linkAccountListButton": "Vincular cuenta"
   },
   "poc": {

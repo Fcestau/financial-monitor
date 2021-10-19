@@ -13,13 +13,18 @@
         router-link="./link-external-account"
         class="ion-margin-bottom"
       />
-      <TheExternalAccountItem 
-        v-for="item in items" 
-        :key="item" 
-        :item="item" 
-        :action-icon="trashOutline" 
-        :show-amount="true" 
-        @selectedItem="deleteItem(item)" 
+      <ion-text class="ion-padding" v-if="items.length === 0">
+        <p class="ion-text-center">
+          {{ $t('external.emptyExternalAccountListLinked') }}
+        </p>
+      </ion-text>
+      <TheExternalAccountItem
+        v-for="item in items"
+        :key="item"
+        :item="item"
+        :action-icon="trashOutline"
+        :show-amount="true"
+        @selectedItem="deleteItem(item)"
       />
     </ion-content>
   </ion-page>
@@ -108,7 +113,6 @@ export default {
         element.color = 'danger';
       }
     });
-  }
+  },
 };
 </script>
-<style></style>

@@ -25,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'external-account',
-        component: () => import('@/views/External/ExternalAccountList.vue'),
+        component: () => import('@/views/External/ExternalAccountListPage.vue'),
       },
       {
         path: 'link-external-account',

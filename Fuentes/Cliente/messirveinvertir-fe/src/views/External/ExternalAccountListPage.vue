@@ -1,0 +1,3 @@
+<template>
+  <ExternalAccountList></ExternalAccountList>
+</template>
