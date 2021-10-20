@@ -14,10 +14,10 @@
     </ion-header>
     <ion-content color="tertiary">
       <ion-list class="ion-list-container">
+          <ion-item color="tertiary" href="/operations-history"><div >{{ $t('menu.operations_history') }}</div></ion-item>
           <ion-item color="tertiary" href="/external-account"><div style="">{{ $t('menu.account_listing') }}</div></ion-item>
           <ion-item color="tertiary" href=""><div >{{ $t('menu.wallet') }}</div></ion-item>
           <ion-item color="tertiary" href="/chart"><div >{{ $t('menu.charts') }}</div></ion-item>
-          <ion-item color="tertiary" href=""><div >{{ $t('menu.operation_history') }}</div></ion-item>
           <ion-item color="tertiary" href="/barcode-scanner"><div >{{ $t('menu.scan_qr_code') }}</div></ion-item>
           <ion-item color="tertiary" href=""><div >{{ $t('menu.active_alerts') }}</div></ion-item>
       </ion-list>

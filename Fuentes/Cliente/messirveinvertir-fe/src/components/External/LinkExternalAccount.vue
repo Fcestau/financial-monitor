@@ -15,15 +15,14 @@
           {{ $t('external.select_external_account') }}
         </p>
         <ion-list>
-          <TheExternalAccountItem 
+          <TheGeneraltem 
             v-for="item in items" 
             :key="item" 
             :item="item" 
             :action-icon="chevronForwardOutline" 
             :show-amount="false" 
             @selectedItem="openModal(item)"
-            >
-          </TheExternalAccountItem>
+            />
         </ion-list>
     </ion-content>
   </ion-page>

@@ -8,7 +8,7 @@
           <h3>{{ item.title }}</h3>
         </ion-label>
         <ion-note v-if="showAmount" :color="item.color">
-          {{ item.assetType }} {{ item.amount }}
+          {{ item.assetType }} {{ item.amount }} <span v-if="showBalance">~ {{ item.balance }}</span>
         </ion-note>
       </div>         
       <ion-buttons>
@@ -32,7 +32,11 @@ export default ({
         actionIcon: {
             type: String,
             required: false
-        }
+        },
+        showBalance: {
+            type: Boolean,
+            required: false
+        },
     },
     methods: {
         action() {

@@ -18,7 +18,7 @@
           {{ $t('external.emptyExternalAccountListLinked') }}
         </p>
       </ion-text>
-      <TheExternalAccountItem
+      <TheGeneraltem
         v-for="item in items"
         :key="item"
         :item="item"

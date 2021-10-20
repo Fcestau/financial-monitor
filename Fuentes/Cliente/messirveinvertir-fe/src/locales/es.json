@@ -4,7 +4,7 @@
     "account_listing": "Listado de Cuentas",
     "wallet": "Cartera",
     "charts": "Graficas",
-    "operation_history": "Historial de Operaciones",
+    "operations_history": "Historial de Operaciones",
     "scan_qr_code": "Escanear Código QR",
     "active_alerts": "Alertas Activas",
     "logout": "Cerrar Sesión"
@@ -14,6 +14,7 @@
   "email": "Correo electronico",
   "password": "Contraseña",
   "confirm": "Confirmar",
+  "no_information": "Sin información",
   "external": {
     "link_account": "Vincular cuenta",
     "select_external_account": "Seleccione la cuenta externa",
@@ -21,6 +22,17 @@
     "accountListTitle": "Listado de Cuentas",
     "emptyExternalAccountListLinked": "No posee ninguna cuanta externa vinculada.",
     "linkAccountListButton": "Vincular cuenta"
+  },
+  "operations": {
+    "operations_history":"Historial de Operaciones",
+    "new_operation":"Nueva Operación",
+    "time_filter": {
+      "1_day": "1D",
+      "1_week": "1W",
+      "1_month": "1M",
+      "3_months": "3M",
+      "1_year":"1Y"
+    }
   },
   "poc": {
     "barcodeScannerTitle": "Escaner de código",
