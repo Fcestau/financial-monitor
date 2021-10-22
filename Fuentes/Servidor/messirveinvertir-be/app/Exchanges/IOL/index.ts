@@ -13,5 +13,5 @@ export interface IolAuthenticationInterface {
 
 export default interface IolAdapterInterface {
   authenticate(username: string, password: string): Promise<Token>
-  getOperations(filter?: GetOperationsFilter): Promise<Operation>
+  getOperations(filter?: GetOperationsFilter): Promise<Operation[]>
 }

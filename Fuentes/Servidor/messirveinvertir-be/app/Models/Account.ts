@@ -27,4 +27,7 @@ export default class Account extends BaseModel {
   
   @column()
   public data: JSON
+
+  @column()
+  public lastOperationsUpdate: Date
 }

@@ -29,7 +29,7 @@ export default class IolAdapter implements IolAdapterInterface {
     return this.config.auth.authenticate(username, password)
   }
 
-  public async getOperations(filter?: GetOperationsFilter): Promise<Operation> {
+  public async getOperations(filter?: GetOperationsFilter): Promise<Operation[]> {
     return (await this.axios())
       .get('/api/v2/operaciones', {
         params: {
