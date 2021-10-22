@@ -1,0 +1,40 @@
+/api/v1/operations:
+  post:
+    tags:
+      - Operations
+    summary: Permite crear operaciones asociadas a una cuenta.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              operations:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    account_id:
+                      required: true
+                      type: integer
+                    asset_id:
+                      required: true
+                      type: integer
+                    quantity:
+                      required: true
+                      type: number
+                    usd_price:
+                      required: true
+                      type: number
+                    type:
+                      required: true
+                      type: string
+                      enum: [Buy, Sell, Deposit, Withdraw]
+                    timestamp:
+                      required: true
+                      type: string
+                      format: date-time
+    responses:
+      201:
+        description: Lista de ids de las nuevas operaciones
