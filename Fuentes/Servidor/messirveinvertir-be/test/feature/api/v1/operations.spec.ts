@@ -48,4 +48,15 @@ test.group('API V1 Accounts', () => {
       assert.equal(operations[key].timestamp, data!.timestamp.toISO())
     }
   })
+  test('[/api/v1/accounts/listOperations] (valid): returns operations list', async (assert) => {
+    // Arrange
+    const dbAsset = await AssetsFactory.create()
+    await AccountsFactory.with('operations', 3, (op) => op.merge({ assetId: dbAsset.id })).create()
+
+    // Act
+    const { body } = await http.get('/api/v1/operations').asApiUser().expect(200)
+
+    // Assert
+    assert.exists(body.data)
+  })
 })
