@@ -23,7 +23,6 @@
         :key="item"
         :item="item"
         :action-icon="trashOutline"
-        :show-amount="true"
         @selectedItem="deleteItem(item)"
       />
     </ion-content>

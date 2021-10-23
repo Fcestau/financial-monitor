@@ -20,7 +20,6 @@
             :key="item" 
             :item="item" 
             :action-icon="chevronForwardOutline" 
-            :show-amount="false" 
             @selectedItem="openModal(item)"
             />
         </ion-list>

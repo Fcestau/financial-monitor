@@ -7,12 +7,15 @@
         <ion-label>
           <h3>{{ item.title }}</h3>
         </ion-label>
-        <ion-note :color="item.color">
-         <span class="small-font">{{ item.assetType }} {{ item.amount }}</span>
-        </ion-note>
+        <div class="display-flex">
+          <ion-badge class="op-action" :color="item.color">{{item.type}}</ion-badge>
+          <ion-note>   
+            <span class="small-font">{{ item.assetType }} {{ item.amount }}</span>
+          </ion-note>     
+        </div>
       </div>         
       <ion-buttons>
-        <ion-button size="small" @click="action()">
+        <ion-button v-if="canSelect" size="small" @click="action()">
           <ion-icon slot="icon-only" :icon="actionIcon"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -27,6 +30,10 @@ export default ({
         },
         actionIcon: {
             type: String,
+            required: false
+        },
+        canSelect: {
+            type: Boolean,
             required: false
         }
     },
@@ -44,6 +51,12 @@ export default ({
 }
 .small-font {
   font-size: 12px;
+}
+.display-flex {
+  display: flex;
+}
+.op-action {
+  margin-right: 5px;
 }
 
 </style>
