@@ -30,7 +30,7 @@
                     type:
                       required: true
                       type: string
-                      enum: [Buy, Sell, Deposit, Withdraw]
+                      enum: [ Buy, Sell, Deposit, Withdraw ]
                     timestamp:
                       required: true
                       type: string
@@ -38,3 +38,16 @@
     responses:
       201:
         description: Lista de ids de las nuevas operaciones
+  get:
+    tags:
+      - Operations
+    summary: Permite recuperar una página de las operaciones asociadas al usuario actual.
+    parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/order_by_id'
+      - $ref: '#/components/parameters/date_from'
+      - $ref: '#/components/parameters/date_to'
+    responses:
+      200:
+        description: Operaciones asociadas al usuario

@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import Account from 'App/Models/Account'
 
 export enum OperationType {
   Buy = 'Buy',
@@ -35,4 +36,7 @@ export default class Operation extends BaseModel {
 
   @column()
   public type: OperationType
+
+  @belongsTo(() => Account)
+  public account: BelongsTo<typeof Account>
 }
