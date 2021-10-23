@@ -2,8 +2,22 @@ import IOLService from '@ioc:messirve/IOLService'
 import IolAdapter from 'App/Exchanges/IOL/Adapter/IolAdapter'
 import Account, { AccountType } from 'App/Models/Account'
 import { DateTime } from 'luxon'
+import Operation from 'App/Models/Operation'
+import CreateOperationsValidator from 'App/Validators/CreateOperationsValidator'
 
 export default class OperationsController {
+  public async createOperations({ request, response }) {
+    const data = await request.validate(CreateOperationsValidator)
+
+    const createdOperations = await Promise.all(
+      data.operations.map(async (data) => {
+        let newOperation = await Operation.create(data)
+        return { id: newOperation.id }
+      })
+    )
+
+    return response.created({ operations: createdOperations })
+  }
   /**
    * @swagger
    * /api/v1/operations:
@@ -20,33 +34,15 @@ export default class OperationsController {
   }
 
   public async updateOperations(account: Account) {
-    if (account.type == AccountType.IOL) {
-      const filter = {
-        from: account.lastOperationsUpdate,
-        to: DateTime.utc().toJSDate()
-      }
-      account.lastOperationsUpdate = filter.to
-
-      const newOperationsData = await IOLService.getOperations(filter)
-      
-      Operation.createMany(newOperationsData
-        .map(async (operationData) => {
-          numero: operationData.numero
-          fechaOrden: operationData.fechaOrden
-          tipo: operationData.tipo
-          estado: operationData.estado
-          mercado: operationData.mercado
-          simbolo: operationData.simbolo
-          cantidad: operationData.cantidad
-          monto: operationData.monto
-          modalidad: operationData.modalidad
-          precio: operationData.precio
-          fechaOperada: operationData.fechaOperada
-          cantidadOperada: operationData.cantidadOperada
-          precioOperado: operationData.precioOperado
-          montoOperado: operationData.montoOperado
-        }
-      ))
+    const accountAdapter = account.getAdapter()
+    const filter = {
+      from: account.lastOperationsUpdate,
+      to: DateTime.utc().toJSDate()
     }
+    account.lastOperationsUpdate = filter.to
+
+    const newOperations = await accountAdapter.downloadNewOperations(filter)
+    
+    Operation.createMany(newOperations)
   }
 }
