@@ -38,4 +38,14 @@ export default class OperationsController {
 
     return await qb.paginate(page, limit)
   }
+  public async deleteOperations({ auth, request, response }: HttpContextContract) {
+    const ids = request.input('operations').map((dto) => dto.id)
+
+    await Operation.query()
+      .whereHas('account', (builder) => builder.where('uid', auth.user!.uid))
+      .whereIn('id', ids)
+      .delete()
+
+    return response.noContent()
+  }
 }

@@ -59,4 +59,24 @@ test.group('API V1 Accounts', () => {
     // Assert
     assert.exists(body.data)
   })
+  test('[/api/v1/auth/deleteOperations] (valid): operations are deleted', async (assert) => {
+    // Arrange
+    const dbAsset = await AssetsFactory.create()
+    const dbAccounts = await AccountsFactory.with('operations', 3, (op) =>
+      op.merge({ assetId: dbAsset.id })
+    ).create()
+    const dbOperations = dbAccounts.operations
+
+    // Act
+    await http
+      .delete('/api/v1/operations')
+      .asApiUser()
+      .send({ operations: dbOperations })
+      .expect(204)
+
+    // Assert
+    for (let operation of dbOperations) {
+      assert.isNull(await Operation.find(operation.id))
+    }
+  })
 })
