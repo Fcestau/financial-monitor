@@ -180,9 +180,6 @@ export default {
     filterByPeriod(value) {
       this.period = value
     },
-    newOperation() {
-      // TODO: Agregar nueva operacion
-    },
     deleteItem(item) {
       this.deleteItemAlertConfirm(item);
     },
