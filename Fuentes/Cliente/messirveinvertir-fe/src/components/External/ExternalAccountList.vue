@@ -18,12 +18,11 @@
           {{ $t('external.emptyExternalAccountListLinked') }}
         </p>
       </ion-text>
-      <TheExternalAccountItem
+      <TheGeneraltem
         v-for="item in items"
         :key="item"
         :item="item"
         :action-icon="trashOutline"
-        :show-amount="true"
         @selectedItem="deleteItem(item)"
       />
     </ion-content>

@@ -7,8 +7,8 @@
         <ion-label>
           <h3>{{ item.title }}</h3>
         </ion-label>
-        <ion-note v-if="showAmount" :color="item.color">
-          {{ item.assetType }} {{ item.amount }}
+        <ion-note :color="item.color">
+         <span class="small-font">{{ item.assetType }} {{ item.amount }}</span>
         </ion-note>
       </div>         
       <ion-buttons>
@@ -23,10 +23,6 @@ export default ({
     props: {
         item: {
             type: Object,
-            required: true
-        },
-        showAmount: {
-            type: Boolean,
             required: true
         },
         actionIcon: {
@@ -46,4 +42,8 @@ export default ({
 .item {
   width: -webkit-fill-available;
 }
+.small-font {
+  font-size: 12px;
+}
+
 </style>
