@@ -44,5 +44,22 @@
     "lineChartTitle": "Line Chart",
     "pieChartTitle": "Pie Chart",
     "doughnutChartTitle": "Doughnut Chart"
+  },
+  "operation": {
+    "newOperationTitle": "Nueva Operación",
+    "accountLabel": "Cuenta",
+    "assetLabel": "Activo",
+    "operationTypeLabel": "Tipo de Operacion",
+    "amountLabel": "Cantidad",
+    "operationDateLabel": "Fecha de Operación",
+    "assetValueLabel": "Valor del activo",
+    "assetValuePlaceholder": "Valor en dólares",
+    "assetCreatorFormTitle": "Crear nuevo activo",
+    "assetNameFormLabel": "Nombre",
+    "assetSymbolFormLabel": "Símbolo",
+    "assetTypeFormLabel": "Tipo de activo",
+    "assetDateFormLabel": "Fecha de activo",
+    "accountNameFormLabel": "Nombre",
+    "accountCreatorFormTitle": "Crear nueva cuenta"
   }
 }
