@@ -32,6 +32,10 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/External/LinkExternalAccountPage.vue'),
       },
       {
+        path: 'operation-creator',
+        component: () => import('@/views/OperationCreatorPage.vue'),
+      },
+      {
         path: 'operations-history',
         component: () => import('@/views/Operations/OperationsHistoryPage.vue'),
       },
