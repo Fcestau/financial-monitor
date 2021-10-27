@@ -1,9 +1,8 @@
-import IOLService from '@ioc:messirve/IOLService'
-import IolAdapter from 'App/Exchanges/IOL/Adapter/IolAdapter'
-import Account, { AccountType } from 'App/Models/Account'
+import Account from 'App/Models/Account'
 import { DateTime } from 'luxon'
 import Operation from 'App/Models/Operation'
 import CreateOperationsValidator from 'App/Validators/CreateOperationsValidator'
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class OperationsController {
   public async createOperations({ request, response }) {
@@ -29,20 +28,40 @@ export default class OperationsController {
    *       200:
    *         description: Operations list
    */
-  public async operations() {
-    return IOLService.getOperations()
+  public async operations({ request, response }: HttpContextContract) {
+    const account = await Account.find(request.input('account_id'))
+
+    if (account != null){      
+      const operations = Operation
+        .query()
+        .where('accountId',account.id)
+
+      return response.ok(operations)
+    }
+    else{
+      return response.notFound()
+    }
   }
 
-  public async updateOperations(account: Account) {
-    const accountAdapter = account.getAdapter()
-    const filter = {
-      from: account.lastOperationsUpdate,
-      to: DateTime.utc().toJSDate()
-    }
-    account.lastOperationsUpdate = filter.to
+  public async updateOperations({ request, response }: HttpContextContract) {
+    const account = await Account.find(request.input('account_id'))
 
-    const newOperations = await accountAdapter.downloadNewOperations(filter)
-    
-    Operation.createMany(newOperations)
+    if (account != null){
+      const accountAdapter = account.getAdapter()
+      const filter = {
+        from: account.lastOperationsUpdate,
+        to: DateTime.utc().toJSDate()
+      }
+      account.lastOperationsUpdate = filter.to
+  
+      const newOperations = await accountAdapter.downloadNewOperations(filter)
+      
+      Operation.createMany(newOperations)
+
+      return response.noContent()
+    }
+    else{
+      return response.notFound()
+    }
   }
 }

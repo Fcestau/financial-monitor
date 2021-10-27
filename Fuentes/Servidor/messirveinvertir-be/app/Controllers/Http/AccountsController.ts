@@ -43,10 +43,4 @@ export default class AccountsController {
 
     return response.noContent()
   }
-
-  public async getAccount({ request }: HttpContextContract) {
-    const id = request.input('id')
-
-    return await Account.find(id)
-  }
 }

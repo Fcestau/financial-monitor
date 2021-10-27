@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Operation, { OperationType } from 'App/Models/Operation'
-import { GetOperationsFilter } from 'App/Exchanges/IOL/Domain/Operation'
+import { GetOperationsFilter } from 'App/Exchanges/IOL/Domain/IolOperation'
 import IOLService from '@ioc:messirve/IOLService'
 
 export enum AccountType {
