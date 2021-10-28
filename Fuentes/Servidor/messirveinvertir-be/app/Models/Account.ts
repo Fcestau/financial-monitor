@@ -26,7 +26,7 @@ export default class Account extends BaseModel {
   @column()
   public name: string
 
-  @column()
+  @column({ serializeAs: null })
   public data: JSON
 
   @hasMany(() => Operation)

@@ -1,6 +1,7 @@
 import Operation from 'App/Models/Operation'
 import CreateOperationsValidator from 'App/Validators/CreateOperationsValidator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Event from '@ioc:Adonis/Core/Event'
 
 export default class OperationsController {
   public async createOperations({ request, response }) {
@@ -9,6 +10,7 @@ export default class OperationsController {
     const createdOperations = await Promise.all(
       data.operations.map(async (data) => {
         let newOperation = await Operation.create(data)
+        Event.emit('new:operation', newOperation)
         return { id: newOperation.id }
       })
     )
