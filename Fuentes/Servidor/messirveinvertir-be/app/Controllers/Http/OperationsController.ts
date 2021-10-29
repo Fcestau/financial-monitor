@@ -1,6 +1,7 @@
 import Operation from 'App/Models/Operation'
 import CreateOperationsValidator from 'App/Validators/CreateOperationsValidator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { AccountType } from 'App/Models/Account'
 
 export default class OperationsController {
   public async createOperations({ request, response }) {
@@ -42,7 +43,12 @@ export default class OperationsController {
     const ids = request.input('operations').map((dto) => dto.id)
 
     await Operation.query()
-      .whereHas('account', (builder) => builder.where('uid', auth.user!.uid))
+      .whereHas(
+        'account',
+        (builder) => builder
+          .where('uid', auth.user!.uid)
+          .where('type', AccountType.Manual)
+      )
       .whereIn('id', ids)
       .delete()
 
