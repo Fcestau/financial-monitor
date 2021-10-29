@@ -51,3 +51,25 @@
     responses:
       200:
         description: Operaciones asociadas al usuario
+  delete:
+    tags:
+      - Operations
+    summary: Permite eliminar operaciones asociadas al usuario actual a partir de sus ids.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              operations:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      required: true
+                      type: number
+    responses:
+      204:
+        description: Las operaciones existentes fueron eliminadas
