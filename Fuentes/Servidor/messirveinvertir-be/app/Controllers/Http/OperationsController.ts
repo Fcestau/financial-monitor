@@ -1,5 +1,4 @@
 import Account from 'App/Models/Account'
-import { DateTime } from 'luxon'
 import Operation from 'App/Models/Operation'
 import CreateOperationsValidator from 'App/Validators/CreateOperationsValidator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
@@ -37,28 +36,6 @@ export default class OperationsController {
         .where('accountId',account.id)
 
       return response.ok(operations)
-    }
-    else{
-      return response.notFound()
-    }
-  }
-
-  public async updateOperations({ request, response }: HttpContextContract) {
-    const account = await Account.find(request.input('account_id'))
-
-    if (account != null){
-      const accountAdapter = account.getAdapter()
-      const filter = {
-        from: account.lastOperationsUpdate,
-        to: DateTime.utc().toJSDate()
-      }
-      account.lastOperationsUpdate = filter.to
-  
-      const newOperations = await accountAdapter.downloadNewOperations(filter)
-      
-      Operation.createMany(newOperations)
-
-      return response.noContent()
     }
     else{
       return response.notFound()

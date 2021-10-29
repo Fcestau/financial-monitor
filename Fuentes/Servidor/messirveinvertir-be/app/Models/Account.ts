@@ -38,12 +38,26 @@ export default class Account extends BaseModel {
   public operations: HasMany<typeof Operation>
 
   public getAdapter() : AccountAdapterInterface{
-    if (this.type == AccountType.IOL){
-      return new IOLAccountAdapter(this)
+    switch (this.type){
+      case AccountType.IOL:
+        return new IOLAccountAdapter(this)
+
+      case AccountType.Manual:
+        return new ManualAccountAdapter()
     }
-    else{
-      return new ManualAccountAdapter()
+  }
+
+  public async downloadNewOperations() : Promise<Operation[]>{
+    const accountAdapter = this.getAdapter()
+    const filter = {
+      from: this.lastOperationsUpdate,
+      to: DateTime.utc().toJSDate()
     }
+    this.lastOperationsUpdate = filter.to
+
+    const newOperations = await accountAdapter.downloadNewOperations(filter)
+    
+    return await Operation.createMany(newOperations)
   }
 }
 
@@ -52,8 +66,9 @@ export interface AccountAdapterInterface{
 }
 
 export class ManualAccountAdapter implements AccountAdapterInterface{
-  downloadNewOperations(_filter: GetOperationsFilter): Promise<NewOperationDto[]> {
-    throw new Error('Method not implemented.')
+  public async downloadNewOperations(_filter: GetOperationsFilter): Promise<NewOperationDto[]> {
+    return []
+    // throw new Error('Manual operations do not download new operations.')
   }
 }
 
