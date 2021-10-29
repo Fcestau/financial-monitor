@@ -13,9 +13,9 @@
         router-link="./link-external-account"
         class="ion-margin-bottom"
       />
-      <NoInformationCard v-if="items.length === 0" />
+      <NoInformationCard v-if="accounts.length === 0" />
       <TheGeneraltem
-        v-for="item in items"
+        v-for="item in accounts.currentAccounts"
         :key="item"
         :item="item"
         :action-icon="trashOutline"
@@ -27,9 +27,13 @@
 <script>
 import { alertController } from '@ionic/vue';
 import { trashOutline } from 'ionicons/icons';
+import Vuex from 'vuex';
+
 export default {
   name: 'ExternalAccountList',
   methods: {
+    ...Vuex.mapActions(['deleteAccount']),
+
     deleteItem(item) {
       this.deleteItemAlertConfirm(item);
     },
@@ -52,9 +56,7 @@ export default {
           {
             text: 'Aceptar',
             handler: () => {
-              //TODO: hacer logica correspondiente a utilizar el eliminar cuenta del backend
-              const index = this.items.findIndex((itemT) => itemT === item);
-              this.items.splice(index, 1);
+              this.deleteAccount(item);
             },
           },
         ],
@@ -67,47 +69,18 @@ export default {
       trashOutline,
     };
   },
-  data() {
-    return {
-      items: [
-        {
-          title: 'Invertir Online',
-          avatar:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMbqQ53w7h-Ns5pWxR4S-Liy-1eTEyDyLSlm7rrAgEXlfU0LsVQ2sZLzzK13W9CqHcDDM&usqp=CAU',
-          assetType: 'USD',
-          amount: -300,
-        },
-        {
-          title: 'Binance',
-          avatar: 'https://bitbase.es/img/coins/BNB.png',
-          assetType: 'USD',
-          amount: 300,
-        },
-        {
-          title: 'Banco Nación',
-          avatar:
-            'https://w7.pngwing.com/pngs/169/504/png-transparent-el-banco-de-la-nacion-argentina-bank-transaction-account-bank-blue-text-logo-thumbnail.png',
-          assetType: 'USD',
-          amount: -300,
-        },
-        {
-          title: 'buenbit',
-          avatar:
-            'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
-          assetType: 'USD',
-          amount: 300,
-        },
-      ],
-    };
+  computed: {
+    ...Vuex.mapState(['accounts']),
   },
+
   mounted() {
-    this.items.forEach((element) => {
-      if (element.amount > 0) {
-        element.color = 'success';
-      } else {
-        element.color = 'danger';
-      }
-    });
+    // this.accounts.forEach((element) => {
+    //   if (element.amount > 0) {
+    //     element.color = 'success';
+    //   } else {
+    //     element.color = 'danger';
+    //   }
+    // });
   },
 };
 </script>
