@@ -7,17 +7,15 @@
     color="tertiary"
   >
     <ion-header>
-      <ion-toolbar color="tertiary">
-        <ion-title class="ion-text-center ion-text-uppercase">{{
-          $t('menu.messirveinverir')
-        }}</ion-title>
+      <ion-toolbar class="ion-text-center" color="tertiary">
+        <ion-text class="ion-text-uppercase">{{ $t('menu.messirveinvertir') }}</ion-text>
       </ion-toolbar>
-      <ion-avatar class="avatar">
-        <img src="https://pbs.twimg.com/media/EUCh095XQAIXfbM.jpg" />
-      </ion-avatar>
-      <div class="ion-text-center user-name">
-        <ion-label>Rodrigo Mignola</ion-label>
-      </div>
+        <ion-avatar class="avatar">
+          <img :src="avatarUrl">
+        </ion-avatar>
+        <div class="ion-text-center user-name">
+          <ion-label>{{userName}}</ion-label>
+        </div>
     </ion-header>
     <ion-content color="tertiary">
       <ion-list class="ion-list-container">
@@ -41,11 +39,8 @@
         >
       </ion-list>
     </ion-content>
-    <div class="ion-text-center logout">
-      <ion-text>{{ $t('menu.logout') }}</ion-text>
-    </div>
+        <TheButton inner-text="menu.logout" @click="logout" color="tertiary" />
   </ion-menu>
-
   <ion-router-outlet id="main"></ion-router-outlet>
 </template>
 <style scoped>
@@ -63,9 +58,9 @@
 }
 
 .user-name {
-  margin-top: 5px;
-  margin-bottom: 100px;
-  color: white;
+  margin-top: 5px; 
+  margin-bottom: 40px; 
+  color:white;
 }
 
 .logout {
@@ -85,21 +80,21 @@ ion-item {
 </style>
 
 <script>
-import { menuController } from '@ionic/vue';
-export default {
-  components: {},
-  methods: {
-    openFirst() {
-      menuController.enable(true, 'first');
-      menuController.open('first');
+export default ({
+    props: {
+    userName: {
+      type: String,
+      required: true,
     },
-    openEnd() {
-      menuController.open('end');
-    },
-    openCustom() {
-      menuController.enable(true, 'custom');
-      menuController.open('custom');
+    avatarUrl: {
+      type: String,
+      required: false,
     },
   },
-};
+  methods: {
+    logout() {
+      this.$emit('logout');
+    }
+  },
+  });
 </script>
