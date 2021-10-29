@@ -3,6 +3,7 @@
         v-bind="$attrs" 
         :disabled="disabled" 
         shape="round"
+        color="tertiary"
     >
         <!-- <ion-icon :icon="icon"></ion-icon> -->
         {{ $t(innerText) }}

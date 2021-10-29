@@ -1,5 +1,11 @@
 <template>
-  <ion-menu side="start" menu-id="custom" class="my-custom-menu" content-id="main" color="tertiary">
+  <ion-menu
+    side="start"
+    menu-id="custom"
+    class="my-custom-menu"
+    content-id="main"
+    color="tertiary"
+  >
     <ion-header>
       <ion-toolbar class="ion-text-center" color="tertiary">
         <ion-text class="ion-text-uppercase">{{ $t('menu.messirveinvertir') }}</ion-text>
@@ -13,12 +19,24 @@
     </ion-header>
     <ion-content color="tertiary">
       <ion-list class="ion-list-container">
-          <ion-item color="tertiary" href="/external-account"><div style="">{{ $t('menu.account_listing') }}</div></ion-item>
-          <ion-item color="tertiary" href=""><div >{{ $t('menu.wallet') }}</div></ion-item>
-          <ion-item color="tertiary" href="/chart"><div >{{ $t('menu.charts') }}</div></ion-item>
-          <ion-item color="tertiary" href=""><div >{{ $t('menu.operation_history') }}</div></ion-item>
-          <ion-item color="tertiary" href="/barcode-scanner"><div >{{ $t('menu.scan_qr_code') }}</div></ion-item>
-          <ion-item color="tertiary" href=""><div >{{ $t('menu.active_alerts') }}</div></ion-item>
+        <ion-item color="tertiary" href="/operations-history"
+          ><div>{{ $t('menu.operations_history') }}</div></ion-item
+        >
+        <ion-item color="tertiary" href="/external-account"
+          ><div style="">{{ $t('menu.account_listing') }}</div></ion-item
+        >
+        <ion-item color="tertiary" href=""
+          ><div>{{ $t('menu.wallet') }}</div></ion-item
+        >
+        <ion-item color="tertiary" href="/chart"
+          ><div>{{ $t('menu.charts') }}</div></ion-item
+        >
+        <ion-item color="tertiary" href="/barcode-scanner"
+          ><div>{{ $t('menu.scan_qr_code') }}</div></ion-item
+        >
+        <ion-item color="tertiary" href=""
+          ><div>{{ $t('menu.active_alerts') }}</div></ion-item
+        >
       </ion-list>
     </ion-content>
         <TheButton inner-text="menu.logout" @click="logout" color="tertiary" />
@@ -31,12 +49,12 @@
 }
 
 .avatar {
-  margin: 0 auto; 
-  margin-top: 20px; 
+  margin: 0 auto;
+  margin-top: 20px;
   margin-bottom: 5px;
   width: 80px;
   height: 80px;
-  color: black
+  color: black;
 }
 
 .user-name {
@@ -46,12 +64,12 @@
 }
 
 .logout {
-  margin-top: 80px; 
+  margin-top: 80px;
   margin-bottom: 30px;
-  color:white;
+  color: white;
 }
 
-.ion-list-container{
+.ion-list-container {
   padding-bottom: 0px;
   padding-top: 0px;
 }

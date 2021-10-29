@@ -25,11 +25,19 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'external-account',
-        component: () => import('@/views/External/ExternalAccountList.vue'),
+        component: () => import('@/views/External/ExternalAccountListPage.vue'),
       },
       {
         path: 'link-external-account',
         component: () => import('@/views/External/LinkExternalAccountPage.vue'),
+      },
+      {
+        path: 'operation-creator',
+        component: () => import('@/views/OperationCreatorPage.vue'),
+      },
+      {
+        path: 'operations-history',
+        component: () => import('@/views/Operations/OperationsHistoryPage.vue'),
       },
     ],
   },

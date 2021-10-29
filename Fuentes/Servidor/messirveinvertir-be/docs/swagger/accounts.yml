@@ -6,11 +6,11 @@
     parameters:
       - $ref: '#/components/parameters/page'
       - $ref: '#/components/parameters/limit'
-      - $ref: '#/components/parameters/orderById'
+      - $ref: '#/components/parameters/order_by_id'
     responses:
       200:
         description: Cuentas asociadas al usuario
-  
+
   post:
     tags:
       - Accounts

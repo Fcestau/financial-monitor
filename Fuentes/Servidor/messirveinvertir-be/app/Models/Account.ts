@@ -1,9 +1,10 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import Operation from 'App/Models/Operation'
 
 export enum AccountType {
   IOL = 'IOL',
-  Manual = 'Manual'
+  Manual = 'Manual',
 }
 
 export default class Account extends BaseModel {
@@ -24,7 +25,10 @@ export default class Account extends BaseModel {
 
   @column()
   public name: string
-  
+
   @column()
   public data: JSON
+
+  @hasMany(() => Operation)
+  public operations: HasMany<typeof Operation>
 }

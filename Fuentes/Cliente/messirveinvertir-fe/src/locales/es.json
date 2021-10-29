@@ -4,7 +4,7 @@
         "account_listing": "Listado de Cuentas",
         "wallet": "Cartera",
         "charts": "Graficas",
-        "operation_history": "Historial de Operaciones",
+        "operations_history": "Historial de Operaciones",
         "scan_qr_code": "Escanear Código QR",
         "active_alerts": "Alertas Activas",
         "logout": "Cerrar Sesión"
@@ -14,12 +14,29 @@
     "email": "Correo electronico",
     "password": "Contraseña",
     "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "accept": "Aceptar",
+    "no_information": "Sin información",
     "external": {
         "link_account": "Vincular cuenta",
         "select_external_account": "Seleccione la cuenta externa",
         "complete_form": "Complete los campos que se muestran en pantalla para poder vincular su cuenta.",
         "accountListTitle": "Listado de Cuentas",
+        "emptyExternalAccountListLinked": "No posee ninguna cuanta externa vinculada.",
         "linkAccountListButton": "Vincular cuenta"
+    },
+    "operations": {
+        "operations_history": "Historial de Operaciones",
+        "new_operation": "Nueva Operación",
+        "time_filter": {
+            "1_day": "1D",
+            "1_week": "1W",
+            "1_month": "1M",
+            "3_months": "3M",
+            "1_year": "1Y"
+        },
+        "delete_operation": "Eliminar Operación",
+        "sure_delete_opeartion_ask": "¿Esta seguro que desea eliminar la operación?"
     },
     "poc": {
         "barcodeScannerTitle": "Escaner de código",
@@ -27,5 +44,22 @@
         "lineChartTitle": "Line Chart",
         "pieChartTitle": "Pie Chart",
         "doughnutChartTitle": "Doughnut Chart"
+    },
+    "operation": {
+        "newOperationTitle": "Nueva Operación",
+        "accountLabel": "Cuenta",
+        "assetLabel": "Activo",
+        "operationTypeLabel": "Tipo de Operacion",
+        "amountLabel": "Cantidad",
+        "operationDateLabel": "Fecha de Operación",
+        "assetValueLabel": "Valor del activo",
+        "assetValuePlaceholder": "Valor en dólares",
+        "assetCreatorFormTitle": "Crear nuevo activo",
+        "assetNameFormLabel": "Nombre",
+        "assetSymbolFormLabel": "Símbolo",
+        "assetTypeFormLabel": "Tipo de activo",
+        "assetDateFormLabel": "Fecha de activo",
+        "accountNameFormLabel": "Nombre",
+        "accountCreatorFormTitle": "Crear nueva cuenta"
     }
 }

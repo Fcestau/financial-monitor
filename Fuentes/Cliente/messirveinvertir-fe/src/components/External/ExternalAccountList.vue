@@ -13,13 +13,13 @@
         router-link="./link-external-account"
         class="ion-margin-bottom"
       />
-      <TheExternalAccountItem 
-        v-for="item in items" 
-        :key="item" 
-        :item="item" 
-        :action-icon="trashOutline" 
-        :show-amount="true" 
-        @selectedItem="deleteItem(item)" 
+      <NoInformationCard v-if="items.length === 0" />
+      <TheGeneraltem
+        v-for="item in items"
+        :key="item"
+        :item="item"
+        :action-icon="trashOutline"
+        @selectedItem="deleteItem(item)"
       />
     </ion-content>
   </ion-page>
@@ -108,7 +108,6 @@ export default {
         element.color = 'danger';
       }
     });
-  }
+  },
 };
 </script>
-<style></style>
