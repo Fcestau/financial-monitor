@@ -13,17 +13,12 @@
         router-link="./link-external-account"
         class="ion-margin-bottom"
       />
-      <ion-text class="ion-padding" v-if="items.length === 0">
-        <p class="ion-text-center">
-          {{ $t('external.emptyExternalAccountListLinked') }}
-        </p>
-      </ion-text>
-      <TheExternalAccountItem
+      <NoInformationCard v-if="items.length === 0" />
+      <TheGeneraltem
         v-for="item in items"
         :key="item"
         :item="item"
         :action-icon="trashOutline"
-        :show-amount="true"
         @selectedItem="deleteItem(item)"
       />
     </ion-content>

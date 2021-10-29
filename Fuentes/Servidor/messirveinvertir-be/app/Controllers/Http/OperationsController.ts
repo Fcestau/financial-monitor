@@ -1,7 +1,7 @@
-import Account from 'App/Models/Account'
 import Operation from 'App/Models/Operation'
 import CreateOperationsValidator from 'App/Validators/CreateOperationsValidator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { AccountType } from 'App/Models/Account'
 
 export default class OperationsController {
   public async createOperations({ request, response }) {
@@ -16,29 +16,42 @@ export default class OperationsController {
 
     return response.created({ operations: createdOperations })
   }
-  /**
-   * @swagger
-   * /api/v1/operations:
-   *   get:
-   *     tags:
-   *       - Operations
-   *     summary: Get operations.
-   *     responses:
-   *       200:
-   *         description: Operations list
-   */
-  public async operations({ request, response }: HttpContextContract) {
-    const account = await Account.find(request.input('account_id'))
+  public async listOperations({ auth, request }: HttpContextContract) {
+    const page = request.input('page', 1)
+    const limit = request.input('limit', 10)
+    const orderById = request.input('order_by_id')
+    const dateFrom = request.input('date_from')
+    const dateTo = request.input('date_to')
 
-    if (account != null){      
-      const operations = Operation
-        .query()
-        .where('accountId',account.id)
+    const qb = Operation.query().whereHas('account', (builder) =>
+      builder.where('uid', auth.user!.uid)
+    )
 
-      return response.ok(operations)
+    if (orderById) {
+      qb.orderBy('id', orderById)
     }
-    else{
-      return response.notFound()
+    if (dateFrom) {
+      qb.where('timestamp', '>=', dateFrom)
     }
+    if (dateTo) {
+      qb.where('timestamp', '<=', dateTo)
+    }
+
+    return await qb.paginate(page, limit)
+  }
+  public async deleteOperations({ auth, request, response }: HttpContextContract) {
+    const ids = request.input('operations').map((dto) => dto.id)
+
+    await Operation.query()
+      .whereHas(
+        'account',
+        (builder) => builder
+          .where('uid', auth.user!.uid)
+          .where('type', AccountType.Manual)
+      )
+      .whereIn('id', ids)
+      .delete()
+
+    return response.noContent()
   }
 }
