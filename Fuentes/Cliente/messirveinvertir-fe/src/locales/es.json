@@ -1,31 +1,31 @@
 {
-  "menu": {
-    "messirveinverir":"Messirveinverir",
-    "account_listing": "Listado de Cuentas",
-    "wallet":"Cartera",
-    "charts": "Graficas",
-    "operation_history": "Historial de Operaciones",
-    "scan_qr_code": "Escanear Código QR",
-    "active_alerts":"Alertas Activas",
-    "logout":"Cerrar Sesión"
-  },
-  "scan": "Escanear",
-  "invertir_online": "Invertir Online",
-  "email":"Correo electronico",
-  "password": "Contraseña",
-  "confirm":"Confirmar",
-  "external": {
-    "link_account": "Vincular cuenta",
-    "select_external_account": "Seleccione la cuenta externa",
-    "complete_form": "Complete los campos que se muestran en pantalla para poder vincular su cuenta.",
-    "accountListTitle": "Listado de Cuentas",
-    "linkAccountListButton": "Vincular cuenta"
-  },
-  "poc": {
-    "barcodeScannerTitle": "Escaner de código",
-    "chartTitle": "Gráfico",
-    "lineChartTitle": "Line Chart",
-    "pieChartTitle": "Pie Chart",
-    "doughnutChartTitle": "Doughnut Chart"
-  }
+    "menu": {
+        "messirveinvertir": "Messirveinvertir",
+        "account_listing": "Listado de Cuentas",
+        "wallet": "Cartera",
+        "charts": "Graficas",
+        "operation_history": "Historial de Operaciones",
+        "scan_qr_code": "Escanear Código QR",
+        "active_alerts": "Alertas Activas",
+        "logout": "Cerrar Sesión"
+    },
+    "scan": "Escanear",
+    "invertir_online": "Invertir Online",
+    "email": "Correo electronico",
+    "password": "Contraseña",
+    "confirm": "Confirmar",
+    "external": {
+        "link_account": "Vincular cuenta",
+        "select_external_account": "Seleccione la cuenta externa",
+        "complete_form": "Complete los campos que se muestran en pantalla para poder vincular su cuenta.",
+        "accountListTitle": "Listado de Cuentas",
+        "linkAccountListButton": "Vincular cuenta"
+    },
+    "poc": {
+        "barcodeScannerTitle": "Escaner de código",
+        "chartTitle": "Gráfico",
+        "lineChartTitle": "Line Chart",
+        "pieChartTitle": "Pie Chart",
+        "doughnutChartTitle": "Doughnut Chart"
+    }
 }
