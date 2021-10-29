@@ -68,7 +68,6 @@ export interface AccountAdapterInterface{
 export class ManualAccountAdapter implements AccountAdapterInterface{
   public async downloadNewOperations(_filter: GetOperationsFilter): Promise<NewOperationDto[]> {
     return []
-    // throw new Error('Manual operations do not download new operations.')
   }
 }
 
