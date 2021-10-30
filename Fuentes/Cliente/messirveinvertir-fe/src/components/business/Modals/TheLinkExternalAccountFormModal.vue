@@ -43,6 +43,8 @@
 <script>
 import { modalController } from '@ionic/vue';
 import { closeOutline } from 'ionicons/icons';
+import Vuex from 'vuex';
+
 export default {
   name: 'TheLinkExternalAccountFormDialog',
   props: {
@@ -53,23 +55,27 @@ export default {
   },
   data() {
     return {
+      closeOutline,
       form: {
         email: null,
         password: null,
       },
     };
   },
-  setup() {
-    return {
-      closeOutline,
-    };
-  },
   methods: {
+    ...Vuex.mapActions(['addNewAccount']),
     closeModal() {
       modalController.dismiss();
     },
     submitForm() {
-      console.log(this.form);
+      const newAccount = {
+        title: this.title,
+        avatar:
+          'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
+        assetType: 'USD',
+        amount: 0,
+      };
+      this.addNewAccount(newAccount);
     },
   },
 };
