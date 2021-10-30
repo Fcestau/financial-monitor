@@ -4,6 +4,8 @@ export default createStore({
   state: {
     operations: {
       currentOperations: [],
+      currentManualAccounts: [],
+      currentManualAssets: [],
       loading: false,
     },
     accounts: {
@@ -45,10 +47,6 @@ export default createStore({
   },
   mutations: {
     // Operations
-    getCurrentOperations(state) {
-      return state.operations.currentOperations;
-    },
-
     addNewOperation(state, newOperation) {
       (state.operations.currentOperations as any[]).push(newOperation);
     },
@@ -58,6 +56,26 @@ export default createStore({
         (itemT) => itemT === operation
       );
       state.operations.currentOperations.splice(index, 1);
+    },
+    addNewManualAccount(state, newManualAccount) {
+      (state.operations.currentManualAccounts as any[]).push(newManualAccount);
+    },
+
+    deleteManualAccount(state, manualAccount) {
+      const index = state.operations.currentManualAccounts.findIndex(
+        (itemT) => itemT === manualAccount
+      );
+      state.operations.currentManualAccounts.splice(index, 1);
+    },
+    addNewManualAsset(state, newManualAsset) {
+      (state.operations.currentManualAssets as any[]).push(newManualAsset);
+    },
+
+    deleteManualAsset(state, manualAsset) {
+      const index = state.operations.currentManualAssets.findIndex(
+        (itemT) => itemT === manualAsset
+      );
+      state.operations.currentManualAssets.splice(index, 1);
     },
 
     // Assets
@@ -104,6 +122,14 @@ export default createStore({
 
     deleteOperation({ commit }, operation) {
       commit('deleteOperation', operation);
+    },
+
+    addNewManualAccount({ commit }, newManualAccount) {
+      commit('addNewManualAccount', newManualAccount);
+    },
+    
+    addNewManualAsset({ commit }, newManualAsset) {
+      commit('addNewManualAsset', newManualAsset);
     },
 
     // Accounts

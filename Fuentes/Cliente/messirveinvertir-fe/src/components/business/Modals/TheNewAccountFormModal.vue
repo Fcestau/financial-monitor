@@ -17,7 +17,7 @@
         type="name"
       ></TheTextInput>
       <TheButton
-        @click="submitForm(form)"
+        @click="submitForm()"
         expand="block"
         icon="closeOutline"
         inner-text="confirm"
@@ -36,6 +36,8 @@
 <script>
 import { modalController } from '@ionic/vue';
 import { closeOutline } from 'ionicons/icons';
+import Vuex from 'vuex';
+
 export default {
   name: 'TheNewAccountFormModal',
   props: {
@@ -52,11 +54,18 @@ export default {
     };
   },
   methods: {
+    ...Vuex.mapActions(['addNewManualAccount']),
+
     closeModal() {
       modalController.dismiss();
     },
-    submitForm(form) {
-      console.log(form);
+    submitForm() {
+      const newManualAccount = {
+        value: this.form.name,
+        displayName: this.form.name,
+      };
+      this.addNewManualAccount(newManualAccount);
+      modalController.dismiss();
     },
   },
 };

@@ -3,9 +3,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button
-            default-href="operations-history"
-          ></ion-back-button>
+          <ion-back-button default-href="operations-history"></ion-back-button>
         </ion-buttons>
         <ion-title> {{ $t('operation.newOperationTitle') }} </ion-title>
       </ion-toolbar>
@@ -17,7 +15,7 @@
           v-model="form.account"
           interface="action-sheet"
           label="operation.accountLabel"
-          :values="accountValues"
+          :values="operations.currentManualAccounts"
         />
         <ion-buttons>
           <ion-button size="small" @click="addNewAccount">
@@ -31,7 +29,7 @@
           v-model="form.asset"
           label="operation.assetLabel"
           interface="action-sheet"
-          :values="assetValues"
+          :values="operations.currentManualAssets"
         />
         <ion-buttons>
           <ion-button size="small" @click="addNewAsset">
@@ -82,35 +80,18 @@
 
 <script lang="ts">
 import { add } from 'ionicons/icons';
-import { assetMockValues } from '@/models/Asset';
 import { SelectorType } from '@/models/SelectorType';
 import { Operation } from '@/models/Operation';
 import TheNewAccountFormModal from '../business/Modals/TheNewAccountFormModal.vue';
 import TheNewAssetFormModal from '../business/Modals/TheNewAssetFormModal.vue';
 import { modalController } from '@ionic/vue';
-
+import Vuex from 'vuex';
 export default {
+  computed: {
+    ...Vuex.mapState(['operations']),
+  },
+
   data() {
-    const assetValues: Array<SelectorType> = [];
-    assetMockValues.forEach((element) => {
-      const value: SelectorType = {
-        value: element.symbol,
-        displayName: element.name,
-      };
-      assetValues.push(value);
-    });
-
-    const accountValues: Array<SelectorType> = [
-      {
-        value: 'iol',
-        displayName: 'IOL',
-      },
-      {
-        value: 'binance',
-        displayName: 'Binance',
-      },
-    ];
-
     const operationTypeValues: Array<SelectorType> = [
       {
         value: 'buy',
@@ -140,9 +121,7 @@ export default {
     };
 
     return {
-      accountValues,
       operationTypeValues,
-      assetValues,
       add,
       form,
     };
