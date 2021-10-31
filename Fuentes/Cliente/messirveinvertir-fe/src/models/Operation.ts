@@ -4,6 +4,8 @@ export interface Operation {
   assetId: number;
   quantity: number;
   usdPrice: number;
-  type: string;
+  type: OperationType;
   timestamp: string;
+  avatar?: string;
 }
+type OperationType = 'IOL' | 'Manual';

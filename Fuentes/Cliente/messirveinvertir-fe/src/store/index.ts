@@ -1,3 +1,6 @@
+import { Account } from '@/models/Account';
+import { Asset } from '@/models/Asset';
+import { Operation } from '@/models/Operation';
 import { createStore } from 'vuex';
 
 export default createStore({
@@ -9,35 +12,7 @@ export default createStore({
       loading: false,
     },
     accounts: {
-      currentAccounts: [
-        {
-          title: 'Invertir Online',
-          avatar:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMbqQ53w7h-Ns5pWxR4S-Liy-1eTEyDyLSlm7rrAgEXlfU0LsVQ2sZLzzK13W9CqHcDDM&usqp=CAU',
-          assetType: 'USD',
-          amount: -300,
-        },
-        {
-          title: 'Binance',
-          avatar: 'https://bitbase.es/img/coins/BNB.png',
-          assetType: 'USD',
-          amount: 300,
-        },
-        {
-          title: 'Banco Nación',
-          avatar:
-            'https://w7.pngwing.com/pngs/169/504/png-transparent-el-banco-de-la-nacion-argentina-bank-transaction-account-bank-blue-text-logo-thumbnail.png',
-          assetType: 'USD',
-          amount: -300,
-        },
-        {
-          title: 'buenbit',
-          avatar:
-            'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
-          assetType: 'USD',
-          amount: 300,
-        },
-      ],
+      currentAccounts: [],
       loading: false,
     },
     assets: {
@@ -48,7 +23,7 @@ export default createStore({
   mutations: {
     // Operations
     addNewOperation(state, newOperation) {
-      (state.operations.currentOperations as any[]).push(newOperation);
+      (state.operations.currentOperations as Operation[]).push(newOperation);
     },
 
     deleteOperation(state, operation) {
@@ -58,7 +33,9 @@ export default createStore({
       state.operations.currentOperations.splice(index, 1);
     },
     addNewManualAccount(state, newManualAccount) {
-      (state.operations.currentManualAccounts as any[]).push(newManualAccount);
+      (state.operations.currentManualAccounts as Account[]).push(
+        newManualAccount
+      );
     },
 
     deleteManualAccount(state, manualAccount) {
@@ -68,7 +45,7 @@ export default createStore({
       state.operations.currentManualAccounts.splice(index, 1);
     },
     addNewManualAsset(state, newManualAsset) {
-      (state.operations.currentManualAssets as any[]).push(newManualAsset);
+      (state.operations.currentManualAssets as Asset[]).push(newManualAsset);
     },
 
     deleteManualAsset(state, manualAsset) {
@@ -84,7 +61,7 @@ export default createStore({
     },
 
     addNewAsset(state, newAsset) {
-      (state.assets.currentAssets as any[]).push(newAsset);
+      (state.assets.currentAssets as Asset[]).push(newAsset);
     },
 
     deleteAsset(state, asset) {
@@ -100,7 +77,7 @@ export default createStore({
     },
 
     addNewAccount(state, newAccount) {
-      (state.accounts.currentAccounts as any[]).push(newAccount);
+      (state.accounts.currentAccounts as Account[]).push(newAccount);
     },
 
     deleteAccount(state, account) {
@@ -127,7 +104,7 @@ export default createStore({
     addNewManualAccount({ commit }, newManualAccount) {
       commit('addNewManualAccount', newManualAccount);
     },
-    
+
     addNewManualAsset({ commit }, newManualAsset) {
       commit('addNewManualAsset', newManualAsset);
     },
