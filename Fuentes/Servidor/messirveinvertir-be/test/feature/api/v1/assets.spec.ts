@@ -9,10 +9,7 @@ test.group('API V1 Accounts', () => {
     await AccountsFactory.with('operations', 3, (op) => op.merge({ assetId: dbAsset.id })).create()
 
     // Act
-    const { body } = await http
-      .get('/api/v1/assets/stock')
-      .asApiUser()
-      .expect(200)
+    const { body } = await http.get('/api/v1/assets/stock').asApiUser().expect(200)
 
     // Assert
     assert.exists(body.data)
