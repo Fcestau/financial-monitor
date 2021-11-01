@@ -25,5 +25,9 @@ declare module '@ioc:Adonis/Core/Event' {
   | an instance of the the UserModel only.
   |
   */
-  interface EventsList {}
+  import Notification from 'App/Models/Notification'
+
+  interface EventsList {
+    'new:notification': Notification
+  }
 }
