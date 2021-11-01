@@ -4,3 +4,5 @@ export interface Account {
   type: string;
   created_at: string;
 }
+
+export type AccountType = 'IOL' | 'Manual';

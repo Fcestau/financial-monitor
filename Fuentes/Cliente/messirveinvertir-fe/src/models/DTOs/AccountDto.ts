@@ -1,4 +1,6 @@
+import { AccountType } from '../Account';
+
 export interface AccountDto {
   name: string;
-  type: string;
+  type: AccountType;
 }

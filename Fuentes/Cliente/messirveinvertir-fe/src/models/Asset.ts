@@ -2,10 +2,11 @@ export type AssetType =
   | 'Fiat'
   | 'Shares'
   | 'Cedears'
-  | 'Public Titles'
+  | 'PublicTitles'
   | 'Crypto';
 
 export interface Asset {
+  id: number;
   name: string;
   symbol: string;
   type: AssetType;
