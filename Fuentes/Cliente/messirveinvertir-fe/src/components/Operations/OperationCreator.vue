@@ -80,12 +80,11 @@
 
 <script>
 import { add } from 'ionicons/icons';
-import { SelectorType } from '@/models/SelectorType';
-import { Operation, OperationType } from '@/models/Operation';
 import TheNewAccountFormModal from '../business/Modals/TheNewAccountFormModal.vue';
 import TheNewAssetFormModal from '../business/Modals/TheNewAssetFormModal.vue';
 import { modalController } from '@ionic/vue';
 import Vuex from 'vuex';
+
 export default {
   computed: {
     ...Vuex.mapState(['accounts', 'assets']),
@@ -137,22 +136,11 @@ export default {
 
     const form = {
       id: 0,
-      account: {
-        id: 0,
-        name: '',
-        type: 'Manual',
-        createdAt: new Date().toISOString(),
-      },
+      account: '',
       quantity: null,
       usdPrice: null,
       type: '',
-      asset: {
-        id: 0,
-        name: '',
-        symbol: '',
-        type: 'Fiat',
-        date: new Date().toISOString(),
-      },
+      asset: '',
       timestamp: new Date().toISOString(),
     };
 
@@ -163,8 +151,28 @@ export default {
     };
   },
   methods: {
+    ...Vuex.mapActions(['addNewOperation']),
+
     submitForm(form) {
-      console.log(form);
+      
+      const newOperation = {
+        ...form,
+        account: {
+          id: 0,
+          name: form.account,
+          type: 'Manual',
+          createdAt: new Date().toISOString(),
+        },
+        asset: {
+          id: 0,
+          name: form.asset,
+          symbol: form.asset,
+          type: 'Fiat',
+          date: new Date().toISOString(),
+        },
+      };
+      console.log(newOperation);
+      this.addNewOperation(newOperation);
     },
 
     async addNewAccount() {
