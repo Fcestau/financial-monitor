@@ -15,7 +15,7 @@
       />
       <NoInformationCard v-if="accounts.length === 0" />
       <TheGeneraltem
-        v-for="item in accounts.currentAccounts"
+        v-for="item in currentAccounts"
         :key="item"
         :item="item"
         :action-icon="trashOutline"
@@ -71,16 +71,16 @@ export default {
   },
   computed: {
     ...Vuex.mapState(['accounts']),
-  },
-
-  mounted() {
-    // this.accounts.forEach((element) => {
-    //   if (element.amount > 0) {
-    //     element.color = 'success';
-    //   } else {
-    //     element.color = 'danger';
-    //   }
-    // });
+    currentAccounts() {
+      this.accounts.currentAccounts.forEach((element) => {
+        if (element.balance > 0) {
+          element.color = 'success';
+        } else if (element.balance < 0) {
+          element.color = 'danger';
+        }
+      });
+      return this.accounts.currentAccounts;
+    },
   },
 };
 </script>

@@ -12,4 +12,4 @@ export interface Operation {
   avatar?: string;
 }
 
-type OperationType = 'Buy' | 'Sell' | 'Deposit' | 'Withdraw';
+export type OperationType = 'Buy' | 'Sell' | 'Deposit' | 'Withdraw';

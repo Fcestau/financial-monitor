@@ -81,43 +81,55 @@
 <script lang="ts">
 import { add } from 'ionicons/icons';
 import { SelectorType } from '@/models/SelectorType';
-import { Operation } from '@/models/Operation';
+import { Operation, OperationType } from '@/models/Operation';
 import TheNewAccountFormModal from '../business/Modals/TheNewAccountFormModal.vue';
 import TheNewAssetFormModal from '../business/Modals/TheNewAssetFormModal.vue';
 import { modalController } from '@ionic/vue';
 import Vuex from 'vuex';
 export default {
   computed: {
-    ...Vuex.mapState(['operations']),
+    ...Vuex.mapState(['operations', 'accounts', 'assets']),
   },
 
   data() {
-    const operationTypeValues: Array<SelectorType> = [
+    const operationTypeValues: Array<SelectorType<OperationType>> = [
       {
-        value: 'buy',
+        value: 'Buy',
         displayName: 'Compra',
       },
       {
-        value: 'sale',
+        value: 'Sell',
         displayName: 'Venta',
       },
       {
-        value: 'withdrawal',
+        value: 'Withdraw',
         displayName: 'Retiro',
       },
       {
-        value: 'deposit',
+        value: 'Deposit',
         displayName: 'Depósito',
       },
     ];
 
     const form: Operation = {
-      account: '',
-      amount: 0,
-      asset: '',
-      oerationType: '',
-      operationDate: new Date().toISOString(),
-      assetValue: null,
+      id: 0,
+      account: {
+        id: 0,
+        name: '',
+        type: 'Manual',
+        createdAt: new Date().toISOString(),
+      },
+      quantity: 0,
+      usdPrice: 0,
+      type: 'Buy',
+      asset: {
+        id: 0,
+        name: '',
+        symbol: '',
+        type: 'Fiat',
+        date: new Date().toISOString(),
+      },
+      timestamp: new Date().toISOString(),
     };
 
     return {

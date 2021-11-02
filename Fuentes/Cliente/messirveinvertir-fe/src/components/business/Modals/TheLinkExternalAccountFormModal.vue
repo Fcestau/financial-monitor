@@ -50,7 +50,9 @@ export default {
   props: {
     title: {
       type: String,
-      default: 'Super Modal',
+    },
+    avatar: {
+      type: String,
     },
   },
   data() {
@@ -69,13 +71,16 @@ export default {
     },
     submitForm() {
       const newAccount = {
-        title: this.title,
-        avatar:
-          'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
+        id: Math.floor(Math.random() * 101),
+        type: 'IOL',
+        name: this.title,
+        createdAt: new Date().toISOString(),
+        avatar: this.avatar,
+        balance: 0,
         assetType: 'USD',
-        amount: 0,
       };
       this.addNewAccount(newAccount);
+      modalController.dismiss();
     },
   },
 };
