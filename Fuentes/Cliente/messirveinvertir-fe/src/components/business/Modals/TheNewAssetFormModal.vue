@@ -91,17 +91,21 @@ export default {
     };
   },
   methods: {
-    ...Vuex.mapActions(['addNewManualAsset']),
+    ...Vuex.mapActions(['addNewAsset']),
 
     closeModal() {
       modalController.dismiss();
     },
     submitForm() {
       const newManualAsset = {
-        value: this.form.symbol,
-        displayName: this.form.name,
+        id: 0,
+        name: this.form.name,
+        symbol: this.form.symbol,
+        type: this.form.symbol,
+        date:this.form.date,
       };
-      this.addNewManualAsset(newManualAsset);
+      this.addNewAsset(newManualAsset);
+
       modalController.dismiss();
     },
   },

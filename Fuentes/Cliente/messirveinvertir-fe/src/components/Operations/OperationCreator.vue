@@ -15,7 +15,7 @@
           v-model="form.account"
           interface="action-sheet"
           label="operation.accountLabel"
-          :values="operations.currentManualAccounts"
+          :values="currentAccounts"
         />
         <ion-buttons>
           <ion-button size="small" @click="addNewAccount">
@@ -29,7 +29,7 @@
           v-model="form.asset"
           label="operation.assetLabel"
           interface="action-sheet"
-          :values="operations.currentManualAssets"
+          :values="currentAssets"
         />
         <ion-buttons>
           <ion-button size="small" @click="addNewAsset">
@@ -38,24 +38,24 @@
         </ion-buttons>
       </div>
       <TheTextInput
-        v-model="form.assetValue"
+        v-model="form.usdPrice"
         label="operation.assetValueLabel"
         :placeholder="$t('operation.assetValuePlaceholder')"
         type="number"
       />
       <TheTextInput
-        v-model="form.amount"
+        v-model="form.quantity"
         label="operation.amountLabel"
         type="number"
       />
       <TheSelector
-        v-model="form.operationType"
+        v-model="form.type"
         label="operation.operationTypeLabel"
         interface="action-sheet"
         :values="operationTypeValues"
       />
       <TheDatepicker
-        :value="form.operationDate"
+        :value="form.timestamp"
         label="operation.operationDateLabel"
         display-format="D/M/YY H:mm"
       />
@@ -78,7 +78,7 @@
 }
 </style>
 
-<script lang="ts">
+<script>
 import { add } from 'ionicons/icons';
 import { SelectorType } from '@/models/SelectorType';
 import { Operation, OperationType } from '@/models/Operation';
@@ -88,11 +88,35 @@ import { modalController } from '@ionic/vue';
 import Vuex from 'vuex';
 export default {
   computed: {
-    ...Vuex.mapState(['operations', 'accounts', 'assets']),
+    ...Vuex.mapState(['accounts', 'assets']),
+    currentAccounts() {
+      const accounts = [];
+      this.accounts.currentAccounts.forEach((element) => {
+        if (element.type === 'Manual') {
+          const newAccount = {
+            value: element.name,
+            displayName: element.name,
+          };
+          accounts.push(newAccount);
+        }
+      });
+      return accounts;
+    },
+    currentAssets() {
+      const assets = [];
+      this.assets.currentAssets.forEach((element) => {
+        const newAsset = {
+          value: element.name,
+          displayName: element.name,
+        };
+        assets.push(newAsset);
+      });
+      return assets;
+    },
   },
 
   data() {
-    const operationTypeValues: Array<SelectorType<OperationType>> = [
+    const operationTypeValues = [
       {
         value: 'Buy',
         displayName: 'Compra',
@@ -111,7 +135,7 @@ export default {
       },
     ];
 
-    const form: Operation = {
+    const form = {
       id: 0,
       account: {
         id: 0,
@@ -119,9 +143,9 @@ export default {
         type: 'Manual',
         createdAt: new Date().toISOString(),
       },
-      quantity: 0,
-      usdPrice: 0,
-      type: 'Buy',
+      quantity: null,
+      usdPrice: null,
+      type: '',
       asset: {
         id: 0,
         name: '',
@@ -139,7 +163,7 @@ export default {
     };
   },
   methods: {
-    submitForm(form: Operation) {
+    submitForm(form) {
       console.log(form);
     },
 

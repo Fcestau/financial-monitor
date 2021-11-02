@@ -54,17 +54,20 @@ export default {
     };
   },
   methods: {
-    ...Vuex.mapActions(['addNewManualAccount']),
+    ...Vuex.mapActions(['addNewAccount']),
 
     closeModal() {
       modalController.dismiss();
     },
     submitForm() {
       const newManualAccount = {
-        value: this.form.name,
-        displayName: this.form.name,
+        id: 0,
+        name: this.form.name,
+        type: 'Manual',
+        createdAt: new Date().toISOString(),
+        avatar: this.form.name,
       };
-      this.addNewManualAccount(newManualAccount);
+      this.addNewAccount(newManualAccount);
       modalController.dismiss();
     },
   },
