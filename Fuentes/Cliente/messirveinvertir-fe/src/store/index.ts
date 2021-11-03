@@ -6,17 +6,81 @@ import { createStore } from 'vuex';
 export default createStore({
   state: {
     operations: {
-      currentOperations: [],
-      currentManualAccounts: [],
-      currentManualAssets: [],
+      currentOperations: [
+        {
+          id: 0,
+          account: {
+            id: 0,
+            name: 'string',
+            type: 'Manual',
+            createdAt: new Date().toISOString(),
+            avatar:
+              'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
+          },
+          asset: {
+            id: 0,
+            name: 'IOL',
+            symbol: 'string',
+            type: 'Fiat',
+            date: new Date().toISOString(),
+          },
+          quantity: 300,
+          usdPrice: 300,
+          type: 'Venta',
+          timestamp: '06/05/2021:18:20',
+          avatar:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMbqQ53w7h-Ns5pWxR4S-Liy-1eTEyDyLSlm7rrAgEXlfU0LsVQ2sZLzzK13W9CqHcDDM&usqp=CAU',
+        },
+        {
+          id: 1,
+          account: {
+            id: 1,
+            name: 'BINANCE',
+            type: 'Manual',
+            createdAt: new Date().toISOString(),
+            avatar:
+              'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
+          },
+          asset: {
+            id: 0,
+            name: 'string',
+            symbol: 'string',
+            type: 'Fiat',
+            date: new Date().toISOString(),
+          },
+          quantity: 300,
+          usdPrice: 300,
+          type: 'Venta',
+          timestamp: '06/05/2021:18:20',
+          avatar:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMbqQ53w7h-Ns5pWxR4S-Liy-1eTEyDyLSlm7rrAgEXlfU0LsVQ2sZLzzK13W9CqHcDDM&usqp=CAU',
+        },
+      ],
       loading: false,
     },
     accounts: {
-      currentAccounts: [],
+      currentAccounts: [
+        {
+          id: 0,
+          name: 'string',
+          type: 'Manual',
+          createdAt: new Date().toISOString(),
+          avatar:
+            'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
+        },
+      ],
       loading: false,
     },
     assets: {
-      currentAssets: [],
+      currentAssets: [
+        {
+          id: 0,
+          name: 'string',
+          symbol: 'string',
+          type: 'Fiat',
+          date: new Date().toISOString(),
+        },
+      ],
       loading: false,
     },
   },
@@ -31,28 +95,6 @@ export default createStore({
         (itemT) => itemT === operation
       );
       state.operations.currentOperations.splice(index, 1);
-    },
-    addNewManualAccount(state, newManualAccount) {
-      (state.operations.currentManualAccounts as Account[]).push(
-        newManualAccount
-      );
-    },
-
-    deleteManualAccount(state, manualAccount) {
-      const index = state.operations.currentManualAccounts.findIndex(
-        (itemT) => itemT === manualAccount
-      );
-      state.operations.currentManualAccounts.splice(index, 1);
-    },
-    addNewManualAsset(state, newManualAsset) {
-      (state.operations.currentManualAssets as Asset[]).push(newManualAsset);
-    },
-
-    deleteManualAsset(state, manualAsset) {
-      const index = state.operations.currentManualAssets.findIndex(
-        (itemT) => itemT === manualAsset
-      );
-      state.operations.currentManualAssets.splice(index, 1);
     },
 
     // Assets
@@ -99,14 +141,6 @@ export default createStore({
 
     deleteOperation({ commit }, operation) {
       commit('deleteOperation', operation);
-    },
-
-    addNewManualAccount({ commit }, newManualAccount) {
-      commit('addNewManualAccount', newManualAccount);
-    },
-
-    addNewManualAsset({ commit }, newManualAsset) {
-      commit('addNewManualAsset', newManualAsset);
     },
 
     // Accounts
