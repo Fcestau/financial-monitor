@@ -1,19 +1,16 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import Home from '../views/Home.vue';
+const URLS_NO_TOKEN_REQUIRED = ['/login'];
 
 const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    redirect: '/barcode-scanner',
-  },
   {
     path: '/',
     component: Home,
     children: [
       {
-        path: '',
-        redirect: '/barcode-scanner',
+        path: '/login',
+        component: () => import('@/views/Login.vue'),
       },
       {
         path: 'barcode-scanner',
@@ -48,4 +45,12 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  const currentTokenValue =' TokenStore.get()';
+  const tokenRequired = !URLS_NO_TOKEN_REQUIRED.includes(to.path);
+  if (tokenRequired && !currentTokenValue) {
+    next('/login');
+  }
+  next();
+});
 export default router;
