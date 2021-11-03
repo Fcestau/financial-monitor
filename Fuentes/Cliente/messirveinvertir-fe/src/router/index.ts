@@ -1,9 +1,15 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import Home from '../views/Home.vue';
+import TokenStore from '@/store/tokenStore';
+
 const URLS_NO_TOKEN_REQUIRED = ['/login'];
 
 const routes: Array<RouteRecordRaw> = [
+  {
+    path: '/',
+    redirect: '/operations-history',
+  },
   {
     path: '/',
     component: Home,
@@ -46,7 +52,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const currentTokenValue =' TokenStore.get()';
+  const currentTokenValue = TokenStore.get();
   const tokenRequired = !URLS_NO_TOKEN_REQUIRED.includes(to.path);
   if (tokenRequired && !currentTokenValue) {
     next('/login');
