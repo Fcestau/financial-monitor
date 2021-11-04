@@ -1,7 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Operation, { OperationType } from 'App/Models/Operation'
-import Accounts from 'Database/migrations/1633042694312_accounts'
 
 export enum AccountType {
   IOL = 'IOL',
