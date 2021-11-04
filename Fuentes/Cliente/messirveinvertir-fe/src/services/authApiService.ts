@@ -15,4 +15,10 @@ export default new (class {
       headers: { Authorization: `Bearer ${tokenValue}` },
     });
   }
+
+  user(tokenValue: string) {
+    return this.iHttpHandler.get('/v1/auth/user', {
+      headers: { Authorization: `Bearer ${tokenValue}` },
+    });
+  }
 })();
