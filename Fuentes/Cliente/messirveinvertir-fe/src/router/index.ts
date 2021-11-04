@@ -3,7 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 import Home from '../views/Home.vue';
 import TokenStore from '@/store/tokenStore';
 
-const URLS_NO_TOKEN_REQUIRED = ['/login'];
+const URLS_NO_TOKEN_REQUIRED = ['/login', '/signin'];
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -17,6 +17,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/login',
         component: () => import('@/views/Login.vue'),
+      },
+      {
+        path: '/signin',
+        component: () => import('@/views/Signin.vue'),
       },
       {
         path: 'barcode-scanner',
