@@ -8,14 +8,16 @@
   >
     <ion-header>
       <ion-toolbar class="ion-text-center" color="tertiary">
-        <ion-text class="ion-text-uppercase">{{ $t('menu.messirveinvertir') }}</ion-text>
+        <ion-text class="ion-text-uppercase">{{
+          $t('menu.messirveinvertir')
+        }}</ion-text>
       </ion-toolbar>
-        <ion-avatar class="avatar">
-          <img :src="avatarUrl">
-        </ion-avatar>
-        <div class="ion-text-center user-name">
-          <ion-label>{{userName}}</ion-label>
-        </div>
+      <ion-avatar class="avatar">
+        <img :src="userData.data.photo_url" />
+      </ion-avatar>
+      <div class="ion-text-center user-name">
+        <ion-label>{{ userData.data.display_name }}</ion-label>
+      </div>
     </ion-header>
     <ion-content color="tertiary">
       <ion-list class="ion-list-container">
@@ -39,7 +41,7 @@
         >
       </ion-list>
     </ion-content>
-        <TheButton inner-text="menu.logout" @click="logout" color="tertiary" />
+    <TheButton inner-text="menu.logout" @click="logout" color="tertiary" />
   </ion-menu>
   <ion-router-outlet id="main"></ion-router-outlet>
 </template>
@@ -58,9 +60,9 @@
 }
 
 .user-name {
-  margin-top: 5px; 
-  margin-bottom: 40px; 
-  color:white;
+  margin-top: 5px;
+  margin-bottom: 40px;
+  color: white;
 }
 
 .logout {
@@ -78,10 +80,12 @@ ion-item {
   margin: 0 auto;
 }
 </style>
-
 <script>
-export default ({
-    props: {
+import TokenStore from '@/store/tokenStore';
+import authApiService from '@/services/authApiService';
+
+export default {
+  props: {
     userName: {
       type: String,
       required: true,
@@ -91,10 +95,21 @@ export default ({
       required: false,
     },
   },
+  data() {
+    return {
+      userData: { data: {} },
+    };
+  },
   methods: {
     logout() {
       this.$emit('logout');
+    },
+  },
+  async mounted() {
+    const currentTokenValue = TokenStore.get();
+    if (currentTokenValue) {
+      this.userData = await authApiService.user(currentTokenValue);
     }
   },
-  });
+};
 </script>
