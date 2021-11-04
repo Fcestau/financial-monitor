@@ -15,7 +15,7 @@
       <div class="container">
         <ion-img
           class="image"
-          src="../../assets/logo-messirveinvertir.jpeg"
+          src="../../assets/logo-messirveinvertir.png"
         ></ion-img>
       </div>
       <TheTextInput
@@ -45,7 +45,7 @@
 </template>
 <style>
 .image {
-  width: 100px;
+  width: 150px;
 }
 .container {
   width: 100%;

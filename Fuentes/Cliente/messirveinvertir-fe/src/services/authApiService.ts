@@ -11,7 +11,7 @@ export default new (class {
   }
 
   logout(tokenValue: string) {
-    return this.iHttpHandler.post('/v1/auth/logout', null, {
+    return this.iHttpHandler.get('/v1/auth/logout', {
       headers: { Authorization: `Bearer ${tokenValue}` },
     });
   }

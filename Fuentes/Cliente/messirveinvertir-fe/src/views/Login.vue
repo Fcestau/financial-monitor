@@ -4,10 +4,10 @@
       <div class="container">
         <ion-img
           class="image"
-          src="../../assets/logo-messirveinvertir.jpeg"
+          src="../../assets/logo-messirveinvertir.png"
         ></ion-img>
       </div>
-        <p class="ion-text-center ion-padding">{{ $t('login_phrase') }}</p>
+      <p class="ion-text-center ion-padding">{{ $t('login_phrase') }}</p>
       <TheTextInput
         v-model="form.email"
         label="email"
@@ -38,7 +38,7 @@
 </template>
 <style>
 .image {
-  width: 100px;
+  width: 150px;
 }
 .container {
   width: 100%;
@@ -49,7 +49,7 @@
 </style>
 <script>
 import TokenStore from '@/store/tokenStore';
-import LoginApiService from '@/services/loginApiService';
+import authApiService from '@/services/authApiService';
 export default {
   data() {
     return {
@@ -62,8 +62,8 @@ export default {
   methods: {
     async login(form) {
       try {
-        const token = await LoginApiService.login(form);
-        TokenStore.save(token);
+        const token = await authApiService.login(form);
+        TokenStore.save(token.data.token);
         this.$router.push('/');
       } catch (exception) {
         this.loginError = exception;

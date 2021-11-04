@@ -39,7 +39,7 @@
         >
       </ion-list>
     </ion-content>
-        <TheButton inner-text="menu.logout" @click="logout" color="tertiary" />
+        <TheButton inner-text="menu.logout" @click="logout" color="tertiary"/>
   </ion-menu>
   <ion-router-outlet id="main"></ion-router-outlet>
 </template>
@@ -96,5 +96,6 @@ export default ({
       this.$emit('logout');
     }
   },
+
   });
 </script>
