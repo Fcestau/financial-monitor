@@ -42,7 +42,7 @@ export default class AssetsController {
     valuePoints.reverse()
     return {
       from: valuePoints[0]?.createdAt,
-      to: valuePoints.slice(-1)[0]?.createdAt,
+      to: valuePoints[-1]?.createdAt,
       points: valuePoints.map((p) => ({ x: p.createdAt, y: p.usdValue })),
     }
   }
