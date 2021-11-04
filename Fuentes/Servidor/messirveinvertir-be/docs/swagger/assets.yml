@@ -1,0 +1,14 @@
+/api/v1/assets/stock:
+  get:
+    tags:
+      - Assets
+    summary: Devuelve una lista paginada del stock de activos del usuario.
+    parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/order_by_id'
+      - $ref: '#/components/parameters/asset_ids'
+      - $ref: '#/components/parameters/account_ids'
+    responses:
+      200:
+        description: Stock de activos asociados al usuario

@@ -33,7 +33,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'operation-creator',
-        component: () => import('@/views/OperationCreatorPage.vue'),
+        component: () => import('@/views/Operations/OperationCreatorPage.vue'),
       },
       {
         path: 'operations-history',
