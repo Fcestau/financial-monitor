@@ -2,17 +2,18 @@ import Operation from 'App/Models/Operation'
 import CreateOperationsValidator from 'App/Validators/CreateOperationsValidator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { AccountType } from 'App/Models/Account'
+import Event from '@ioc:Adonis/Core/Event'
 
 export default class OperationsController {
   public async createOperations({ request, response }) {
     const data = await request.validate(CreateOperationsValidator)
+    const createdOperations: { id: number }[] = []
 
-    const createdOperations = await Promise.all(
-      data.operations.map(async (data) => {
-        let newOperation = await Operation.create(data)
-        return { id: newOperation.id }
-      })
-    )
+    for (const opData of data.operations) {
+      let newOperation = await Operation.create(opData)
+      await Event.emit('new:operation', newOperation)
+      createdOperations.push({ id: newOperation.id })
+    }
 
     return response.created({ operations: createdOperations })
   }
@@ -43,11 +44,8 @@ export default class OperationsController {
     const ids = request.input('operations').map((dto) => dto.id)
 
     await Operation.query()
-      .whereHas(
-        'account',
-        (builder) => builder
-          .where('uid', auth.user!.uid)
-          .where('type', AccountType.Manual)
+      .whereHas('account', (builder) =>
+        builder.where('uid', auth.user!.uid).where('type', AccountType.Manual)
       )
       .whereIn('id', ids)
       .delete()

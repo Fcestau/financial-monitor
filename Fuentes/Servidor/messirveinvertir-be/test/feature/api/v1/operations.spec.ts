@@ -2,6 +2,7 @@ import test from 'japa'
 import http from '../../../extend/http'
 import { AccountsFactory, AssetsFactory } from 'Database/factories'
 import Operation, { OperationType } from 'App/Models/Operation'
+import AssetStock from 'App/Models/AssetStock'
 
 test.group('API V1 Accounts', () => {
   test('[/api/v1/auth/createOperations] (valid): operations are created and returns ids', async (assert) => {
@@ -22,6 +23,14 @@ test.group('API V1 Accounts', () => {
         asset_id: asset.id,
         quantity: 5,
         usd_price: 5056.3,
+        type: OperationType.Buy,
+        timestamp: '2021-10-20T01:15:00.000-03:00',
+      },
+      {
+        account_id: account.id,
+        asset_id: asset.id,
+        quantity: 2,
+        usd_price: 500,
         type: OperationType.Sell,
         timestamp: '2021-10-20T01:15:00.000-03:00',
       },
@@ -47,6 +56,12 @@ test.group('API V1 Accounts', () => {
       assert.equal(operations[key].type, data!.type)
       assert.equal(operations[key].timestamp, data!.timestamp.toISO())
     }
+    const stock = await AssetStock.query()
+      .where('accountId', account.id)
+      .where('assetId', asset.id)
+      .firstOrFail()
+    assert.equal(stock.avgUsdBuyPrice.toFixed(2), '554.35')
+    assert.equal(stock.quantity.toFixed(2), '13.30')
   })
   test('[/api/v1/accounts/listOperations] (valid): returns operations list', async (assert) => {
     // Arrange
