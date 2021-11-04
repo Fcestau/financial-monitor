@@ -41,3 +41,17 @@ components:
       schema:
         type: string
         format: date
+    asset_ids:
+      name: asset_ids
+      in: query
+      required: false
+      description: Filtro por lista de activos.
+      schema:
+        type: string
+    account_ids:
+      name: account_ids
+      in: query
+      required: false
+      description: Filtro por lista de cuentas.
+      schema:
+        type: string

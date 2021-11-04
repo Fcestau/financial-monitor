@@ -1,15 +1,14 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import Account from 'App/Models/Account'
 
-export enum OperationType {
-  Buy = 'Buy',
-  Sell = 'Sell',
-  Deposit = 'Deposit',
-  Withdraw = 'Withdraw',
+export enum AlertFrequency {
+  Unique = 'Unique',
+  Daily = 'Daily',
+  Always = 'Always',
 }
 
-export default class Operation extends BaseModel {
+export default class Alert extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
@@ -25,22 +24,15 @@ export default class Operation extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @column.dateTime()
-  public timestamp: DateTime
+  @column()
+  public frequency: AlertFrequency
 
   @column()
-  public quantity: number
+  public hourlyDeltaPrice: number
 
   @column()
-  public usdPrice: number
-
-  @column()
-  public type: OperationType
+  public hourlyDeltaVolume: number
 
   @belongsTo(() => Account)
   public account: BelongsTo<typeof Account>
-
-  public unitUsdPrice(): number {
-    return this.usdPrice / this.quantity
-  }
 }

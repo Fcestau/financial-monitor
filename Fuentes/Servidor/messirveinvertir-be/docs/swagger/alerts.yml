@@ -1,0 +1,36 @@
+/api/v1/alerts:
+  post:
+    tags:
+      - Alerts
+    summary: Permite crear alertas asociadas a una cuenta.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              alerts:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    account_id:
+                      required: true
+                      type: integer
+                    asset_id:
+                      required: true
+                      type: integer
+                    frequency:
+                      required: true
+                      type: string
+                      enum: [ Unique, Daily, Always ]
+                    hourly_delta_price:
+                      required: true
+                      type: number
+                    hourly_delta_volume:
+                      required: true
+                      type: number
+    responses:
+      201:
+        description: Lista de ids de las nuevas alertas
