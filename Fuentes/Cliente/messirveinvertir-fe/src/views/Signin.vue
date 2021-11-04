@@ -1,5 +1,16 @@
 <template>
   <ion-page>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button
+          default-href="login"
+          auto-hide="false"
+        ></ion-back-button>
+      </ion-buttons>
+      <ion-title>
+        {{ $t('signin') }}
+      </ion-title>
+    </ion-toolbar>
     <ion-content class="ion-padding">
       <div class="container">
         <ion-img
@@ -7,7 +18,6 @@
           src="../../assets/logo-messirveinvertir.jpeg"
         ></ion-img>
       </div>
-        <p class="ion-text-center ion-padding">{{ $t('login_phrase') }}</p>
       <TheTextInput
         v-model="form.email"
         label="email"
@@ -18,19 +28,16 @@
         label="password"
         type="password"
       ></TheTextInput>
+      <TheTextInput
+        v-model="form.repeatPassword"
+        label="repeat_password"
+        type="password"
+      ></TheTextInput>
       <TheButton
-        @click="login(form)"
-        expand="block"
-        icon="closeOutline"
-        inner-text="login"
-        class="ion-margin-top"
-      ></TheButton>
-      <TheButton
-        href="signin"
+        @click="signin(form)"
         expand="block"
         icon="closeOutline"
         inner-text="signin"
-        color="secondary"
         class="ion-margin-top"
       ></TheButton>
     </ion-content>
@@ -48,26 +55,19 @@
 }
 </style>
 <script>
-import TokenStore from '@/store/tokenStore';
-import LoginApiService from '@/services/loginApiService';
 export default {
   data() {
     return {
       form: {
         email: '',
         password: '',
+        repeatPassword: '',
       },
     };
   },
   methods: {
-    async login(form) {
-      try {
-        const token = await LoginApiService.login(form);
-        TokenStore.save(token);
-        this.$router.push('/');
-      } catch (exception) {
-        this.loginError = exception;
-      }
+    signin(form) {
+      console.log(form);
     },
   },
 };
