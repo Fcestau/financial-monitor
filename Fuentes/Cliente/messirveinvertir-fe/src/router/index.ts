@@ -11,17 +11,17 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/operations-history',
   },
   {
+    path: '/login',
+    component: () => import('@/views/Login.vue'),
+  },
+  {
+    path: '/signin',
+    component: () => import('@/views/Signin.vue'),
+  },
+  {
     path: '/',
     component: Home,
     children: [
-      {
-        path: '/login',
-        component: () => import('@/views/Login.vue'),
-      },
-      {
-        path: '/signin',
-        component: () => import('@/views/Signin.vue'),
-      },
       {
         path: 'barcode-scanner',
         component: () => import('@/views/BarcodeScanner.vue'),
