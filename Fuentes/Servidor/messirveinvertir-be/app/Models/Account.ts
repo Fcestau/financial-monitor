@@ -33,7 +33,8 @@ export default class Account extends BaseModel {
   public operations: HasMany<typeof Operation>
 
   public async getAvgUsdBuyPrice(): Promise<number> {
-    await this.load('operations', (qb) => qb.where('type', OperationType.Buy))
+    const account: Account = this
+    await account.load('operations', (qb) => qb.where('type', OperationType.Buy))
     const sum = this.operations.reduce((sum: number, op: Operation) => sum + op.unitUsdPrice(), 0)
     return sum / this.operations.length
   }
