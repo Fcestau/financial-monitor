@@ -39,6 +39,10 @@ const routes: Array<RouteRecordRaw> = [
         path: 'operations-history',
         component: () => import('@/views/Operations/OperationsHistoryPage.vue'),
       },
+      {
+        path: 'wallet',
+        component: () => import('@/views/Dashboard/WalletPage.vue'),
+      },
     ],
   },
 ];
