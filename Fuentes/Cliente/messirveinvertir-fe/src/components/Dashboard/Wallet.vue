@@ -4,6 +4,9 @@
       <ion-toolbar>
         <ion-buttons slot="start">
           <ion-menu-button auto-hide="false"></ion-menu-button>
+          <ion-title>
+            {{ $t('wallet.wallet_title_label') }}
+          </ion-title>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -12,22 +15,30 @@
         <div class="balance">
           <p class="ion-text-left balance-label">
             {{ $t('wallet.total_balance') }}
-          </p> 
-          <ion-icon class="icon" @click="hideBalance()" :icon="viewIcon"></ion-icon>
+          </p>
+          <ion-icon
+            class="icon"
+            @click="hideBalance()"
+            :icon="viewIcon"
+          ></ion-icon>
         </div>
         <div class="balance-data">
-          <template v-if="viewIcon==eye">
-            <h3 class="balance-value">$ 9258 </h3>
+          <template v-if="viewIcon == eye">
+            <h3 class="balance-value">$ 9258</h3>
             <span class="usd-balance"> ≈ 123 USD</span>
           </template>
           <template v-else>
             <h3 class="balance-value">****</h3>
             <span class="usd-balance">****</span>
           </template>
-          <ion-icon  class="icon" @click="balanceInfo()" :icon="informationCircle"></ion-icon>
+          <ion-icon
+            class="icon"
+            @click="balanceInfo()"
+            :icon="informationCircle"
+          ></ion-icon>
         </div>
       </ion-card>
-        <vue3-chart-js
+      <vue3-chart-js
         :id="lineChart.id"
         :type="lineChart.type"
         :data="lineChart.data"
@@ -36,16 +47,15 @@
       <div class="ion-padding">
         <ion-item-divider class="divider">
           <ion-label>
-            {{ $t('wallet.portfolio')}}
+            {{ $t('wallet.portfolio') }}
           </ion-label>
-          <ion-icon  class="icon" slot="end" :icon="filter"></ion-icon>
+          <ion-icon class="icon" slot="end" :icon="filter"></ion-icon>
         </ion-item-divider>
         <template v-if="currentOperations.length > 0">
           <TheOperationItem
-            v-for="(item, index) in currentOperations" 
+            v-for="(item, index) in currentOperations"
             :key="index"
             :item="item"
-            :action-icon="trashOutline"
             :can-select="false"
           />
         </template>
@@ -62,49 +72,56 @@ import { informationCircle } from 'ionicons/icons';
 import { alertController } from '@ionic/vue';
 import Vuex from 'vuex';
 import Vue3ChartJs from '@j-t-mcc/vue3-chartjs';
-export default ({
+export default {
   components: {
     Vue3ChartJs,
   },
   data() {
     return {
-        viewIcon: eye,
-        lineChart: {
-            id: 'line',
-            type: 'line',
-            data: {
-                labels: ['BNA', 'Binance', 'IOL', 'Otro'],
-                datasets: [
-                {
-                    backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
-                    data: [Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random()],
-                    fill: 'origin',
-                    tension: 0.4,
-                    label: 'sdf'
-                    
-                },
-                ],
+      viewIcon: eye,
+      lineChart: {
+        id: 'line',
+        type: 'line',
+        data: {
+          labels: ['BNA', 'Binance', 'IOL', 'Otro'],
+          datasets: [
+            {
+              backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
+              data: [
+                Math.random(),
+                Math.random(),
+                Math.random(),
+                Math.random(),
+                Math.random(),
+                Math.random(),
+                Math.random(),
+                Math.random(),
+              ],
+              fill: 'origin',
+              tension: 0.4,
+              label: 'sdf',
             },
-            options: {
-                legend: {
-                    display: false,
-                }
-            }
-            
+          ],
         },
-    }
+        options: {
+          legend: {
+            display: false,
+          },
+        },
+      },
+    };
   },
   setup() {
     return {
       eye,
       eyeOff,
       informationCircle,
-      filter
+      filter,
     };
   },
   methods: {
     hideBalance() {
-      this.viewIcon = this.viewIcon == eye ? eyeOff : eye
+      this.viewIcon = this.viewIcon == eye ? eyeOff : eye;
     },
     async balanceInfo() {
       const alert = await alertController.create({
@@ -119,7 +136,7 @@ export default ({
         ],
       });
       return alert.present();
-    }
+    },
   },
   computed: {
     ...Vuex.mapState(['operations']),
@@ -135,22 +152,22 @@ export default ({
       return this.operations.currentOperations;
     },
   },
-});
+};
 </script>
 <style scoped>
 .line-chart {
-    position: relative; 
-    height: auto !important; 
-    width: fill !important;
+  position: relative;
+  height: auto !important;
+  width: fill !important;
 }
 .balance-label {
-    font-size: 12px;
-    color: gray;
+  font-size: 12px;
+  color: gray;
 }
 .balance-value {
-    font-size: 22px;
-    font-weight: bold;
-    margin: 0px;
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0px;
 }
 .balance-data {
   display: flex;

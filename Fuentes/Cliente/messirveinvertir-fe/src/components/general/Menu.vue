@@ -85,16 +85,6 @@ import TokenStore from '@/store/tokenStore';
 import authApiService from '@/services/authApiService';
 
 export default {
-  props: {
-    userName: {
-      type: String,
-      required: true,
-    },
-    avatarUrl: {
-      type: String,
-      required: false,
-    },
-  },
   data() {
     return {
       userData: { data: {} },

@@ -19,7 +19,7 @@
   "repeat_password": "Repetir contraseña",
   "confirm": "Confirmar",
   "cancel": "Cancelar",
-  "notice":"Aviso",
+  "notice": "Aviso",
   "accept": "Aceptar",
   "filter": "Filtrar",
   "no_information": "Sin información",
@@ -72,6 +72,7 @@
     "accountCreatorFormTitle": "Crear nueva cuenta"
   },
   "wallet": {
+    "wallet_title_label": "Cartera",
     "total_balance": "Balance total (ARS)",
     "balance_info": "Es posible que los balances de tus activos no estén actualizados debido a un retraso del sistema.",
     "portfolio": "Portafolio"
