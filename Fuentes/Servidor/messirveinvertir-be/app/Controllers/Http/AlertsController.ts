@@ -14,4 +14,27 @@ export default class AlertsController {
 
     return response.created({ alerts: createdAlerts })
   }
+
+  public async getAlerts({ auth, request }) {
+    const page = request.input('page',1)
+    const limit = request.input('limit',10)
+    const orderById = request.input('orderById')
+    
+    return await Alert.query()
+      .whereHas('account', (builder) => builder.where('uid', auth.user!.uid))
+      .orderBy('id', orderById)
+      .paginate(page, limit)
+  }
+
+  public async deleteAlerts({ auth, request, response }) {
+    const idDtos = request.input('alerts')
+    const ids = idDtos.map((dto) => dto.id)
+
+    await Alert.query()
+      .whereHas('account', (builder) => builder.where('uid', auth.user!.uid))
+      .whereIn('id', ids)
+      .delete()
+
+    return response.noContent()
+  }
 }

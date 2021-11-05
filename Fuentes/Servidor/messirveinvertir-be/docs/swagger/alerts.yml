@@ -1,5 +1,17 @@
 /api/v1/alerts:
-  post:
+  get:
+    tags:
+      - Alerts
+    summary: Permite listar las alertas del usuario.
+    parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/order_by_id'
+    responses:
+      200:
+        description: Alertas asociadas al usuario
+
+post:
     tags:
       - Alerts
     summary: Permite crear alertas asociadas a una cuenta.
@@ -34,3 +46,26 @@
     responses:
       201:
         description: Lista de ids de las nuevas alertas
+
+delete:
+    tags:
+      - Accounts
+    summary: Permite eliminar alertas asociadas al usuario actual a partir de sus ids.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              alerts:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      required: true
+                      type: number
+    responses:
+      204:
+        description: Las alertas fueron eliminadas
