@@ -11,7 +11,7 @@ export default createStore({
           id: 0,
           account: {
             id: 0,
-            name: 'string',
+            name: 'BINANCE',
             type: 'Manual',
             createdAt: new Date().toISOString(),
             avatar:

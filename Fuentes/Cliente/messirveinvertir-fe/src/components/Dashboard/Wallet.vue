@@ -38,11 +38,11 @@
           <ion-label>
             {{ $t('wallet.portfolio')}}
           </ion-label>
-          <ion-icon  class="icon" :icon="filter"></ion-icon>
+          <ion-icon  class="icon" slot="end" :icon="filter"></ion-icon>
         </ion-item-divider>
-        <template v-if="items.length > 0">
+        <template v-if="currentOperations.length > 0">
           <TheOperationItem
-            v-for="(item, index) in items" 
+            v-for="(item, index) in currentOperations" 
             :key="index"
             :item="item"
             :action-icon="trashOutline"
@@ -50,7 +50,6 @@
           />
         </template>
         <NoInformationCard v-else />
-        
       </div>
     </ion-content>
   </ion-page>
@@ -61,6 +60,7 @@ import { eyeOff } from 'ionicons/icons';
 import { filter } from 'ionicons/icons';
 import { informationCircle } from 'ionicons/icons';
 import { alertController } from '@ionic/vue';
+import Vuex from 'vuex';
 import Vue3ChartJs from '@j-t-mcc/vue3-chartjs';
 export default ({
   components: {
@@ -92,88 +92,6 @@ export default ({
             }
             
         },
-        items: [
-        {
-          title: 'Invertir Online',
-          accountType: 'External',
-          avatar:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMbqQ53w7h-Ns5pWxR4S-Liy-1eTEyDyLSlm7rrAgEXlfU0LsVQ2sZLzzK13W9CqHcDDM&usqp=CAU',
-          assetType: 'USD',
-          amount: 300,
-          type: 'Venta',
-          fecha: '06/05/2021:18:20'
-
-        },
-        {
-          title: 'Binance',
-          accountType: 'External',
-          avatar: 'https://bitbase.es/img/coins/BNB.png',
-          assetType: 'BTC',
-          amount: 300,
-          type: 'Compra',
-          fecha: '06/05/2021:18:30',
-        },
-        {
-          title: 'Banco Nación',
-          accountType: 'External',
-          avatar:
-            'https://w7.pngwing.com/pngs/169/504/png-transparent-el-banco-de-la-nacion-argentina-bank-transaction-account-bank-blue-text-logo-thumbnail.png',
-          assetType: 'ETH',
-          amount: 1,
-          type: 'Compra',
-          fecha: '18/06/2021:16:50'
-        },
-        {
-          title: 'buenbit',
-          accountType: 'External',
-          avatar:
-            'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
-          assetType: 'USD',
-          amount: 300,
-          type: 'Compra',
-          fecha: '09/07/2021:12:30'
-        },
-        {
-          title: 'Invertir Online',
-          accountType: 'External',
-          avatar:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMbqQ53w7h-Ns5pWxR4S-Liy-1eTEyDyLSlm7rrAgEXlfU0LsVQ2sZLzzK13W9CqHcDDM&usqp=CAU',
-          assetType: 'USD',
-          amount: 300,
-          type: 'Venta',
-          fecha: '03/07/2021:13:28'
-
-        },
-        {
-          title: 'Binance',
-          accountType: 'External',
-          avatar: 'https://bitbase.es/img/coins/BNB.png',
-          assetType: 'BTC',
-          amount: 300,
-          type: 'Compra',
-          fecha: '03/07/2021:13:56',
-        },
-        {
-          title: 'Manual',
-          accountType: 'Manual',
-          avatar:
-            'https://w7.pngwing.com/pngs/169/504/png-transparent-el-banco-de-la-nacion-argentina-bank-transaction-account-bank-blue-text-logo-thumbnail.png',
-          assetType: 'ETH',
-          amount: 1,
-          type: 'Compra',
-          fecha: '15/07/2021:19:08'
-        },
-        {
-          title: 'buenbit',
-          accountType: 'Manual',
-          avatar:
-            'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
-          assetType: 'USD',
-          amount: 300,
-          type: 'Compra',
-          fecha: '15/07/2021:21:40'
-        },
-      ],
     }
   },
   setup() {
@@ -202,7 +120,21 @@ export default ({
       });
       return alert.present();
     }
-  }
+  },
+  computed: {
+    ...Vuex.mapState(['operations']),
+    currentOperations() {
+      this.operations.currentOperations.forEach((element) => {
+        if (element.type === 'Compra') {
+          element.color = 'success';
+        } else {
+          element.color = 'danger';
+        }
+      });
+
+      return this.operations.currentOperations;
+    },
+  },
 });
 </script>
 <style scoped>
