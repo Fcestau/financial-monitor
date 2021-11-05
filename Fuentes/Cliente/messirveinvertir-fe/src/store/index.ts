@@ -88,7 +88,7 @@ export default createStore({
         {
           id: 0,
           hourlyDeltaPrice: 1,
-          hourlyDeltaVolume: 1,
+          hourlyDeltaVolume: null,
           frequency: 'Unique',
           lastAlertTimestamp: new Date().toISOString(),
           asset: {
@@ -109,7 +109,7 @@ export default createStore({
         },
         {
           id: 2,
-          hourlyDeltaPrice: 10,
+          hourlyDeltaPrice: null,
           hourlyDeltaVolume: 10,
           frequency: 'Daily',
           lastAlertTimestamp: new Date().toISOString(),
@@ -132,7 +132,7 @@ export default createStore({
         {
           id: 3,
           hourlyDeltaPrice: 10,
-          hourlyDeltaVolume: 10,
+          hourlyDeltaVolume: null,
           frequency: 'Always',
           lastAlertTimestamp: new Date().toISOString(),
           asset: {
