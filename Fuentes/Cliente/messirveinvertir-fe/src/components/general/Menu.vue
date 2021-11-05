@@ -27,7 +27,7 @@
         <ion-item color="tertiary" href="/external-account"
           ><div style="">{{ $t('menu.account_listing') }}</div></ion-item
         >
-        <ion-item color="tertiary" href=""
+        <ion-item color="tertiary" href="/wallet"
           ><div>{{ $t('menu.wallet') }}</div></ion-item
         >
         <ion-item color="tertiary" href="/chart"
@@ -85,16 +85,6 @@ import TokenStore from '@/store/tokenStore';
 import authApiService from '@/services/authApiService';
 
 export default {
-  props: {
-    userName: {
-      type: String,
-      required: true,
-    },
-    avatarUrl: {
-      type: String,
-      required: false,
-    },
-  },
   data() {
     return {
       userData: { data: {} },
