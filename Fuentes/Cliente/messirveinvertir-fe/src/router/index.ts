@@ -46,6 +46,10 @@ const routes: Array<RouteRecordRaw> = [
         path: 'operations-history',
         component: () => import('@/views/Operations/OperationsHistoryPage.vue'),
       },
+      {
+        path: 'active-alerts',
+        component: () => import('@/views/Alerts/ActiveAlertsPage.vue'),
+      },
     ],
   },
 ];

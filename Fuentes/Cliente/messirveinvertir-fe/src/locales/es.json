@@ -42,6 +42,9 @@
     "delete_operation": "Eliminar Operación",
     "sure_delete_opeartion_ask": "¿Esta seguro que desea eliminar la operación?"
   },
+  "alerts": {
+    "active_alerts_title": "Alertas Activas"
+  },
   "poc": {
     "barcodeScannerTitle": "Escaner de código",
     "chartTitle": "Gráfico",

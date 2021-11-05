@@ -83,6 +83,77 @@ export default createStore({
       ],
       loading: false,
     },
+    alerts: {
+      currentAlerts: [
+        {
+          id: 0,
+          hourlyDeltaPrice: 1,
+          hourlyDeltaVolume: 1,
+          frequency: 'Unique',
+          lastAlertTimestamp: new Date().toISOString(),
+          asset: {
+            id: 0,
+            name: 'USD',
+            symbol: 'string',
+            type: 'Fiat',
+            date: new Date().toISOString(),
+          },
+          account: {
+            id: 0,
+            name: 'IOL trucha',
+            type: 'Manual',
+            createdAt: new Date().toISOString(),
+            avatar:
+              'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
+          },
+        },
+        {
+          id: 2,
+          hourlyDeltaPrice: 10,
+          hourlyDeltaVolume: 10,
+          frequency: 'Daily',
+          lastAlertTimestamp: new Date().toISOString(),
+          asset: {
+            id: 0,
+            name: 'ETH',
+            symbol: 'string',
+            type: 'Fiat',
+            date: new Date().toISOString(),
+          },
+          account: {
+            id: 0,
+            name: 'IOL trucha',
+            type: 'Manual',
+            createdAt: new Date().toISOString(),
+            avatar:
+              'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
+          },
+        },
+        {
+          id: 3,
+          hourlyDeltaPrice: 10,
+          hourlyDeltaVolume: 10,
+          frequency: 'Always',
+          lastAlertTimestamp: new Date().toISOString(),
+          asset: {
+            id: 0,
+            name: 'LOMA',
+            symbol: 'string',
+            type: 'Fiat',
+            date: new Date().toISOString(),
+          },
+          account: {
+            id: 0,
+            name: 'IOL trucha',
+            type: 'Manual',
+            createdAt: new Date().toISOString(),
+            avatar:
+              'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
+          },
+        },
+      ],
+      loading: false,
+    },
   },
   mutations: {
     // Operations
@@ -128,6 +199,18 @@ export default createStore({
       );
       state.accounts.currentAccounts.splice(index, 1);
     },
+
+    // Alerts
+    addNewAlert(state, newAlert) {
+      (state.alerts.currentAlerts as any[]).push(newAlert);
+    },
+
+    deleteAlert(state, alert) {
+      const index = state.alerts.currentAlerts.findIndex(
+        (itemT) => itemT === alert
+      );
+      state.alerts.currentAlerts.splice(index, 1);
+    },
   },
   actions: {
     // Operations
@@ -148,12 +231,12 @@ export default createStore({
       commit('getCurrentAccounts');
     },
 
-    addNewAccount({ commit }, newOperation) {
-      commit('addNewAccount', newOperation);
+    addNewAccount({ commit }, newAccount) {
+      commit('addNewAccount', newAccount);
     },
 
-    deleteAccount({ commit }, operation) {
-      commit('deleteAccount', operation);
+    deleteAccount({ commit }, account) {
+      commit('deleteAccount', account);
     },
 
     // Assets
@@ -161,12 +244,21 @@ export default createStore({
       commit('getCurrentAssets');
     },
 
-    addNewAsset({ commit }, newOperation) {
-      commit('addNewAsset', newOperation);
+    addNewAsset({ commit }, newAsset) {
+      commit('addNewAsset', newAsset);
     },
 
-    deleteAsset({ commit }, operation) {
-      commit('deleteAsset', operation);
+    deleteAsset({ commit }, asset) {
+      commit('deleteAsset', asset);
+    },
+
+    // Alert
+    addNewAlert({ commit }, newAlert) {
+      commit('addNewAlert', newAlert);
+    },
+
+    deleteAlert({ commit }, alert) {
+      commit('deleteAlert', alert);
     },
   },
   modules: {},
