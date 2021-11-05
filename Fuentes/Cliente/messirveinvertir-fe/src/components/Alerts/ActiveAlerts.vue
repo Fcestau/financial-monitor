@@ -22,14 +22,6 @@
         :can-select="item.account.type === 'Manual'"
         @selectedItem="deleteAlert(item)"
       />
-      <TheAlertItem
-        v-for="item in currentAlerts"
-        :key="item"
-        :item="item"
-        :action-icon="trashOutline"
-        :can-select="item.account.type === 'Manual'"
-        @selectedItem="deleteAlert(item)"
-      />
     </ion-content>
   </ion-page>
 </template>
