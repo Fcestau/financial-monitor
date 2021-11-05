@@ -26,7 +26,7 @@ export enum OperationMode {
   marketPrice = 'precio_Mercado',
 }
 
-export interface Operation {
+export interface IolOperation {
   numero: number
   fechaOrden: string
   tipo: OperationType
