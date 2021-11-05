@@ -3,9 +3,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button
-            default-href="operations-history"
-          ></ion-back-button>
+          <ion-back-button default-href="operations-history"></ion-back-button>
         </ion-buttons>
         <ion-title> {{ $t('operation.newOperationTitle') }} </ion-title>
       </ion-toolbar>
@@ -17,7 +15,7 @@
           v-model="form.account"
           interface="action-sheet"
           label="operation.accountLabel"
-          :values="accountValues"
+          :values="currentAccounts"
         />
         <ion-buttons>
           <ion-button size="small" @click="addNewAccount">
@@ -31,7 +29,7 @@
           v-model="form.asset"
           label="operation.assetLabel"
           interface="action-sheet"
-          :values="assetValues"
+          :values="currentAssets"
         />
         <ion-buttons>
           <ion-button size="small" @click="addNewAsset">
@@ -40,24 +38,24 @@
         </ion-buttons>
       </div>
       <TheTextInput
-        v-model="form.assetValue"
+        v-model="form.usdPrice"
         label="operation.assetValueLabel"
         :placeholder="$t('operation.assetValuePlaceholder')"
         type="number"
       />
       <TheTextInput
-        v-model="form.amount"
+        v-model="form.quantity"
         label="operation.amountLabel"
         type="number"
       />
       <TheSelector
-        v-model="form.operationType"
+        v-model="form.type"
         label="operation.operationTypeLabel"
         interface="action-sheet"
         :values="operationTypeValues"
       />
       <TheDatepicker
-        :value="form.operationDate"
+        :value="form.timestamp"
         label="operation.operationDateLabel"
         display-format="D/M/YY H:mm"
       />
@@ -80,76 +78,101 @@
 }
 </style>
 
-<script lang="ts">
+<script>
 import { add } from 'ionicons/icons';
-import { assetMockValues } from '@/models/Asset';
-import { SelectorType } from '@/models/SelectorType';
-import { Operation } from '@/models/Operation';
 import TheNewAccountFormModal from '../business/Modals/TheNewAccountFormModal.vue';
 import TheNewAssetFormModal from '../business/Modals/TheNewAssetFormModal.vue';
 import { modalController } from '@ionic/vue';
+import Vuex from 'vuex';
 
 export default {
+  computed: {
+    ...Vuex.mapState(['accounts', 'assets']),
+    currentAccounts() {
+      const accounts = [];
+      this.accounts.currentAccounts.forEach((element) => {
+        if (element.type === 'Manual') {
+          const newAccount = {
+            value: element.name,
+            displayName: element.name,
+          };
+          accounts.push(newAccount);
+        }
+      });
+      return accounts;
+    },
+    currentAssets() {
+      const assets = [];
+      this.assets.currentAssets.forEach((element) => {
+        const newAsset = {
+          value: element.name,
+          displayName: element.name,
+        };
+        assets.push(newAsset);
+      });
+      return assets;
+    },
+  },
+
   data() {
-    const assetValues: Array<SelectorType> = [];
-    assetMockValues.forEach((element) => {
-      const value: SelectorType = {
-        value: element.symbol,
-        displayName: element.name,
-      };
-      assetValues.push(value);
-    });
-
-    const accountValues: Array<SelectorType> = [
+    const operationTypeValues = [
       {
-        value: 'iol',
-        displayName: 'IOL',
-      },
-      {
-        value: 'binance',
-        displayName: 'Binance',
-      },
-    ];
-
-    const operationTypeValues: Array<SelectorType> = [
-      {
-        value: 'buy',
+        value: 'Buy',
         displayName: 'Compra',
       },
       {
-        value: 'sale',
+        value: 'Sell',
         displayName: 'Venta',
       },
       {
-        value: 'withdrawal',
+        value: 'Withdraw',
         displayName: 'Retiro',
       },
       {
-        value: 'deposit',
+        value: 'Deposit',
         displayName: 'Depósito',
       },
     ];
 
-    const form: Operation = {
+    const form = {
+      id: 0,
       account: '',
-      amount: 0,
+      quantity: null,
+      usdPrice: null,
+      type: '',
       asset: '',
-      oerationType: '',
-      operationDate: new Date().toISOString(),
-      assetValue: null,
+      timestamp: new Date().toISOString(),
     };
 
     return {
-      accountValues,
       operationTypeValues,
-      assetValues,
       add,
       form,
     };
   },
   methods: {
-    submitForm(form: Operation) {
-      console.log(form);
+    ...Vuex.mapActions(['addNewOperation']),
+
+    submitForm(form) {
+      
+      const newOperation = {
+        ...form,
+        account: {
+          id: 0,
+          name: form.account,
+          type: 'Manual',
+          createdAt: new Date().toISOString(),
+        },
+        asset: {
+          id: 0,
+          name: form.asset,
+          symbol: form.asset,
+          type: 'Fiat',
+          date: new Date().toISOString(),
+        },
+      };
+      console.log(newOperation);
+      this.addNewOperation(newOperation);
     },
 
     async addNewAccount() {

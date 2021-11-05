@@ -1,49 +1,52 @@
 <template>
-    <ion-item>
-      <ion-avatar slot="start">
-        <img :src="item.avatar" />
-      </ion-avatar>
-      <div class="item">
-        <ion-label>
-          <h3>{{ item.title }}</h3>
-        </ion-label>
-        <div class="display-flex">
-          <ion-badge class="op-action" :color="item.color">{{item.type}}</ion-badge>
-          <ion-note>   
-            <span class="small-font">{{ item.assetType }} {{ item.amount }}</span>
-          </ion-note>     
-        </div>
-      </div>         
-      <ion-buttons>
-        <ion-button v-if="canSelect" size="small" @click="action()">
-          <ion-icon slot="icon-only" :icon="actionIcon"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-item>
+  <ion-item>
+    <ion-avatar slot="start">
+      <img :src="item.avatar" />
+    </ion-avatar>
+    <div class="item">
+      <ion-label>
+        <h3>{{ item.account.name }}</h3>
+      </ion-label>
+      <div class="display-flex">
+        <ion-badge class="op-action" :color="item.color">{{
+          item.type
+        }}</ion-badge>
+        <ion-note>
+          <span class="small-font"
+            >{{ item.asset.name }} {{ item.quantity }}</span
+          >
+        </ion-note>
+      </div>
+    </div>
+    <ion-buttons>
+      <ion-button v-if="canSelect" size="small" @click="action()">
+        <ion-icon slot="icon-only" :icon="actionIcon"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
 </template>
 <script>
-export default ({
-    props: {
-        item: {
-            type: Object,
-            required: true
-        },
-        actionIcon: {
-            type: String,
-            required: false
-        },
-        canSelect: {
-            type: Boolean,
-            required: false
-        }
+export default {
+  props: {
+    item: {
+      type: Object,
+      required: true,
     },
-    methods: {
-        action() {
-            this.$emit('selectedItem');
-        }
+    actionIcon: {
+      type: String,
+      required: false,
     },
-
-})
+    canSelect: {
+      type: Boolean,
+      required: false,
+    },
+  },
+  methods: {
+    action() {
+      this.$emit('selectedItem');
+    },
+  },
+};
 </script>
 <style scoped>
 .item {
@@ -58,5 +61,4 @@ export default ({
 .op-action {
   margin-right: 5px;
 }
-
 </style>

@@ -29,7 +29,7 @@
       />
       <TheDatepicker :value="form.date" label="operation.assetDateFormLabel" />
       <TheButton
-        @click="submitForm(form)"
+        @click="submitForm()"
         expand="block"
         icon="closeOutline"
         inner-text="confirm"
@@ -48,7 +48,7 @@
 <script>
 import { modalController } from '@ionic/vue';
 import { closeOutline } from 'ionicons/icons';
-
+import Vuex from 'vuex';
 export default {
   name: 'TheNewAssetFormModal',
   props: {
@@ -91,11 +91,22 @@ export default {
     };
   },
   methods: {
+    ...Vuex.mapActions(['addNewAsset']),
+
     closeModal() {
       modalController.dismiss();
     },
-    submitForm(form) {
-      console.log(form);
+    submitForm() {
+      const newManualAsset = {
+        id: 0,
+        name: this.form.name,
+        symbol: this.form.symbol,
+        type: this.form.symbol,
+        date:this.form.date,
+      };
+      this.addNewAsset(newManualAsset);
+
+      modalController.dismiss();
     },
   },
 };

@@ -7,16 +7,16 @@
     color="tertiary"
   >
     <ion-header>
-      <ion-toolbar color="tertiary">
-        <ion-title class="ion-text-center ion-text-uppercase">{{
-          $t('menu.messirveinverir')
-        }}</ion-title>
+      <ion-toolbar class="ion-text-center" color="tertiary">
+        <ion-text class="ion-text-uppercase">{{
+          $t('menu.messirveinvertir')
+        }}</ion-text>
       </ion-toolbar>
       <ion-avatar class="avatar">
-        <img src="https://pbs.twimg.com/media/EUCh095XQAIXfbM.jpg" />
+        <img :src="userData.data.photo_url" />
       </ion-avatar>
       <div class="ion-text-center user-name">
-        <ion-label>Rodrigo Mignola</ion-label>
+        <ion-label>{{ userData.data.display_name }}</ion-label>
       </div>
     </ion-header>
     <ion-content color="tertiary">
@@ -41,11 +41,8 @@
         >
       </ion-list>
     </ion-content>
-    <div class="ion-text-center logout">
-      <ion-text>{{ $t('menu.logout') }}</ion-text>
-    </div>
+    <TheButton inner-text="menu.logout" @click="logout" color="tertiary" />
   </ion-menu>
-
   <ion-router-outlet id="main"></ion-router-outlet>
 </template>
 <style scoped>
@@ -64,7 +61,7 @@
 
 .user-name {
   margin-top: 5px;
-  margin-bottom: 100px;
+  margin-bottom: 40px;
   color: white;
 }
 
@@ -83,23 +80,36 @@ ion-item {
   margin: 0 auto;
 }
 </style>
-
 <script>
-import { menuController } from '@ionic/vue';
+import TokenStore from '@/store/tokenStore';
+import authApiService from '@/services/authApiService';
+
 export default {
-  components: {},
+  props: {
+    userName: {
+      type: String,
+      required: true,
+    },
+    avatarUrl: {
+      type: String,
+      required: false,
+    },
+  },
+  data() {
+    return {
+      userData: { data: {} },
+    };
+  },
   methods: {
-    openFirst() {
-      menuController.enable(true, 'first');
-      menuController.open('first');
+    logout() {
+      this.$emit('logout');
     },
-    openEnd() {
-      menuController.open('end');
-    },
-    openCustom() {
-      menuController.enable(true, 'custom');
-      menuController.open('custom');
-    },
+  },
+  async mounted() {
+    const currentTokenValue = TokenStore.get();
+    if (currentTokenValue) {
+      this.userData = await authApiService.user(currentTokenValue);
+    }
   },
 };
 </script>

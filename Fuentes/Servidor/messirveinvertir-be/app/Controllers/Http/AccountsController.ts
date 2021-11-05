@@ -43,4 +43,14 @@ export default class AccountsController {
 
     return response.noContent()
   }
+
+  public async updateAccountsOperations({ auth, response }: HttpContextContract) {
+    const accounts = await Account.query()
+      .where('uid',auth.user!.uid)
+
+    await Promise.all(accounts.map((account) =>
+      account.downloadNewOperations()))
+
+    return response.noContent()
+  }
 }

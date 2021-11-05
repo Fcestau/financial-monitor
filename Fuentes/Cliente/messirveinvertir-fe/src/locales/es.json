@@ -1,6 +1,6 @@
 {
   "menu": {
-    "messirveinverir": "Messirveinverir",
+    "messirveinvertir": "Messirveinvertir",
     "account_listing": "Listado de Cuentas",
     "wallet": "Cartera",
     "charts": "Graficas",
@@ -9,10 +9,14 @@
     "active_alerts": "Alertas Activas",
     "logout": "Cerrar Sesión"
   },
+  "signin": "Registrarse",
+  "login": "Iniciar Sesión",
+  "login_phrase": "Gambeteando la inflación desde tiempos inmemorables.",
   "scan": "Escanear",
   "invertir_online": "Invertir Online",
   "email": "Correo electronico",
   "password": "Contraseña",
+  "repeat_password": "Repetir contraseña",
   "confirm": "Confirmar",
   "cancel": "Cancelar",
   "notice":"Aviso",
@@ -28,14 +32,14 @@
     "linkAccountListButton": "Vincular cuenta"
   },
   "operations": {
-    "operations_history":"Historial de Operaciones",
-    "new_operation":"Nueva Operación",
+    "operations_history": "Historial de Operaciones",
+    "new_operation": "Nueva Operación",
     "time_filter": {
       "1_day": "1D",
       "1_week": "1W",
       "1_month": "1M",
       "3_months": "3M",
-      "1_year":"1Y"
+      "1_year": "1Y"
     },
     "delete_operation": "Eliminar Operación",
     "sure_delete_opeartion_ask": "¿Esta seguro que desea eliminar la operación?"
