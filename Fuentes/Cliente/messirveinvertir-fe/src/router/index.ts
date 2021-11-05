@@ -54,6 +54,10 @@ const routes: Array<RouteRecordRaw> = [
         path: 'active-alerts',
         component: () => import('@/views/Alerts/ActiveAlertsPage.vue'),
       },
+      {
+        path: 'create-alert',
+        component: () => import('@/views/Alerts/AlertCreatorPage.vue'),
+      },
     ],
   },
 ];

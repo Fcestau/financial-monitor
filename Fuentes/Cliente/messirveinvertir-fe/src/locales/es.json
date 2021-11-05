@@ -45,7 +45,16 @@
     "sure_delete_opeartion_ask": "¿Esta seguro que desea eliminar la operación?"
   },
   "alerts": {
-    "active_alerts_title": "Alertas Activas"
+    "active_alerts_title": "Alertas Activas",
+    "newAlertTitle": "Nueva Alerta",
+    "addAlertButton": "Añadir Alerta",
+    "accountLabel": "Cuenta",
+    "assetLabel": "Activo",
+    "criteriaLabel": "Criterio",
+    "percentageChangeLabel": "Porcentaje de cambio",
+    "frequencyLabel": "Frecuencia",
+    "delete_alert": "Eliminar Alerta",
+    "sure_delete_alert_ask": "¿Esta seguro que desea eliminar la alerta?"
   },
   "poc": {
     "barcodeScannerTitle": "Escaner de código",

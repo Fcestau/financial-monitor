@@ -11,7 +11,7 @@
       router-link="create-alert"
       expand="block"
       icon="closeOutline"
-      inner-text="Añadir alerta"
+      inner-text="alerts.addAlertButton"
     />
     <ion-content>
       <TheAlertItem
@@ -20,7 +20,7 @@
         :item="item"
         :action-icon="trashOutline"
         :can-select="item.account.type === 'Manual'"
-        @selectedItem="deleteAlert(item)"
+        @selectedItem="deleteItem(item)"
       />
     </ion-content>
   </ion-page>
@@ -28,6 +28,7 @@
 <script>
 import Vuex from 'vuex';
 import { trashOutline } from 'ionicons/icons';
+import { alertController } from '@ionic/vue';
 
 export default {
   name: 'ActiveAlerts',
@@ -39,6 +40,33 @@ export default {
   },
   methods: {
     ...Vuex.mapActions(['deleteAlert']),
+
+    deleteItem(item) {
+      this.deleteItemAlertConfirm(item);
+    },
+    async deleteItemAlertConfirm(item) {
+      const alert = await alertController.create({
+        header: this.$t('alerts.delete_alert'),
+        message: this.$t('alerts.sure_delete_alert_ask'),
+        buttons: [
+          {
+            text: this.$t('cancel'),
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {
+              console.log('Confirm Cancel');
+            },
+          },
+          {
+            text: this.$t('accept'),
+            handler: () => {
+              this.deleteAlert(item);
+            },
+          },
+        ],
+      });
+      return alert.present();
+    },
   },
   data() {
     return {
