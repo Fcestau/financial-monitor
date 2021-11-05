@@ -28,7 +28,7 @@ export default class Account extends BaseModel {
   @column()
   public name: string
 
-  @column()
+  @column({ serializeAs: null })
   public data: JSON
 
   @column()
@@ -58,6 +58,13 @@ export default class Account extends BaseModel {
     const newOperations = await accountAdapter.downloadNewOperations(filter)
     
     return await Operation.createMany(newOperations)
+  }
+
+  public async getAvgUsdBuyPrice(): Promise<number> {
+    const account: Account = this
+    await account.load('operations', (qb) => qb.where('type', OperationType.Buy))
+    const sum = this.operations.reduce((sum: number, op: Operation) => sum + op.unitUsdPrice(), 0)
+    return sum / this.operations.length
   }
 }
 

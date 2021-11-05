@@ -1,8 +1,15 @@
+import { Account } from './Account';
+import { Asset } from './Asset';
+
 export interface Operation {
-  account: string;
-  amount: number;
-  asset: string;
-  oerationType: string;
-  operationDate: string;
-  assetValue: any;
+  id: number;
+  account: Account;
+  asset: Asset;
+  quantity: number;
+  usdPrice: number;
+  type: OperationType;
+  timestamp: string;
+  avatar?: string;
 }
+
+export type OperationType = 'Buy' | 'Sell' | 'Deposit' | 'Withdraw';

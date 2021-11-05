@@ -10,7 +10,7 @@ export const AccountsFactory = Factory.define(Account, () => {
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
     name: 'fakeAccount',
-    type: AccountType.IOL,
+    type: AccountType.Manual,
     data: JSON.parse('{}'),
     lastOperationsUpdate: DateTime.utc().toJSDate(),
   }
