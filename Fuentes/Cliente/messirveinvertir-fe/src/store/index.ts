@@ -93,14 +93,14 @@ export default createStore({
           lastAlertTimestamp: new Date().toISOString(),
           asset: {
             id: 0,
-            name: 'string',
+            name: 'USD',
             symbol: 'string',
             type: 'Fiat',
             date: new Date().toISOString(),
           },
           account: {
             id: 0,
-            name: 'string',
+            name: 'IOL trucha',
             type: 'Manual',
             createdAt: new Date().toISOString(),
             avatar:
@@ -115,14 +115,14 @@ export default createStore({
           lastAlertTimestamp: new Date().toISOString(),
           asset: {
             id: 0,
-            name: 'string',
+            name: 'ETH',
             symbol: 'string',
             type: 'Fiat',
             date: new Date().toISOString(),
           },
           account: {
             id: 0,
-            name: 'string',
+            name: 'IOL trucha',
             type: 'Manual',
             createdAt: new Date().toISOString(),
             avatar:
@@ -137,14 +137,14 @@ export default createStore({
           lastAlertTimestamp: new Date().toISOString(),
           asset: {
             id: 0,
-            name: 'string',
+            name: 'LOMA',
             symbol: 'string',
             type: 'Fiat',
             date: new Date().toISOString(),
           },
           account: {
             id: 0,
-            name: 'string',
+            name: 'IOL trucha',
             type: 'Manual',
             createdAt: new Date().toISOString(),
             avatar:
