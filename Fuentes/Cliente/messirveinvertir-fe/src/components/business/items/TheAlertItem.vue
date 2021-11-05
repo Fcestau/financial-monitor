@@ -13,8 +13,8 @@
         }}</ion-badge>
         <ion-badge color="primary" mode="ios">{{ item.frequency }}</ion-badge>
       </ion-card-content>
-      <ion-buttons>
-        <ion-button size="small" @click="action()">
+      <ion-buttons slot="end">
+        <ion-button  size="small" @click="action()">
           <ion-icon slot="icon-only" :icon="actionIcon"></ion-icon>
         </ion-button>
       </ion-buttons>
