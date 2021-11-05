@@ -36,7 +36,7 @@
         <ion-item color="tertiary" href="/barcode-scanner"
           ><div>{{ $t('menu.scan_qr_code') }}</div></ion-item
         >
-        <ion-item color="tertiary" href=""
+        <ion-item color="tertiary" href="/active-alerts"
           ><div>{{ $t('menu.active_alerts') }}</div></ion-item
         >
       </ion-list>

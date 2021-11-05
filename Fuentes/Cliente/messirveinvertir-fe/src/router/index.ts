@@ -50,6 +50,10 @@ const routes: Array<RouteRecordRaw> = [
         path: 'wallet',
         component: () => import('@/views/Dashboard/WalletPage.vue'),
       },
+      {
+        path: 'active-alerts',
+        component: () => import('@/views/Alerts/ActiveAlertsPage.vue'),
+      },
     ],
   },
 ];
