@@ -10,6 +10,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@capacitor-community/fcm": "^2.0.2",
     "@capacitor/android": "^3.2.3",
     "@capacitor/app": "1.0.3",
     "@capacitor/camera": "^1.1.0",
@@ -17,6 +18,7 @@
     "@capacitor/filesystem": "^1.0.3",
     "@capacitor/haptics": "1.0.3",
     "@capacitor/keyboard": "1.0.3",
+    "@capacitor/push-notifications": "^1.0.6",
     "@capacitor/status-bar": "1.0.3",
     "@capacitor/storage": "^1.2.0",
     "@ionic-native/barcode-scanner": "^5.36.0",
