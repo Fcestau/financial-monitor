@@ -12,6 +12,7 @@ export const AccountsFactory = Factory.define(Account, () => {
     name: 'fakeAccount',
     type: AccountType.Manual,
     data: JSON.parse('{}'),
+    lastOperationsUpdate: DateTime.utc().toJSDate(),
   }
 })
   .relation('operations', () => OperationsFactory)
