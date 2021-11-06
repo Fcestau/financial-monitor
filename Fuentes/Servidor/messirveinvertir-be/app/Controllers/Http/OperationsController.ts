@@ -38,7 +38,9 @@ export default class OperationsController {
       qb.where('timestamp', '<=', dateTo)
     }
 
-    return await qb.paginate(page, limit)
+    return await qb
+      .preload('account')
+      .paginate(page, limit)
   }
   public async deleteOperations({ auth, request, response }: HttpContextContract) {
     const ids = request.input('operations').map((dto) => dto.id)
