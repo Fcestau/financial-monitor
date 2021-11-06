@@ -1,0 +1,31 @@
+/ping:
+  get:
+    tags:
+      - General
+    summary: See if the API is alive.
+    responses:
+      200:
+        description: API is alive
+/ping/notification:
+  post:
+    tags:
+      - General
+    summary: Envía una notificación de prueba.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                required: true
+                example: 'Test notification'
+              body:
+                type: string
+                required: true
+                example: 'Test notification body'
+    responses:
+      200:
+        description: API is alive
