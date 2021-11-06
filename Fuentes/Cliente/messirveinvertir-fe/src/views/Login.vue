@@ -48,6 +48,7 @@
 }
 </style>
 <script>
+import { FCM } from "@capacitor-community/fcm";
 import TokenStore from '@/store/tokenStore';
 import authApiService from '@/services/authApiService';
 export default {
@@ -64,6 +65,9 @@ export default {
       try {
         const token = await authApiService.login(form);
         TokenStore.save(token.data.token);
+        const user = await authApiService.user(token.data.token)
+        FCM.subscribeTo({ topic: user.data.uid })
+          .catch((err) => alert(err));
         this.$router.push('/');
       } catch (exception) {
         this.loginError = exception;
