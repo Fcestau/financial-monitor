@@ -3,6 +3,7 @@ import Factory from '@ioc:Adonis/Lucid/Factory'
 import { DateTime } from 'luxon'
 import Asset, { AssetType } from 'App/Models/Asset'
 import Operation, { OperationType } from 'App/Models/Operation'
+import Alert, { AlertFrequency } from 'App/Models/Alert'
 
 export const AccountsFactory = Factory.define(Account, () => {
   return {
@@ -10,8 +11,9 @@ export const AccountsFactory = Factory.define(Account, () => {
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
     name: 'fakeAccount',
-    type: AccountType.IOL,
+    type: AccountType.Manual,
     data: JSON.parse('{}'),
+    lastOperationsUpdate: DateTime.utc().toJSDate(),
   }
 })
   .relation('operations', () => OperationsFactory)
@@ -35,5 +37,15 @@ export const OperationsFactory = Factory.define(Operation, ({ faker }) => {
     usdPrice: faker.datatype.number(),
     type: faker.random.arrayElement(Object.values(OperationType)),
     timestamp: DateTime.now(),
+  }
+}).build()
+
+export const AlertsFactory = Factory.define(Alert, ({ faker }) => {
+  return {
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+    frequency: faker.random.arrayElement(Object.values(AlertFrequency)),
+    hourlyDeltaPrice: faker.datatype.number(),
+    hourlyDeltaVolume: faker.datatype.number(),
   }
 }).build()

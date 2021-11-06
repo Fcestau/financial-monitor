@@ -43,33 +43,44 @@
 <script>
 import { modalController } from '@ionic/vue';
 import { closeOutline } from 'ionicons/icons';
+import Vuex from 'vuex';
+
 export default {
   name: 'TheLinkExternalAccountFormDialog',
   props: {
     title: {
       type: String,
-      default: 'Super Modal',
+    },
+    avatar: {
+      type: String,
     },
   },
   data() {
     return {
+      closeOutline,
       form: {
         email: null,
         password: null,
       },
     };
   },
-  setup() {
-    return {
-      closeOutline,
-    };
-  },
   methods: {
+    ...Vuex.mapActions(['addNewAccount']),
     closeModal() {
       modalController.dismiss();
     },
     submitForm() {
-      console.log(this.form);
+      const newAccount = {
+        id: Math.floor(Math.random() * 101),
+        type: 'IOL',
+        name: this.title,
+        createdAt: new Date().toISOString(),
+        avatar: this.avatar,
+        balance: 0,
+        assetType: 'USD',
+      };
+      this.addNewAccount(newAccount);
+      modalController.dismiss();
     },
   },
 };

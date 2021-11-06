@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios'
 import axios from 'axios'
-import { GetOperationsFilter, Operation } from 'App/Exchanges/IOL/Domain/Operation'
+import { GetOperationsFilter, IolOperation } from 'App/Exchanges/IOL/Domain/IolOperation'
 import IolAdapterInterface, { IolAuthenticationInterface, Token } from 'App/Exchanges/IOL'
 
 interface AdapterConfig {
@@ -29,7 +29,7 @@ export default class IolAdapter implements IolAdapterInterface {
     return this.config.auth.authenticate(username, password)
   }
 
-  public async getOperations(filter?: GetOperationsFilter): Promise<Operation> {
+  public async getOperations(filter?: GetOperationsFilter): Promise<IolOperation[]> {
     return (await this.axios())
       .get('/api/v2/operaciones', {
         params: {

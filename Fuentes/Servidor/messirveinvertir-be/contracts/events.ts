@@ -5,6 +5,8 @@
  * file.
  */
 
+import { OperationType } from "App/Models/Operation";
+
 declare module '@ioc:Adonis/Core/Event' {
   /*
   |--------------------------------------------------------------------------
@@ -28,6 +30,13 @@ declare module '@ioc:Adonis/Core/Event' {
   import Notification from 'App/Models/Notification'
 
   interface EventsList {
-    'new:notification': Notification
+    'new:notification': Notification,
+    'new:operation': {
+      id: number,
+      accountId: number,
+      assetId: number,
+      usdPrice: number,
+      quantity: number,
+      type: OperationType
   }
 }

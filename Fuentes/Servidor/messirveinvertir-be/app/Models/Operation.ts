@@ -39,4 +39,8 @@ export default class Operation extends BaseModel {
 
   @belongsTo(() => Account)
   public account: BelongsTo<typeof Account>
+
+  public unitUsdPrice(): number {
+    return this.usdPrice / this.quantity
+  }
 }
