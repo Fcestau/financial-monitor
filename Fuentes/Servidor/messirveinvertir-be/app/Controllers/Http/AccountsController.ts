@@ -6,7 +6,7 @@ export default class AccountsController {
   public async listAccounts({ auth, request }: HttpContextContract) {
     const page = request.input('page',1)
     const limit = request.input('limit',10)
-    const orderById = request.input('orderById')
+    const orderById = request.input('order_by_id')
     
     return await Account.query()
       .where('uid', auth.user!.uid)

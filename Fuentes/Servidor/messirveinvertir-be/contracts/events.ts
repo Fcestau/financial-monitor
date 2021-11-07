@@ -1,20 +1,15 @@
-/**
- * Contract source: https://git.io/JfefG
- *
- * Feel free to let us know via PR, if you find something broken in this contract
- * file.
- */
-
-import { OperationType } from "App/Models/Operation";
+import { OperationType } from 'App/Models/Operation'
+import Notification from 'App/Models/Notification'
 
 declare module '@ioc:Adonis/Core/Event' {
   interface EventsList {
+    'new:notification': Notification
     'new:operation': {
-      id: number,
-      accountId: number,
-      assetId: number,
-      usdPrice: number,
-      quantity: number,
+      id: number
+      accountId: number
+      assetId: number
+      usdPrice: number
+      quantity: number
       type: OperationType
     }
   }
