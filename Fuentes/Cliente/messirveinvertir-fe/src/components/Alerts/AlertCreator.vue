@@ -124,7 +124,7 @@ export default {
       },
       {
         value: 'Daily',
-        displayName: 'Diariamete',
+        displayName: 'Diariamente',
       },
       {
         value: 'Unique',
@@ -183,7 +183,6 @@ export default {
         },
         ...percentage,
       };
-      console.log(newAlert);
       this.addNewAlert(newAlert);
     },
 
