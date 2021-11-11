@@ -22,6 +22,7 @@ export default class AlertsController {
     
     return await Alert.query()
       .whereHas('account', (builder) => builder.where('uid', auth.user!.uid))
+      .preload('account')
       .orderBy('id', orderById)
       .paginate(page, limit)
   }
