@@ -6,7 +6,6 @@ import {
   PosicionModel,
 } from 'App/Exchanges/IOL/Domain/IolOperation'
 import IolAdapterInterface, { IolAuthenticationInterface, Token } from 'App/Exchanges/IOL'
-import clone from 'lodash/clone'
 import { Exception } from '@poppinss/utils'
 
 interface AdapterConfig {
@@ -19,14 +18,8 @@ export default class IolAdapter implements IolAdapterInterface {
     this.config = config
   }
 
-  public async token(): Promise<string> {
+  private async token(): Promise<string> {
     return this.config.auth.token()
-  }
-
-  public fromToken(token: Token): IolAdapterInterface {
-    const adapter = clone(this)
-    adapter.config.auth.setToken(token)
-    return adapter
   }
 
   private async axios(): Promise<AxiosInstance> {

@@ -4,6 +4,7 @@ import Operation, { OperationType } from 'App/Models/Operation'
 import { GetOperationsFilter } from 'App/Exchanges/IOL/Domain/IolOperation'
 import AssetPriceDTO from 'App/Assets/Models/AssetPriceDTO'
 import { IOLAccountAdapter } from 'App/Exchanges/IOL/Account/IOLAccountAdapter'
+import Encryption from '@ioc:Adonis/Core/Encryption'
 
 export enum AccountType {
   IOL = 'IOL',
@@ -30,13 +31,17 @@ export default class Account extends BaseModel {
   public name: string
 
   @column({ serializeAs: null })
-  public data: any
+  public data: string
 
   @column()
   public lastOperationsUpdate: Date
 
   @hasMany(() => Operation)
   public operations: HasMany<typeof Operation>
+
+  public getData(): any {
+    return Encryption.decrypt(this.data)
+  }
 
   public getAdapter(): AccountAdapterInterface {
     switch (this.type) {

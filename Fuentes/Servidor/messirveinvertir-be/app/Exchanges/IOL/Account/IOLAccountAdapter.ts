@@ -15,12 +15,14 @@ export class IOLAccountAdapter implements AccountAdapterInterface {
     this.account = account
   }
 
-  protected adapter(): IolAdapterInterface {
-    return IOLService.fromToken(this.account.data.token!)
+  protected async adapter(): Promise<IolAdapterInterface> {
+    const data = this.account.getData()
+    await IOLService.authenticate(data.username!, data.password!)
+    return IOLService
   }
 
   public async downloadNewOperations(filter: GetOperationsFilter): Promise<NewOperationDto[]> {
-    return (await this.adapter().getOperations(filter)).map((iolOperation) => {
+    return (await (await this.adapter()).getOperations(filter)).map((iolOperation) => {
       return {
         accountId: this.account.id,
         timestamp: DateTime.fromSeconds(Number.parseInt(iolOperation.fechaOperada)),
@@ -39,7 +41,7 @@ export class IOLAccountAdapter implements AccountAdapterInterface {
   }
 
   public async getAssetPrices(): Promise<AssetPriceDTO[]> {
-    return (await this.adapter().getPositions()).map((iolPosition) => ({
+    return (await (await this.adapter()).getPositions()).map((iolPosition) => ({
       accountType: AccountType.IOL,
       usdPrice: iolPosition.ultimoPrecio,
       name: iolPosition.titulo.descripcion,
@@ -60,8 +62,8 @@ export class IOLAccountAdapter implements AccountAdapterInterface {
 
   public async parseData(data: any): Promise<any> {
     try {
-      const token = await IOLService.authenticate(data.username!, data.password!)
-      return { token }
+      await IOLService.authenticate(data.username!, data.password!)
+      return data
     } catch (e) {
       console.log(e)
       throw new Exception(e.response.data.error_description)
