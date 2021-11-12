@@ -10,7 +10,7 @@ export default class AssetService implements AssetServiceInterface {
       symbol: data.symbol,
       name: data.name,
       type: data.type,
-      usdLastPrice: data.usdPrice,
+      usdLastPrice: data.usdLastPrice,
       accountType: data.accountType,
     }))
     return Asset.updateOrCreateMany(['symbol', 'accountType'], assets)

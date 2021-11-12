@@ -15,6 +15,7 @@ export default class Accounts extends BaseSchema {
         enumName: 'account_type',
         existingType: false,
       })
+      table.timestamp('last_operations_update', { useTz: true }).nullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

@@ -1,7 +1,7 @@
 import Operation from 'App/Models/Operation'
 import CreateOperationsValidator from 'App/Validators/CreateOperationsValidator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { AccountType } from 'App/Models/Account'
+import Account, { AccountType } from 'App/Models/Account'
 import Event from '@ioc:Adonis/Core/Event'
 
 export default class OperationsController {
@@ -38,9 +38,7 @@ export default class OperationsController {
       qb.where('timestamp', '<=', dateTo)
     }
 
-    return await qb
-      .preload('account')
-      .paginate(page, limit)
+    return await qb.preload('account').paginate(page, limit)
   }
   public async deleteOperations({ auth, request, response }: HttpContextContract) {
     const ids = request.input('operations').map((dto) => dto.id)
@@ -53,5 +51,17 @@ export default class OperationsController {
       .delete()
 
     return response.noContent()
+  }
+  public async fetchOperations({ auth, response }: HttpContextContract) {
+    try {
+      const accounts = await Account.query().where('uid', auth.user!.uid)
+      const operations: Operation[] = []
+      for (const account of accounts) {
+        operations.push(...(await account.downloadNewOperations()))
+      }
+      return response.created({ operations })
+    } catch (e) {
+      response.abort({ error: e.message })
+    }
   }
 }

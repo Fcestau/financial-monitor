@@ -68,12 +68,3 @@
     responses:
       204:
         description: Las cuentas fueron eliminadas
-
-/api/v1/accounts/updateOperations:
-  get:
-    tags:
-      - Accounts
-    summary: Permite sincronizar las operaciones de las cuentas asociadas al usuario actual.
-    responses:
-      204:
-        description: Las cuentas sincronizaron sus operaciones
