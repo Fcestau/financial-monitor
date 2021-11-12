@@ -34,6 +34,14 @@
                       required: true
                       type: string
                       enum: [IOL, Manual]
+                    data:
+                      required: true
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                        password:
+                          type: string
     responses:
       201:
         description: Lista de ids de las nuevas cuentas

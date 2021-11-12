@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { AccountType } from 'App/Models/Account'
 
 export enum AssetType {
   Fiat = 'Fiat',
@@ -27,4 +28,10 @@ export default class Asset extends BaseModel {
 
   @column()
   public type: AssetType
+
+  @column()
+  public accountType: AccountType
+
+  @column()
+  public usdLastPrice: number
 }

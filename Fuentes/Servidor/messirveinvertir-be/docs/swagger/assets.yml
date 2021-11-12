@@ -12,3 +12,11 @@
     responses:
       200:
         description: Stock de activos asociados al usuario
+/api/v1/assets/fetch:
+  post:
+    tags:
+      - Assets
+    summary: Actualiza los precios de los activos.
+    responses:
+      200:
+        description: Lista de activos actualizados.

@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import AccountValuePoint from 'App/Models/AccountsValuePoint'
 import AssetStock from 'App/Models/AssetStock'
+import AssetService from 'App/Assets/Service/AssetService'
 
 export default class AssetsController {
   public async getStock({ auth, request, response }: HttpContextContract) {
@@ -44,6 +45,14 @@ export default class AssetsController {
       from: valuePoints[0]?.createdAt,
       to: valuePoints.slice(-1)[0]?.createdAt,
       points: valuePoints.map((p) => ({ x: p.createdAt, y: p.usdValue })),
+    }
+  }
+  public async fetchAssets({ auth, response }) {
+    try {
+      const assets = await new AssetService().syncAssetsFor(auth.user.uid!)
+      return response.json({ assets })
+    } catch (e) {
+      response.abort({ error: e.message })
     }
   }
 }

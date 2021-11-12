@@ -2,7 +2,8 @@ import { DateTime } from 'luxon'
 import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Operation, { OperationType } from 'App/Models/Operation'
 import { GetOperationsFilter } from 'App/Exchanges/IOL/Domain/IolOperation'
-import IOLService from '@ioc:messirve/IOLService'
+import AssetPriceDTO from 'App/Assets/Models/AssetPriceDTO'
+import { IOLAccountAdapter } from 'App/Exchanges/IOL/Account/IOLAccountAdapter'
 
 export enum AccountType {
   IOL = 'IOL',
@@ -29,7 +30,7 @@ export default class Account extends BaseModel {
   public name: string
 
   @column({ serializeAs: null })
-  public data: JSON
+  public data: any
 
   @column()
   public lastOperationsUpdate: Date
@@ -37,8 +38,8 @@ export default class Account extends BaseModel {
   @hasMany(() => Operation)
   public operations: HasMany<typeof Operation>
 
-  public getAdapter() : AccountAdapterInterface{
-    switch (this.type){
+  public getAdapter(): AccountAdapterInterface {
+    switch (this.type) {
       case AccountType.IOL:
         return new IOLAccountAdapter(this)
 
@@ -47,16 +48,16 @@ export default class Account extends BaseModel {
     }
   }
 
-  public async downloadNewOperations() : Promise<Operation[]>{
+  public async downloadNewOperations(): Promise<Operation[]> {
     const accountAdapter = this.getAdapter()
     const filter = {
       from: this.lastOperationsUpdate,
-      to: DateTime.utc().toJSDate()
+      to: DateTime.utc().toJSDate(),
     }
     this.lastOperationsUpdate = filter.to
 
     const newOperations = await accountAdapter.downloadNewOperations(filter)
-    
+
     return await Operation.createMany(newOperations)
   }
 
@@ -68,45 +69,30 @@ export default class Account extends BaseModel {
   }
 }
 
-export interface AccountAdapterInterface{
-  downloadNewOperations(filter: GetOperationsFilter) : Promise<NewOperationDto[]>
+export interface AccountAdapterInterface {
+  downloadNewOperations(filter: GetOperationsFilter): Promise<NewOperationDto[]>
+  getAssetPrices(): Promise<AssetPriceDTO[]>
+  parseData(data: any): Promise<any>
 }
 
-export class ManualAccountAdapter implements AccountAdapterInterface{
+export class ManualAccountAdapter implements AccountAdapterInterface {
   public async downloadNewOperations(_filter: GetOperationsFilter): Promise<NewOperationDto[]> {
     return []
   }
-}
 
-export class IOLAccountAdapter implements AccountAdapterInterface{
-  private account : Account
-
-  constructor(account: Account){
-    this.account = account
+  public getAssetPrices(): Promise<AssetPriceDTO[]> {
+    return Promise.resolve([])
   }
 
-  public async downloadNewOperations(filter: GetOperationsFilter) : Promise<NewOperationDto[]>{
-    return (await IOLService.getOperations(filter)).map((iolOperation) =>{
-      return {
-        accountId: this.account.id,
-        timestamp: DateTime.fromSeconds(Number.parseInt(iolOperation.fechaOperada)),
-        quantity: iolOperation.montoOperado,
-        usdPrice: iolOperation.precioOperado,
-        type: mapOperationType[iolOperation.tipo],
-      }
-    })
+  public parseData(data: any): Promise<any> {
+    return data
   }
 }
 
-type NewOperationDto = {
-  accountId: number;
-  timestamp: DateTime;
-  quantity: number;
-  usdPrice: number;
-  type: OperationType;
-}
-
-const mapOperationType = {
-  'buy': OperationType.Buy,
-  'sell': OperationType.Sell,
+export interface NewOperationDto {
+  accountId: number
+  timestamp: DateTime
+  quantity: number
+  usdPrice: number
+  type: OperationType
 }
