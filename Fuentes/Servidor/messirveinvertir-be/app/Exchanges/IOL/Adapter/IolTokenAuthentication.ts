@@ -37,4 +37,8 @@ export class IolTokenAuthentication implements IolAuthenticationInterface {
     }
     return this._token!.access_token
   }
+
+  public setToken(token: Token): void {
+    this._token = token
+  }
 }

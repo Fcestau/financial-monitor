@@ -16,7 +16,7 @@ export enum OperationStatus {
   canceled = 'cancelada',
 }
 
-export enum OperationType {
+export enum TipoOperacion {
   buy = 'Compra',
   sell = 'Venta',
 }
@@ -29,7 +29,7 @@ export enum OperationMode {
 export interface IolOperation {
   numero: number
   fechaOrden: string
-  tipo: OperationType
+  tipo: TipoOperacion
   estado: OperationStatus
   mercado: string
   simbolo: string
@@ -41,4 +41,20 @@ export interface IolOperation {
   cantidadOperada: number
   precioOperado: number
   montoOperado: number
+}
+
+export interface PosicionModel {
+  cantidad: number
+  ultimoPrecio: number
+  valorizado: number
+  titulo: TituloModel
+}
+
+export interface TituloModel {
+  simbolo: string
+  descripcion: string
+  pais: string
+  tipo: string
+  moneda: string
+  mercado: string
 }
