@@ -73,3 +73,12 @@
     responses:
       204:
         description: Las operaciones existentes fueron eliminadas
+
+/api/v1/operations/fetch:
+  post:
+    tags:
+      - Operations
+    summary: Permite obtener las nuevas operaciones de las cuentas asociadas al usuario actual.
+    responses:
+      201:
+        description: Las nuevas operaciones.

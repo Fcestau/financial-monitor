@@ -3,7 +3,7 @@ import { AssetType } from 'App/Models/Asset'
 
 export default class AssetPriceDTO {
   public accountType: AccountType
-  public usdPrice: number
+  public usdLastPrice: number
   public symbol: string
   public name: string
   public type: AssetType

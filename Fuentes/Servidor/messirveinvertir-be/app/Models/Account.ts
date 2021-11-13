@@ -1,9 +1,10 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Operation, { OperationType } from 'App/Models/Operation'
-import { GetOperationsFilter } from 'App/Exchanges/IOL/Domain/IolOperation'
 import AssetPriceDTO from 'App/Assets/Models/AssetPriceDTO'
 import { IOLAccountAdapter } from 'App/Exchanges/IOL/Account/IOLAccountAdapter'
+import Encryption from '@ioc:Adonis/Core/Encryption'
+import Asset from 'App/Models/Asset'
 
 export enum AccountType {
   IOL = 'IOL',
@@ -30,13 +31,17 @@ export default class Account extends BaseModel {
   public name: string
 
   @column({ serializeAs: null })
-  public data: any
+  public data: string
 
   @column()
-  public lastOperationsUpdate: Date
+  public lastOperationsUpdate?: Date
 
   @hasMany(() => Operation)
   public operations: HasMany<typeof Operation>
+
+  public getData(): any {
+    return Encryption.decrypt(this.data)
+  }
 
   public getAdapter(): AccountAdapterInterface {
     switch (this.type) {
@@ -50,15 +55,30 @@ export default class Account extends BaseModel {
 
   public async downloadNewOperations(): Promise<Operation[]> {
     const accountAdapter = this.getAdapter()
-    const filter = {
-      from: this.lastOperationsUpdate,
-      to: DateTime.utc().toJSDate(),
-    }
-    this.lastOperationsUpdate = filter.to
+    const from = this.lastOperationsUpdate
+    const to = DateTime.utc().toJSDate()
 
-    const newOperations = await accountAdapter.downloadNewOperations(filter)
+    let newOperations = await accountAdapter.downloadNewOperations(from, to)
+    const operations = await Promise.all(
+      newOperations.map(async (op) => {
+        const dbAsset = await Asset.firstOrCreate(
+          { accountType: op.asset.accountType, symbol: op.asset.symbol },
+          op.asset
+        )
+        return {
+          accountId: this.id,
+          assetId: dbAsset.id,
+          usdPrice: op.usdPrice,
+          quantity: op.quantity,
+          timestamp: op.timestamp,
+          type: op.type,
+        }
+      })
+    )
+    this.lastOperationsUpdate = to
+    await this.save()
 
-    return await Operation.createMany(newOperations)
+    return await Operation.createMany(operations)
   }
 
   public async getAvgUsdBuyPrice(): Promise<number> {
@@ -70,13 +90,13 @@ export default class Account extends BaseModel {
 }
 
 export interface AccountAdapterInterface {
-  downloadNewOperations(filter: GetOperationsFilter): Promise<NewOperationDto[]>
+  downloadNewOperations(from?: Date, to?: Date): Promise<NewOperationDto[]>
   getAssetPrices(): Promise<AssetPriceDTO[]>
   parseData(data: any): Promise<any>
 }
 
 export class ManualAccountAdapter implements AccountAdapterInterface {
-  public async downloadNewOperations(_filter: GetOperationsFilter): Promise<NewOperationDto[]> {
+  public async downloadNewOperations(): Promise<NewOperationDto[]> {
     return []
   }
 
@@ -95,4 +115,5 @@ export interface NewOperationDto {
   quantity: number
   usdPrice: number
   type: OperationType
+  asset: AssetPriceDTO
 }

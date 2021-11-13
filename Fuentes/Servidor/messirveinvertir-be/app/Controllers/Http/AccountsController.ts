@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Account from 'App/Models/Account'
+import Encryption from '@ioc:Adonis/Core/Encryption'
 
 export default class AccountsController {
   public async listAccounts({ auth, request }: HttpContextContract) {
@@ -23,7 +24,8 @@ export default class AccountsController {
         newAccount.name = account.name
         newAccount.type = account.type
         try {
-          newAccount.data = await newAccount.getAdapter().parseData(account.data)
+          const data = await newAccount.getAdapter().parseData(account.data)
+          newAccount.data = Encryption.encrypt(data)
         } catch (e) {
           response.abort({ error: `Error persisting account data: ${e.message}` })
         }
@@ -42,15 +44,5 @@ export default class AccountsController {
     await Account.query().where('uid', auth.user!.uid).whereIn('id', ids).delete()
 
     return response.noContent()
-  }
-
-  public async updateAccountsOperations({ auth, response }: HttpContextContract) {
-    try {
-      const accounts = await Account.query().where('uid', auth.user!.uid)
-      await Promise.all(accounts.map((account) => account.downloadNewOperations()))
-      return response.noContent()
-    } catch (e) {
-      response.abort({ error: e.message })
-    }
   }
 }
