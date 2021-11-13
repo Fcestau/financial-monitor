@@ -33,8 +33,8 @@ export default class Account extends BaseModel {
   @column({ serializeAs: null })
   public data: string
 
-  @column()
-  public lastOperationsUpdate?: Date
+  @column.dateTime()
+  public lastOperationsUpdate?: DateTime
 
   @hasMany(() => Operation)
   public operations: HasMany<typeof Operation>
@@ -56,7 +56,7 @@ export default class Account extends BaseModel {
   public async downloadNewOperations(): Promise<Operation[]> {
     const accountAdapter = this.getAdapter()
     const from = this.lastOperationsUpdate
-    const to = DateTime.utc().toJSDate()
+    const to = DateTime.utc()
 
     let newOperations = await accountAdapter.downloadNewOperations(from, to)
     const operations = await Promise.all(
@@ -90,7 +90,7 @@ export default class Account extends BaseModel {
 }
 
 export interface AccountAdapterInterface {
-  downloadNewOperations(from?: Date, to?: Date): Promise<NewOperationDto[]>
+  downloadNewOperations(from?: DateTime, to?: DateTime): Promise<NewOperationDto[]>
   getAssetPrices(): Promise<AssetPriceDTO[]>
   parseData(data: any): Promise<any>
 }

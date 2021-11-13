@@ -25,28 +25,30 @@ export class IOLAccountAdapter implements AccountAdapterInterface {
     return IOLService
   }
 
-  public async downloadNewOperations(from?: Date, to?: Date): Promise<NewOperationDto[]> {
+  public async downloadNewOperations(from?: DateTime, to?: DateTime): Promise<NewOperationDto[]> {
     const filter: GetOperationsFilter = {
-      from,
-      to,
+      from: from?.toJSDate(),
+      to: to?.toJSDate(),
       status: OperationStatusFilter.finished,
     }
-    return (await (await this.adapter()).getOperations(filter)).map((iolOperation) => {
-      return {
-        accountId: this.account.id,
-        timestamp: DateTime.fromISO(iolOperation.fechaOperada),
-        quantity: iolOperation.cantidadOperada || 0,
-        usdPrice: iolOperation.montoOperado || 0,
-        type: this.mapOperationType(iolOperation.tipo),
-        asset: {
-          accountType: AccountType.IOL,
-          usdLastPrice: iolOperation.precioOperado || 0,
-          name: iolOperation.simbolo,
-          type: AssetType.Shares,
-          symbol: iolOperation.simbolo,
-        },
-      }
-    })
+    return (await (await this.adapter()).getOperations(filter))
+      .filter((op) => !from || DateTime.fromISO(op.fechaOperada) > from)
+      .map((iolOperation) => {
+        return {
+          accountId: this.account.id,
+          timestamp: DateTime.fromISO(iolOperation.fechaOperada),
+          quantity: iolOperation.cantidadOperada || 0,
+          usdPrice: iolOperation.montoOperado || 0,
+          type: this.mapOperationType(iolOperation.tipo),
+          asset: {
+            accountType: AccountType.IOL,
+            usdLastPrice: iolOperation.precioOperado || 0,
+            name: iolOperation.simbolo,
+            type: AssetType.Shares,
+            symbol: iolOperation.simbolo,
+          },
+        }
+      })
   }
 
   protected mapOperationType(type: TipoOperacion): OperationType {
