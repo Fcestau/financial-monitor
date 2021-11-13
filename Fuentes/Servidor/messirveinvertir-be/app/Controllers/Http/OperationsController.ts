@@ -61,6 +61,7 @@ export default class OperationsController {
       }
       return response.created({ operations })
     } catch (e) {
+      console.log(e)
       response.abort({ error: e.message })
     }
   }
