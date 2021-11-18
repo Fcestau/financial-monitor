@@ -28,4 +28,5 @@ export default Env.rules({
   PG_PASSWORD: Env.schema.string.optional(),
   PG_DB_NAME: Env.schema.string.optional(),
   IOL_API_BASE: Env.schema.string.optional(),
+  AUTH_GUARD: Env.schema.enum.optional(['api', 'fake'] as const),
 })
