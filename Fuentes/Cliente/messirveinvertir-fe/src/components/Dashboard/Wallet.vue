@@ -49,7 +49,7 @@
           <ion-label>
             {{ $t('wallet.portfolio') }}
           </ion-label>
-          <ion-icon class="icon" slot="end" :icon="filter"></ion-icon>
+          <ion-icon @click="openModal" class="icon" slot="end" :icon="filter"></ion-icon>
         </ion-item-divider>
         <template v-if="currentOperations.length > 0">
           <TheOperationItem
@@ -70,6 +70,8 @@ import { eyeOff } from 'ionicons/icons';
 import { filter } from 'ionicons/icons';
 import { informationCircle } from 'ionicons/icons';
 import { alertController } from '@ionic/vue';
+import { modalController } from '@ionic/vue';
+import TheFilterModal from '../business/Modals/TheFilterModal.vue'
 import Vuex from 'vuex';
 import Vue3ChartJs from '@j-t-mcc/vue3-chartjs';
 export default {
@@ -136,6 +138,16 @@ export default {
         ],
       });
       return alert.present();
+    },
+    async openModal() {
+      const modal = await modalController.create({
+        component: TheFilterModal,
+        cssClass: 'my-custom-class',
+        componentProps: {
+          title: this.$t('wallet.filters'),
+        },
+      });
+      return modal.present();
     },
   },
   computed: {

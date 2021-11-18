@@ -62,8 +62,16 @@ export default createStore({
       currentAccounts: [
         {
           id: 0,
-          name: 'string',
+          name: 'IOL',
           type: 'Manual',
+          createdAt: new Date().toISOString(),
+          avatar:
+            'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
+        },
+        {
+          id: 1,
+          name: 'IOL - Franco',
+          type: 'Linked',
           createdAt: new Date().toISOString(),
           avatar:
             'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
