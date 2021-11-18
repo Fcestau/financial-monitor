@@ -26,17 +26,7 @@ export default class Operation {
     await assetStock.save()
 
     const userId = (await Account.find(operation.accountId))?.uid
-    const assetStocks = await AssetStock
-      .query()
-      .where('uid', userId!)
-
-    let total = 0
-    assetStocks.forEach(x => total += x.avgUsdBuyPrice * x.quantity)
-    
-    await AccountsValuePoint.create({
-      uid: userId,
-      usdValue: total
-    })
+    await this.createAccountsValuePoint(userId!)
   }
   protected async getAvgUsdBuyPrice(
     assetStock: AssetStock,
@@ -53,5 +43,18 @@ export default class Operation {
       return operation.quantity * -1
     }
     return operation.quantity
+  }
+  protected async createAccountsValuePoint(userId: string){
+    const assetStocks = await AssetStock
+      .query()
+      .where('uid', userId)
+
+    let total = 0
+    assetStocks.forEach(x => total += x.avgUsdBuyPrice * x.quantity)
+    
+    await AccountsValuePoint.create({
+      uid: userId,
+      usdValue: total
+    })
   }
 }
