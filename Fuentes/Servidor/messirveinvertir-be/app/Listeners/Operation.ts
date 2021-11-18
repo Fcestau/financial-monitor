@@ -1,4 +1,6 @@
 import { EventsList } from '@ioc:Adonis/Core/Event'
+import Account from 'App/Models/Account'
+import AccountsValuePoint from 'App/Models/AccountsValuePoint'
 import AssetStock from 'App/Models/AssetStock'
 import { OperationType } from 'App/Models/Operation'
 
@@ -22,6 +24,19 @@ export default class Operation {
     assetStock.quantity += this.getOperationQuantity(operation)
     assetStock.avgUsdBuyPrice = await this.getAvgUsdBuyPrice(assetStock, operation)
     await assetStock.save()
+
+    const userId = (await Account.find(operation.accountId))?.uid
+    const assetStocks = await AssetStock
+      .query()
+      .where('uid', userId!)
+
+    let total = 0
+    assetStocks.forEach(x => total += x.avgUsdBuyPrice * x.quantity)
+    
+    await AccountsValuePoint.create({
+      uid: userId,
+      usdValue: total
+    })
   }
   protected async getAvgUsdBuyPrice(
     assetStock: AssetStock,
