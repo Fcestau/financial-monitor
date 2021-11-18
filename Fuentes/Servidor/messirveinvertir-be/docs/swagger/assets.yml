@@ -1,3 +1,53 @@
+/api/v1/assets:
+  get:
+    tags:
+      - Assets
+    summary: Permite recuperar una pagina de los activos en el sistema.
+    parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/order_by_id'
+      - $ref: '#/components/parameters/name'
+      - $ref: '#/components/parameters/symbol'
+    responses:
+      200:
+        description: Activos del sistema.
+  post:
+    tags:
+      - Assets
+    summary: Permite crear activos en el sistema.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              assets:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      required: true
+                      type: string
+                    symbol:
+                      required: true
+                      type: string
+                    type:
+                      required: true
+                      type: string
+                      enum: [Fiat, Shares, Cedears, PublicTitles, Crypto]
+                    account_type:
+                      required: true
+                      type: string
+                      enum: [IOL, Manual]
+                    usd_last_price:
+                      required: true
+                      type: number
+    responses:
+      201:
+        description: Lista de ids de los nuevos activos.
 /api/v1/assets/stock:
   get:
     tags:
@@ -11,7 +61,7 @@
       - $ref: '#/components/parameters/account_ids'
     responses:
       200:
-        description: Stock de activos asociados al usuario
+        description: Stock de activos asociados al usuario.
 /api/v1/assets/fetch:
   post:
     tags:
