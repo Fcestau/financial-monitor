@@ -26,7 +26,7 @@
         class="ion-margin-top"
       ></TheButton>
       <TheButton
-        href="signin"
+        href="register"
         expand="block"
         icon="closeOutline"
         inner-text="signin"

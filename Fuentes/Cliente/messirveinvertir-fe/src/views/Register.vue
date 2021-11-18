@@ -19,6 +19,11 @@
         ></ion-img>
       </div>
       <TheTextInput
+        v-model="form.displayName"
+        label="displayName"
+        type="text"
+      ></TheTextInput>
+      <TheTextInput
         v-model="form.email"
         label="email"
         type="email"
@@ -34,7 +39,7 @@
         type="password"
       ></TheTextInput>
       <TheButton
-        @click="signin(form)"
+        @click="register()"
         expand="block"
         icon="closeOutline"
         inner-text="signin"
@@ -55,10 +60,12 @@
 }
 </style>
 <script>
+import authApiService from '@/services/authApiService';
 export default {
   data() {
     return {
       form: {
+        displayName: '',
         email: '',
         password: '',
         repeatPassword: '',
@@ -66,8 +73,14 @@ export default {
     };
   },
   methods: {
-    signin(form) {
-      console.log(form);
+    async register() {
+      const registerData = {
+        display_name: this.form.displayName,
+        email: this.form.email,
+        password: this.form.password,
+      };
+      await authApiService.register(registerData);
+      this.$router.push('/login');
     },
   },
 };
