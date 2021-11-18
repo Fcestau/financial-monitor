@@ -55,3 +55,17 @@ components:
       description: Filtro por lista de cuentas.
       schema:
         type: string
+    name:
+      name: name
+      in: query
+      required: false
+      description: Filtro por campo 'name'.
+      schema:
+        type: string
+    symbol:
+      name: symbol
+      in: query
+      required: false
+      description: Filtro por campo 'symbol'.
+      schema:
+        type: string

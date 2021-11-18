@@ -2,8 +2,42 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import AccountValuePoint from 'App/Models/AccountsValuePoint'
 import AssetStock from 'App/Models/AssetStock'
 import AssetService from 'App/Assets/Service/AssetService'
+import CreateAssetsValidator from 'App/Validators/CreateAssetsValidator'
+import Asset from 'App/Models/Asset'
 
 export default class AssetsController {
+  public async createAssets({ request, response }) {
+    const data = await request.validate(CreateAssetsValidator)
+    const createdAssets: { id: number }[] = []
+
+    for (const assetData of data.assets) {
+      let newAsset = await Asset.create(assetData)
+      createdAssets.push({ id: newAsset.id })
+    }
+
+    return response.created({ assets: createdAssets })
+  }
+  public async listAssets({ request }: HttpContextContract) {
+    const page = request.input('page', 1)
+    const limit = request.input('limit', 10)
+    const orderById = request.input('order_by_id')
+    const name = request.input('name')
+    const symbol = request.input('symbol')
+
+    const qb = Asset.query()
+
+    if (orderById) {
+      qb.orderBy('id', orderById)
+    }
+    if (name) {
+      qb.where('name', 'like', `%${name}%`)
+    }
+    if (symbol) {
+      qb.where('symbol', 'like', `%${symbol}%`)
+    }
+
+    return await qb.paginate(page, limit)
+  }
   public async getStock({ auth, request, response }: HttpContextContract) {
     const page = request.input('page', 1)
     const limit = request.input('limit', 10)
