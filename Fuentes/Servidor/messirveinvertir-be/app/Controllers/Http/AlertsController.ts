@@ -1,5 +1,6 @@
 import CreateAlertsValidator from 'App/Validators/CreateAlertsValidator'
 import Alert from 'App/Models/Alert'
+import { preload } from 'App/Helpers/Query'
 
 export default class AlertsController {
   public async createAlerts({ request, response }) {
@@ -16,15 +17,16 @@ export default class AlertsController {
   }
 
   public async getAlerts({ auth, request }) {
-    const page = request.input('page',1)
-    const limit = request.input('limit',10)
+    const page = request.input('page', 1)
+    const limit = request.input('limit', 10)
     const orderById = request.input('order_by_id')
-    
-    return await Alert.query()
+
+    const alerts = await Alert.query()
       .whereHas('account', (builder) => builder.where('uid', auth.user!.uid))
-      .preload('account')
       .orderBy('id', orderById)
       .paginate(page, limit)
+
+    return preload(alerts, ['account'])
   }
 
   public async deleteAlerts({ auth, request, response }) {

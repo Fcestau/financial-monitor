@@ -3,6 +3,7 @@ import CreateOperationsValidator from 'App/Validators/CreateOperationsValidator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Account, { AccountType } from 'App/Models/Account'
 import Event from '@ioc:Adonis/Core/Event'
+import { preload } from 'App/Helpers/Query'
 
 export default class OperationsController {
   public async createOperations({ request, response }) {
@@ -38,7 +39,7 @@ export default class OperationsController {
       qb.where('timestamp', '<=', dateTo)
     }
 
-    return await qb.preload('account').paginate(page, limit)
+    return await preload(await qb.paginate(page, limit), ['asset', 'account'])
   }
   public async deleteOperations({ auth, request, response }: HttpContextContract) {
     const ids = request.input('operations').map((dto) => dto.id)
