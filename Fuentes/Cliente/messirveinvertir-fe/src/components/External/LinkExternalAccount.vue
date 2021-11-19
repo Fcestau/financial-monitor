@@ -42,10 +42,6 @@ export default {
           avatar:
             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMbqQ53w7h-Ns5pWxR4S-Liy-1eTEyDyLSlm7rrAgEXlfU0LsVQ2sZLzzK13W9CqHcDDM&usqp=CAU',
         },
-        {
-          name: 'Binance',
-          avatar: 'https://bitbase.es/img/coins/BNB.png',
-        },
       ],
     };
   },

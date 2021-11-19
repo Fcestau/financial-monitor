@@ -13,7 +13,7 @@
         router-link="./link-external-account"
         class="ion-margin-bottom"
       />
-      <NoInformationCard v-if="accounts.length === 0" />
+      <NoInformationCard v-if="currentAccounts.length === 0" />
       <TheGeneraltem
         v-for="item in currentAccounts"
         :key="item"
