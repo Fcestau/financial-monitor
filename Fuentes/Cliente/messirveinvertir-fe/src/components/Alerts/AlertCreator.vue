@@ -9,18 +9,18 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <Form @submit="onSubmit" >
+      <Form @submit="onSubmit">
         <div class="container">
-        <Field name="account_id" v-slot={field} :rules="isRequired">
-          <TheSelector
-            v-bind="field"
-            class="selector"
-            name="account_id"
-            interface="action-sheet"
-            label="alerts.accountLabel"
-            :values="currentAccounts"
-          />
-        </Field>
+          <Field name="account_id" v-slot="{ field }" :rules="isRequired">
+            <TheSelector
+              v-bind="field"
+              class="selector"
+              name="account_id"
+              interface="action-sheet"
+              label="alerts.accountLabel"
+              :values="currentAccounts"
+            />
+          </Field>
           <ion-buttons>
             <ion-button size="small" @click="addNewAccount">
               <ion-icon slot="icon-only" :icon="add"></ion-icon>
@@ -29,7 +29,7 @@
         </div>
         <ErrorMessage class="error" name="account_id" />
         <div class="container">
-          <Field name="asset_id" v-slot={field} :rules="isRequired">
+          <Field name="asset_id" v-slot="{ field }" :rules="isRequired">
             <TheSelector
               v-bind="field"
               class="selector"
@@ -46,7 +46,7 @@
           </ion-buttons>
         </div>
         <ErrorMessage class="error" name="asset_id" />
-        <Field name="creteria" v-slot={field} :rules="isRequired">
+        <Field name="creteria" v-slot="{ field }" :rules="isRequired">
           <ion-radio-group v-bind="field" name="creteria">
             <ion-list-header>
               <ion-label> {{ $t('alerts.criteriaLabel') }}</ion-label>
@@ -62,7 +62,7 @@
           </ion-radio-group>
         </Field>
         <ErrorMessage class="error" name="creteria" />
-        <Field name="percentageChange" v-slot={field} :rules="isPercentage">
+        <Field name="percentageChange" v-slot="{ field }" :rules="isPercentage">
           <TheTextInput
             v-bind="field"
             name="percentageChange"
@@ -72,7 +72,7 @@
           />
         </Field>
         <ErrorMessage class="error" name="percentageChange" />
-        <Field name="frequency" v-slot={field} :rules="isRequired">
+        <Field name="frequency" v-slot="{ field }" :rules="isRequired">
           <TheSelector
             v-bind="field"
             name="frequency"
@@ -102,7 +102,7 @@
 }
 .error {
   font-size: 12px;
-  color: #EB3333;
+  color: #eb3333;
 }
 </style>
 
@@ -112,13 +112,16 @@ import TheNewAccountFormModal from '../business/Modals/TheNewAccountFormModal.vu
 import TheNewAssetFormModal from '../business/Modals/TheNewAssetFormModal.vue';
 import { modalController } from '@ionic/vue';
 import Vuex from 'vuex';
-import { Field, Form, ErrorMessage  } from 'vee-validate';
+import { Field, Form, ErrorMessage } from 'vee-validate';
 
 export default {
   components: {
     Field,
     Form,
-    ErrorMessage
+    ErrorMessage,
+  },
+  mounted() {
+    this.getCurrentAccounts(), this.getCurrentAssets();
   },
   computed: {
     ...Vuex.mapState(['accounts', 'assets']),
@@ -163,34 +166,28 @@ export default {
         displayName: 'Única',
       },
     ];
-
-    const form = {
-      id: 0,
-      account: '',
-      asset: '',
-      percentageChange: null,
-      creteria: '',
-      frequency: '',
-      lastAlertTimestamp: new Date().toISOString(),
-    };
-
     return {
       frequencyValues,
       add,
-      form,
     };
   },
   methods: {
-    ...Vuex.mapActions(['addNewAlert']),
+    ...Vuex.mapActions([
+      'addNewAlert',
+      'getCurrentAccounts',
+      'getCurrentAssets',
+    ]),
     async onSubmit(data) {
       const newAlert = {
         ...data,
-        hourlyDeltaPrice: data.creteria === 'price' ? parseFloat(data.percentageChange) : 0,
-        hourlyDeltaVolume: data.creteria === 'volume' ? parseFloat(data.percentageChange) : 0,
+        hourly_delta_price:
+          data.creteria === 'price' ? parseFloat(data.percentageChange) : 0,
+        hourly_delta_volume:
+          data.creteria === 'volume' ? parseFloat(data.percentageChange) : 0,
       };
-      delete newAlert.percentageChange
-      delete newAlert.creteria
-      const alerts = { alerts: [newAlert]}
+      delete newAlert.percentageChange;
+      delete newAlert.creteria;
+      const alerts = { alerts: [newAlert] };
       await this.addNewAlert(alerts);
       this.$router.push('/active-alerts');
     },
@@ -219,8 +216,10 @@ export default {
       return value !== null ? true : this.$t('validation.required');
     },
     isPercentage(value) {
-      return parseFloat(value) >= 0 && parseFloat(value) <= 100 ? true : this.$t('validation.percentage');
-    }
+      return parseFloat(value) >= 0 && parseFloat(value) <= 100
+        ? true
+        : this.$t('validation.percentage');
+    },
   },
 };
 </script>

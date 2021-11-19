@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 const GENERIC_ERROR = 'Ocurrió un problema, vuelve a intentarlo!';
 const URL_MESSIRVEINVERTIR_API = process.env.VUE_APP_URL_MESSIRVEINVERTIR_API;
 

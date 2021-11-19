@@ -12,9 +12,10 @@
           $t('menu.messirveinvertir')
         }}</ion-text>
       </ion-toolbar>
-      <ion-avatar class="avatar">
-        <img :src="userData.data.photo_url" />
-      </ion-avatar>
+      <TheAvatar
+        class="avatar"
+        :displayName="userData.data.display_name"
+      ></TheAvatar>
       <div class="ion-text-center user-name">
         <ion-label>{{ userData.data.display_name }}</ion-label>
       </div>
@@ -51,6 +52,7 @@
 }
 
 .avatar {
+  font-size: 40px;
   margin: 0 auto;
   margin-top: 20px;
   margin-bottom: 5px;

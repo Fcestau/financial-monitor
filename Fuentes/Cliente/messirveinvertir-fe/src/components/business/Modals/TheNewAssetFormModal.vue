@@ -11,16 +11,16 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <Form @submit="onSubmit" >
-        <Field name="name" v-slot={field} :rules="isRequired">
+      <Form @submit="onSubmit">
+        <Field name="name" v-slot="{ field }" :rules="isRequired">
           <TheTextInput
-          v-bind="field"
-          label="operation.assetNameFormLabel"
-          name="name"
+            v-bind="field"
+            label="operation.assetNameFormLabel"
+            name="name"
           />
         </Field>
         <ErrorMessage class="error" name="name" />
-        <Field name="symbol" v-slot={field} :rules="isRequired">
+        <Field name="symbol" v-slot="{ field }" :rules="isRequired">
           <TheTextInput
             v-bind="field"
             label="operation.assetSymbolFormLabel"
@@ -28,7 +28,7 @@
           />
         </Field>
         <ErrorMessage class="error" name="symbol" />
-        <Field name="type" v-slot={field} :rules="isRequired">
+        <Field name="type" v-slot="{ field }" :rules="isRequired">
           <TheSelector
             v-bind="field"
             label="operation.assetTypeFormLabel"
@@ -36,7 +36,16 @@
             :values="assetTypesValues"
             name="type"
           />
-          </Field>
+        </Field>
+        <ErrorMessage class="error" name="type" />
+        <Field name="usdLastPrice" v-slot="{ field }" :rules="isRequired">
+          <TheTextInput
+            v-bind="field"
+            label="operation.usdLastPrice"
+            type="number"
+            name="usdLastPrice"
+          />
+        </Field>
         <ErrorMessage class="error" name="type" />
         <TheButton
           expand="block"
@@ -59,14 +68,14 @@
 <script>
 import { modalController } from '@ionic/vue';
 import { closeOutline } from 'ionicons/icons';
-import { Field, Form, ErrorMessage  } from 'vee-validate';
+import { Field, Form, ErrorMessage } from 'vee-validate';
 import Vuex from 'vuex';
 export default {
   name: 'TheNewAssetFormModal',
   components: {
     Field,
     Form,
-    ErrorMessage
+    ErrorMessage,
   },
   props: {
     title: {
@@ -77,19 +86,19 @@ export default {
   data() {
     const assetTypesValues = [
       {
-        value: 'fiat',
+        value: 'Fiat',
         displayName: 'Fiat',
       },
       {
-        value: 'crypto',
+        value: 'Crypto',
         displayName: 'Criptomoneda',
       },
       {
-        value: 'share',
+        value: 'Share',
         displayName: 'Acción',
       },
       {
-        value: 'publicTitle',
+        value: 'PublicTitle',
         displayName: 'Titulo Público',
       },
     ];
@@ -105,8 +114,15 @@ export default {
     closeModal() {
       modalController.dismiss();
     },
-    onSubmit(data) {
-      this.addNewAsset(data);
+    async submitForm(data) {
+      const newManualAsset = {
+        name: data.name,
+        symbol: data.symbol,
+        type: data.type,
+        account_type: 'Manual',
+        usd_last_price: data.usdLastPrice,
+      };
+      await this.addNewAsset({ assets: [newManualAsset] });
       modalController.dismiss();
     },
     isRequired(value) {
@@ -118,6 +134,6 @@ export default {
 <style scoped>
 .error {
   font-size: 12px;
-  color: #EB3333;
+  color: #eb3333;
 }
 </style>

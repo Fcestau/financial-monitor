@@ -2,94 +2,23 @@ import { Account } from '@/models/Account';
 import { Asset } from '@/models/Asset';
 import { Alert } from '@/models/Alert';
 import { Operation } from '@/models/Operation';
+import operationApiService from '@/services/operationsApiService';
+import assetApiService from '@/services/assetApiService';
+import accountApiService from '@/services/accountApiService';
 import { createStore } from 'vuex';
-import  alertApiService  from '../services/alertApiService'
+import alertApiService from '@/services/alertApiService';
 export default createStore({
   state: {
     operations: {
-      currentOperations: [
-        {
-          id: 0,
-          account: {
-            id: 0,
-            name: 'BINANCE',
-            type: 'Manual',
-            createdAt: new Date().toISOString(),
-            avatar:
-              'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
-          },
-          asset: {
-            id: 0,
-            name: 'IOL',
-            symbol: 'string',
-            type: 'Fiat',
-            date: new Date().toISOString(),
-          },
-          quantity: 300,
-          usdPrice: 300,
-          type: 'Venta',
-          timestamp: '06/05/2021:18:20',
-          avatar:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMbqQ53w7h-Ns5pWxR4S-Liy-1eTEyDyLSlm7rrAgEXlfU0LsVQ2sZLzzK13W9CqHcDDM&usqp=CAU',
-        },
-        {
-          id: 1,
-          account: {
-            id: 1,
-            name: 'BINANCE',
-            type: 'Manual',
-            createdAt: new Date().toISOString(),
-            avatar:
-              'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
-          },
-          asset: {
-            id: 0,
-            name: 'string',
-            symbol: 'string',
-            type: 'Fiat',
-            date: new Date().toISOString(),
-          },
-          quantity: 300,
-          usdPrice: 300,
-          type: 'Venta',
-          timestamp: '06/05/2021:18:20',
-          avatar:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMbqQ53w7h-Ns5pWxR4S-Liy-1eTEyDyLSlm7rrAgEXlfU0LsVQ2sZLzzK13W9CqHcDDM&usqp=CAU',
-        },
-      ],
+      currentOperations: [],
       loading: false,
     },
     accounts: {
-      currentAccounts: [
-        {
-          id: 0,
-          name: 'IOL',
-          type: 'Manual',
-          createdAt: new Date().toISOString(),
-          avatar:
-            'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
-        },
-        {
-          id: 1,
-          name: 'IOL - Franco',
-          type: 'Linked',
-          createdAt: new Date().toISOString(),
-          avatar:
-            'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
-        },
-      ],
+      currentAccounts: [],
       loading: false,
     },
     assets: {
-      currentAssets: [
-        {
-          id: 0,
-          name: 'string',
-          symbol: 'string',
-          type: 'Fiat',
-          date: new Date().toISOString(),
-        },
-      ],
+      currentAssets: [],
       loading: false,
     },
     alerts: {
@@ -99,114 +28,101 @@ export default createStore({
   },
   mutations: {
     // Operations
-    addNewOperation(state, newOperation) {
-      (state.operations.currentOperations as Operation[]).push(newOperation);
-    },
-
-    deleteOperation(state, operation) {
-      const index = state.operations.currentOperations.findIndex(
-        (itemT) => itemT === operation
-      );
-      state.operations.currentOperations.splice(index, 1);
+    addOperationsInStore(state, operations) {
+      (state.operations.currentOperations as Operation[]) = operations;
     },
 
     // Assets
-    getCurrentAssets(state) {
-      return state.assets.currentAssets;
-    },
-
-    addNewAsset(state, newAsset) {
-      (state.assets.currentAssets as Asset[]).push(newAsset);
-    },
-
-    deleteAsset(state, asset) {
-      const index = state.assets.currentAssets.findIndex(
-        (itemT) => itemT === asset
-      );
-      state.assets.currentAssets.splice(index, 1);
+    addAssetsInStore(state, assets) {
+      (state.assets.currentAssets as Asset[]) = assets;
     },
 
     // Accounts
-    getCurrentAccounts(state) {
-      return state.accounts.currentAccounts;
-    },
-
-    addNewAccount(state, newAccount) {
-      (state.accounts.currentAccounts as Account[]).push(newAccount);
-    },
-
-    deleteAccount(state, account) {
-      const index = state.accounts.currentAccounts.findIndex(
-        (itemT) => itemT === account
-      );
-      state.accounts.currentAccounts.splice(index, 1);
+    addAccountsInStore(state, accounts) {
+      (state.accounts.currentAccounts as Account[]) = accounts;
     },
 
     // Alerts
-    addAccountsInStore(state, alerts) {
+    addAlertsInStore(state, alerts) {
       (state.alerts.currentAlerts as Alert[]) = alerts;
     },
-
   },
   actions: {
     // Operations
-    getCurrentOperations({ commit }) {
-      commit('getCurrentOperations');
+    async getCurrentOperations({ commit }) {
+      const data = await operationApiService.getAllOperations();
+      const operations = await data.data.data;
+      commit('addOperationsInStore', operations);
     },
 
-    addNewOperation({ commit }, newOperation) {
-      commit('addNewOperation', newOperation);
+    async addNewOperation({ commit }, newOperation) {
+      await operationApiService.addNewOperation(newOperation);
+      const data = await operationApiService.getAllOperations();
+      const operations = await data.data.data;
+      commit('addOperationsInStore', operations);
     },
 
-    deleteOperation({ commit }, operation) {
-      commit('deleteOperation', operation);
+    async deleteOperation({ commit }, operationId) {
+      await operationApiService.deleteOperation(operationId);
+      const data = await operationApiService.getAllOperations();
+      const operations = await data.data.data;
+      commit('addOperationsInStore', operations);
     },
 
     // Accounts
-    getCurrentAccounts({ commit }) {
-      commit('getCurrentAccounts');
+    async getCurrentAccounts({ commit }) {
+      const data = await accountApiService.getAllAccounts();
+      const accounts = await data.data.data;
+      commit('addAccountsInStore', accounts);
     },
 
-    addNewAccount({ commit }, newAccount) {
-      commit('addNewAccount', newAccount);
+    async addNewAccount({ commit }, newAccount) {
+      await accountApiService.addNewAccount(newAccount);
+      const data = await accountApiService.getAllAccounts();
+      const accounts = await data.data.data;
+      commit('addAccountsInStore', accounts);
     },
 
-    deleteAccount({ commit }, account) {
-      commit('deleteAccount', account);
+    async deleteAccount({ commit }, accountId) {
+      await accountApiService.deleteAccount(accountId);
+      const data = await accountApiService.getAllAccounts();
+      const accounts = await data.data.data;
+      commit('addAccountsInStore', accounts);
     },
 
     // Assets
-    getCurrentAssets({ commit }) {
-      commit('getCurrentAssets');
+    async getCurrentAssets({ commit }) {
+      const data = await assetApiService.getAllAssets();
+      const assets = await data.data.data;
+      commit('addAssetsInStore', assets);
     },
 
-    addNewAsset({ commit }, newAsset) {
-      commit('addNewAsset', newAsset);
-    },
-
-    deleteAsset({ commit }, asset) {
-      commit('deleteAsset', asset);
+    async addNewAsset({ commit }, newAsset) {
+      await assetApiService.addNewAsset(newAsset);
+      const data = await assetApiService.getAllAssets();
+      const assets = await data.data.data;
+      commit('addAssetsInStore', assets);
     },
 
     // Alert
     async getCurrentAlerts({ commit }) {
       const data = await alertApiService.getAllAlerts();
       const alerts = await data.data.data;
-      commit('addAccountsInStore', alerts);
+      commit('addAlertsInStore', alerts);
     },
 
     async addNewAlert({ commit }, newAlert) {
       await alertApiService.addNewAlert(newAlert);
       const data = await alertApiService.getAllAlerts();
       const alerts = await data.data.data;
-      commit('addAccountsInStore', alerts);
+      commit('addAlertsInStore', alerts);
     },
 
     async deleteAlert({ commit }, alert) {
       await alertApiService.deleteAlert(alert);
       const data = await alertApiService.getAllAlerts();
       const alerts = await data.data.data;
-      commit('addAccountsInStore', alerts);
+      commit('addAlertsInStore', alerts);
     },
   },
   modules: {},

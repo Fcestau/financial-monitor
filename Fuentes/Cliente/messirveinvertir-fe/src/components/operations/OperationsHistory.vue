@@ -123,19 +123,24 @@ export default {
   computed: {
     ...Vuex.mapState(['operations']),
     currentOperations() {
-      this.operations.currentOperations.forEach((element) => {
-        if (element.type === 'Compra') {
-          element.color = 'success';
-        } else {
-          element.color = 'danger';
-        }
-      });
+      if (this.operations.currentOperations.length > 0) {
+        this.operations.currentOperations.forEach((element) => {
+          if (element.type === 'Compra') {
+            element.color = 'success';
+          } else {
+            element.color = 'danger';
+          }
+        });
+      }
 
       return this.operations.currentOperations;
     },
   },
+  async mounted() {
+    await this.getCurrentOperations();
+  },
   methods: {
-    ...Vuex.mapActions(['deleteOperation']),
+    ...Vuex.mapActions(['deleteOperation', 'getCurrentOperations']),
 
     dateLabel(date) {
       //TODO: realizar el formateo correcto
@@ -144,10 +149,10 @@ export default {
     filterByPeriod(value) {
       this.period = value;
     },
-    deleteItem(item) {
-      this.deleteItemAlertConfirm(item);
+    async deleteItem(item) {
+      await this.deleteItemAlertConfirm(item.id);
     },
-    async deleteItemAlertConfirm(item) {
+    async deleteItemAlertConfirm(itemId) {
       const alert = await alertController.create({
         header: this.$t('operations.delete_operation'),
         message: this.$t('operations.sure_delete_opeartion_ask'),
@@ -163,7 +168,7 @@ export default {
           {
             text: this.$t('accept'),
             handler: () => {
-              this.deleteOperation(item);
+              this.deleteOperation({ operations: [{ id: itemId }] });
             },
           },
         ],

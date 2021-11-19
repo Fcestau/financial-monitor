@@ -1,18 +1,16 @@
 <template>
   <ion-card>
     <ion-item>
-      <ion-avatar slot="start">
-        <img :src="item.account.avatar" />
-      </ion-avatar>
+      <TheAvatar slot="start" :displayName="item.account.name"> </TheAvatar>
       <ion-card-content>
-        <ion-card-subtitle v-if="item.hourlyDeltaVolume !== null"
-          >El volumen cambio {{ item.hourlyDeltaVolume }}%</ion-card-subtitle
+        <ion-card-subtitle v-if="item.hourly_delta_volume !== 0"
+          >El volumen cambio {{ item.hourly_delta_volume }}%</ion-card-subtitle
         >
-        <ion-card-subtitle v-if="item.hourlyDeltaPrice !== null"
-          >El precio cambio {{ item.hourlyDeltaPrice }}%</ion-card-subtitle
+        <ion-card-subtitle v-if="item.hourly_delta_price !== 0"
+          >El precio cambio {{ item.hourly_delta_price }}%</ion-card-subtitle
         >
         <ion-badge style="margin-right:5px" color="danger" mode="ios">{{
-          item.asset.name
+         item.asset.name
         }}</ion-badge>
         <ion-badge color="primary" mode="ios">{{ item.frequency }}</ion-badge>
       </ion-card-content>

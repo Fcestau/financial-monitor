@@ -3,20 +3,20 @@ import { RouteRecordRaw } from 'vue-router';
 import Home from '../views/Home.vue';
 import TokenStore from '@/store/tokenStore';
 
-const URLS_NO_TOKEN_REQUIRED = ['/login', '/signin'];
+const URLS_NO_TOKEN_REQUIRED = ['/login', '/register'];
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/operations-history',
+    redirect: '/wallet',
   },
   {
     path: '/login',
     component: () => import('@/views/Login.vue'),
   },
   {
-    path: '/signin',
-    component: () => import('@/views/Signin.vue'),
+    path: '/register',
+    component: () => import('@/views/Register.vue'),
   },
   {
     path: '/',
