@@ -1,9 +1,7 @@
 <template>
   <ion-card>
     <ion-item>
-      <ion-avatar slot="start">
-        <img :src="item.account.avatar" />
-      </ion-avatar>
+      <TheAvatar slot="start" :displayName="item.account.name"> </TheAvatar>
       <ion-card-content>
         <ion-card-subtitle v-if="item.hourlyDeltaVolume !== null"
           >El volumen cambio {{ item.hourlyDeltaVolume }}%</ion-card-subtitle
