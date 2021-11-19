@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, computed } from '@ioc:Adonis/Lucid/Orm'
 import Account from './Account'
 import Asset from './Asset'
 
@@ -30,4 +30,9 @@ export default class AssetStock extends BaseModel {
 
   @belongsTo(() => Asset)
   public asset: BelongsTo<typeof Asset>
+
+  @computed()
+  public get usdLastPrice(): number {
+    return this.quantity * this.asset.usdLastPrice
+  }
 }

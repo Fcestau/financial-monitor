@@ -6,13 +6,14 @@ import Event from '@ioc:Adonis/Core/Event'
 import { preload } from 'App/Helpers/Query'
 
 export default class OperationsController {
-  public async createOperations({ request, response }) {
+  public async createOperations({ auth, request, response }) {
     const data = await request.validate(CreateOperationsValidator)
     const createdOperations: { id: number }[] = []
 
     for (const opData of data.operations) {
       let newOperation = await Operation.create(opData)
-      await Event.emit('new:operation', newOperation)
+      await Event.emit('new:operations', [newOperation])
+      await auth.user!.storeAccountsValuePoint()
       createdOperations.push({ id: newOperation.id })
     }
 
@@ -53,13 +54,15 @@ export default class OperationsController {
 
     return response.noContent()
   }
-  public async fetchOperations({ auth, response }: HttpContextContract) {
+  public async fetchOperations({ auth, response }) {
     try {
       const accounts = await Account.query().where('uid', auth.user!.uid)
       const operations: Operation[] = []
       for (const account of accounts) {
         operations.push(...(await account.downloadNewOperations()))
       }
+      await Event.emit('new:operations', operations)
+      await auth.user!.storeAccountsValuePoint()
       return response.created({ operations })
     } catch (e) {
       console.log(e)
