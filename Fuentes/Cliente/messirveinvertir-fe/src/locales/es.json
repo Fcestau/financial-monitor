@@ -85,5 +85,9 @@
     "total_balance": "Balance total (ARS)",
     "balance_info": "Es posible que los balances de tus activos no estén actualizados debido a un retraso del sistema.",
     "portfolio": "Portafolio"
+  },
+  "validation": {
+    "required": "El campo es obligatorio.",
+    "percentage": "El valor del campo debe estar entre 0 y 100"
   }
 }

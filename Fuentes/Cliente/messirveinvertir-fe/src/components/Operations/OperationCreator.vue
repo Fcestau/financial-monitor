@@ -9,63 +9,89 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
+    <Form @submit="onSubmit" >
       <div class="container">
-        <TheSelector
-          class="selector"
-          v-model="form.account"
-          interface="action-sheet"
-          label="operation.accountLabel"
-          :values="currentAccounts"
-        />
+        <Field name="account_id" v-slot={field} :rules="isRequired">
+          <TheSelector
+            class="selector"
+            v-bind="field"
+            interface="action-sheet"
+            label="operation.accountLabel"
+            :values="currentAccounts"
+            name="account_id"
+          />
+        </Field>
         <ion-buttons>
           <ion-button size="small" @click="addNewAccount">
             <ion-icon slot="icon-only" :icon="add"></ion-icon>
           </ion-button>
         </ion-buttons>
       </div>
+      <ErrorMessage class="error" name="account_id" />
       <div class="container">
-        <TheSelector
-          class="selector"
-          v-model="form.asset"
-          label="operation.assetLabel"
-          interface="action-sheet"
-          :values="currentAssets"
-        />
+        <Field name="asset_id" v-slot={field} :rules="isRequired">
+          <TheSelector
+            class="selector"
+            v-bind="field"
+            name="asset_id"
+            label="operation.assetLabel"
+            interface="action-sheet"
+            :values="currentAssets"
+          />
+        </Field>
         <ion-buttons>
           <ion-button size="small" @click="addNewAsset">
             <ion-icon slot="icon-only" :icon="add"></ion-icon>
           </ion-button>
         </ion-buttons>
       </div>
-      <TheTextInput
-        v-model="form.usdPrice"
-        label="operation.assetValueLabel"
-        :placeholder="$t('operation.assetValuePlaceholder')"
-        type="number"
-      />
-      <TheTextInput
-        v-model="form.quantity"
-        label="operation.amountLabel"
-        type="number"
-      />
-      <TheSelector
-        v-model="form.type"
-        label="operation.operationTypeLabel"
-        interface="action-sheet"
-        :values="operationTypeValues"
-      />
-      <TheDatepicker
-        :value="form.timestamp"
-        label="operation.operationDateLabel"
-        display-format="D/M/YY H:mm"
-      />
+      <ErrorMessage class="error" name="asset_id" />
+      <Field name="usd_price" v-slot={field} :rules="isRequired">
+        <TheTextInput
+          name="usd_price"
+          v-bind="field"
+          label="operation.assetValueLabel"
+          :placeholder="$t('operation.assetValuePlaceholder')"
+          type="number"
+        />
+      </Field>
+      <ErrorMessage class="error" name="usd_price" />
+      <Field name="quantity" v-slot={field} :rules="isRequired">
+        <TheTextInput
+          v-bind="field"
+          name="quantity"
+          label="operation.amountLabel"
+          type="number"
+        />
+      </Field>
+      <ErrorMessage class="error" name="quantity" />
+      <Field name="type" v-slot={field} :rules="isRequired">
+        <TheSelector
+          v-bind="field"
+          name="type"
+          label="operation.operationTypeLabel"
+          interface="action-sheet"
+          :values="operationTypeValues"
+        />
+      </Field>
+      <ErrorMessage class="error" name="type" />
+      <Field name="timestamp" v-slot={field} :rules="isRequired">
+        <TheDatepicker
+          v-bind="field"
+          name="timestamp"
+          label="operation.operationDateLabel"
+          display-format="D/M/YY H:mm"
+        />
+      </Field>
+      <ErrorMessage class="error" name="timestamp" />
       <TheButton
-        @click="submitForm(form)"
+        type="submit"
         expand="block"
         icon="closeOutline"
         inner-text="confirm"
         class="ion-margin-top"
       ></TheButton>
+    </Form>
     </ion-content>
   </ion-page>
 </template>
@@ -76,6 +102,10 @@
 .selector {
   width: 100%;
 }
+.error {
+  font-size: 12px;
+  color: #EB3333;
+}
 </style>
 
 <script>
@@ -84,8 +114,13 @@ import TheNewAccountFormModal from '../business/Modals/TheNewAccountFormModal.vu
 import TheNewAssetFormModal from '../business/Modals/TheNewAssetFormModal.vue';
 import { modalController } from '@ionic/vue';
 import Vuex from 'vuex';
-
+import { Field, Form, ErrorMessage  } from 'vee-validate';
 export default {
+  components: {
+    Field,
+    Form,
+    ErrorMessage
+  },
   computed: {
     ...Vuex.mapState(['accounts', 'assets']),
     currentAccounts() {
@@ -134,43 +169,18 @@ export default {
       },
     ];
 
-    const form = {
-      id: 0,
-      account: '',
-      quantity: null,
-      usdPrice: null,
-      type: '',
-      asset: '',
-      timestamp: new Date().toISOString(),
-    };
-
     return {
       operationTypeValues,
       add,
-      form,
     };
   },
   methods: {
     ...Vuex.mapActions(['addNewOperation']),
 
-    submitForm(form) {
-      
-      const newOperation = {
-        ...form,
-        account: {
-          id: 0,
-          name: form.account,
-          type: 'Manual',
-          createdAt: new Date().toISOString(),
-        },
-        asset: {
-          id: 0,
-          name: form.asset,
-          symbol: form.asset,
-          type: 'Fiat',
-          date: new Date().toISOString(),
-        },
-      };
+    onSubmit(data) {
+      const newOperation = data
+      newOperation.quantity = parseFloat(data.quantity)
+      newOperation.usd_price = parseFloat(data.usd_price)
       console.log(newOperation);
       this.addNewOperation(newOperation);
     },
@@ -194,6 +204,9 @@ export default {
         },
       });
       return modal.present();
+    },
+    isRequired(value) {
+      return value ? true : this.$t('validation.required');
     },
   },
 };

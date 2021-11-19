@@ -11,32 +11,42 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <ion-row>
-        <ion-col size="=12">
-          <p class="info-text">{{ $t('external.complete_form') }}</p>
-          <TheTextInput
-            v-model="form.email"
-            label="email"
-            type="email"
-          ></TheTextInput>
-          <TheTextInput
-            v-model="form.password"
-            label="password"
-            type="password"
-          ></TheTextInput>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="12" class="ion-text-center">
-          <TheButton
-            @click="submitForm"
-            expand="block"
-            icon="closeOutline"
-            inner-text="confirm"
-            class="ion-margin-top"
-          ></TheButton>
-        </ion-col>
-      </ion-row>
+      <Form @submit="onSubmit" >
+        <ion-row>
+          <ion-col size="=12">
+            <p class="info-text">{{ $t('external.complete_form') }}</p>
+            <Field name="email" v-slot={field} :rules="isRequired">
+              <TheTextInput
+                v-bind="field"
+                label="email"
+                type="email"
+                name="email"
+              />
+            </Field>
+            <ErrorMessage class="error" name="email" />
+            <Field name="password" v-slot={field} :rules="isRequired">
+              <TheTextInput
+                v-bind="field"
+                label="password"
+                type="password"
+                name="password"
+              />
+            </Field>
+            <ErrorMessage class="error" name="password" />
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" class="ion-text-center">
+            <TheButton
+              type="submit"
+              expand="block"
+              icon="closeOutline"
+              inner-text="confirm"
+              class="ion-margin-top"
+            ></TheButton>
+          </ion-col>
+        </ion-row>
+      </Form>
     </ion-content>
   </ion-page>
 </template>
@@ -44,9 +54,14 @@
 import { modalController } from '@ionic/vue';
 import { closeOutline } from 'ionicons/icons';
 import Vuex from 'vuex';
-
+import { Field, Form, ErrorMessage  } from 'vee-validate';
 export default {
   name: 'TheLinkExternalAccountFormDialog',
+  components: {
+    Field,
+    Form,
+    ErrorMessage
+  },
   props: {
     title: {
       type: String,
@@ -69,7 +84,7 @@ export default {
     closeModal() {
       modalController.dismiss();
     },
-    submitForm() {
+    onSubmit(data) {
       const newAccount = {
         id: Math.floor(Math.random() * 101),
         type: 'IOL',
@@ -79,8 +94,12 @@ export default {
         balance: 0,
         assetType: 'USD',
       };
+      console.log(data)
       this.addNewAccount(newAccount);
       modalController.dismiss();
+    },
+    isRequired(value) {
+      return value ? true : this.$t('validation.required');
     },
   },
 };
@@ -88,5 +107,9 @@ export default {
 <style scoped>
 .info-text {
   font-size: 12px;
+}
+.error {
+  font-size: 12px;
+  color: #EB3333;
 }
 </style>
