@@ -11,34 +11,50 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <TheTextInput
-        v-model="form.name"
-        label="operation.assetNameFormLabel"
-        type="name"
-      />
-      <TheTextInput
-        v-model="form.symbol"
-        label="operation.assetSymbolFormLabel"
-        type="name"
-      />
-      <TheSelector
-        v-model="form.type"
-        label="operation.assetTypeFormLabel"
-        interface="action-sheet"
-        :values="assetTypesValues"
-      />
-      <TheTextInput
-        v-model="form.usdLastPrice"
-        label="operation.usdLastPrice"
-        type="number"
-      />
-      <TheButton
-        @click="submitForm()"
-        expand="block"
-        icon="closeOutline"
-        inner-text="confirm"
-        class="ion-margin-top"
-      ></TheButton>
+      <Form @submit="onSubmit">
+        <Field name="name" v-slot="{ field }" :rules="isRequired">
+          <TheTextInput
+            v-bind="field"
+            label="operation.assetNameFormLabel"
+            name="name"
+          />
+        </Field>
+        <ErrorMessage class="error" name="name" />
+        <Field name="symbol" v-slot="{ field }" :rules="isRequired">
+          <TheTextInput
+            v-bind="field"
+            label="operation.assetSymbolFormLabel"
+            name="symbol"
+          />
+        </Field>
+        <ErrorMessage class="error" name="symbol" />
+        <Field name="type" v-slot="{ field }" :rules="isRequired">
+          <TheSelector
+            v-bind="field"
+            label="operation.assetTypeFormLabel"
+            interface="action-sheet"
+            :values="assetTypesValues"
+            name="type"
+          />
+        </Field>
+        <ErrorMessage class="error" name="type" />
+        <Field name="usdLastPrice" v-slot="{ field }" :rules="isRequired">
+          <TheTextInput
+            v-bind="field"
+            label="operation.usdLastPrice"
+            type="number"
+            name="usdLastPrice"
+          />
+        </Field>
+        <ErrorMessage class="error" name="type" />
+        <TheButton
+          expand="block"
+          icon="closeOutline"
+          type="submit"
+          inner-text="confirm"
+          class="ion-margin-top"
+        />
+      </Form>
     </ion-content>
   </ion-page>
 </template>
@@ -52,9 +68,15 @@
 <script>
 import { modalController } from '@ionic/vue';
 import { closeOutline } from 'ionicons/icons';
+import { Field, Form, ErrorMessage } from 'vee-validate';
 import Vuex from 'vuex';
 export default {
   name: 'TheNewAssetFormModal',
+  components: {
+    Field,
+    Form,
+    ErrorMessage,
+  },
   props: {
     title: {
       type: String,
@@ -81,17 +103,9 @@ export default {
       },
     ];
 
-    const form = {
-      name: '',
-      symbol: '',
-      type: '',
-      usdLastPrice: null,
-    };
-
     return {
       assetTypesValues,
       closeOutline,
-      form,
     };
   },
   methods: {
@@ -100,17 +114,26 @@ export default {
     closeModal() {
       modalController.dismiss();
     },
-    async submitForm() {
+    async submitForm(data) {
       const newManualAsset = {
-        name: this.form.name,
-        symbol: this.form.symbol,
-        type: this.form.type,
+        name: data.name,
+        symbol: data.symbol,
+        type: data.type,
         account_type: 'Manual',
-        usd_last_price: this.form.usdLastPrice,
+        usd_last_price: data.usdLastPrice,
       };
       await this.addNewAsset({ assets: [newManualAsset] });
       modalController.dismiss();
     },
+    isRequired(value) {
+      return value ? true : this.$t('validation.required');
+    },
   },
 };
 </script>
+<style scoped>
+.error {
+  font-size: 12px;
+  color: #eb3333;
+}
+</style>

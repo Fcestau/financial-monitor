@@ -91,5 +91,9 @@
     "assets_name": "Nombre de Activos",
     "linked_accounts": "Cuentas Asociadas",
     "filter": "Filtrar"
+  },
+  "validation": {
+    "required": "El campo es obligatorio.",
+    "percentage": "El valor del campo debe estar entre 0 y 100"
   }
 }
