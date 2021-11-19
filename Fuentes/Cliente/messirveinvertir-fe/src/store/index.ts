@@ -98,47 +98,14 @@ export default createStore({
       (state.operations.currentOperations as Operation[]) = operations;
     },
 
-    addNewOperation(state, newOperation) {
-      (state.operations.currentOperations as Operation[]).push(newOperation);
-    },
-
-    deleteOperation(state, operation) {
-      const index = state.operations.currentOperations.findIndex(
-        (itemT) => itemT === operation
-      );
-      state.operations.currentOperations.splice(index, 1);
-    },
-
     // Assets
     addAssetsInStore(state, assets) {
       (state.assets.currentAssets as Asset[]) = assets;
     },
 
-    addNewAsset(state, newAsset) {
-      (state.assets.currentAssets as Asset[]).push(newAsset);
-    },
-
-    deleteAsset(state, asset) {
-      const index = state.assets.currentAssets.findIndex(
-        (itemT) => itemT === asset
-      );
-      state.assets.currentAssets.splice(index, 1);
-    },
-
     // Accounts
     addAccountsInStore(state, accounts) {
       (state.accounts.currentAccounts as Account[]) = accounts;
-    },
-
-    addNewAccount(state, newAccount) {
-      (state.accounts.currentAccounts as Account[]).push(newAccount);
-    },
-
-    deleteAccount(state, account) {
-      const index = state.accounts.currentAccounts.findIndex(
-        (itemT) => itemT === account
-      );
-      state.accounts.currentAccounts.splice(index, 1);
     },
 
     // Alerts
@@ -161,12 +128,18 @@ export default createStore({
       commit('addOperationsInStore', operations);
     },
 
-    addNewOperation({ commit }, newOperation) {
-      commit('addNewOperation', newOperation);
+    async addNewOperation({ commit }, newOperation) {
+      await operationApiService.addNewOperation(newOperation);
+      const data = await operationApiService.getAllOperations();
+      const operations = await data.data.data;
+      commit('addOperationsInStore', operations);
     },
 
-    deleteOperation({ commit }, operation) {
-      commit('deleteOperation', operation);
+    async deleteOperation({ commit }, operationId) {
+      await operationApiService.deleteOperation(operationId);
+      const data = await operationApiService.getAllOperations();
+      const operations = await data.data.data;
+      commit('addOperationsInStore', operations);
     },
 
     // Accounts
@@ -176,12 +149,18 @@ export default createStore({
       commit('addAccountsInStore', accounts);
     },
 
-    addNewAccount({ commit }, newAccount) {
-      commit('addNewAccount', newAccount);
+    async addNewAccount({ commit }, newAccount) {
+      await accountApiService.addNewAccount(newAccount);
+      const data = await accountApiService.getAllAccounts();
+      const accounts = await data.data.data;
+      commit('addAccountsInStore', accounts);
     },
 
-    deleteAccount({ commit }, account) {
-      commit('deleteAccount', account);
+    async deleteAccount({ commit }, accountId) {
+      await accountApiService.deleteAccount(accountId);
+      const data = await accountApiService.getAllAccounts();
+      const accounts = await data.data.data;
+      commit('addAccountsInStore', accounts);
     },
 
     // Assets
@@ -191,12 +170,11 @@ export default createStore({
       commit('addAssetsInStore', assets);
     },
 
-    addNewAsset({ commit }, newAsset) {
-      commit('addNewAsset', newAsset);
-    },
-
-    deleteAsset({ commit }, asset) {
-      commit('deleteAsset', asset);
+    async addNewAsset({ commit }, newAsset) {
+      await assetApiService.addNewAsset(newAsset);
+      const data = await assetApiService.getAllAssets();
+      const assets = await data.data.data;
+      commit('addAssetsInStore', assets);
     },
 
     // Alert

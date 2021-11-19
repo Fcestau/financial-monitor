@@ -27,7 +27,11 @@
         interface="action-sheet"
         :values="assetTypesValues"
       />
-      <TheDatepicker :value="form.date" label="operation.assetDateFormLabel" />
+      <TheTextInput
+        v-model="form.usdLastPrice"
+        label="operation.usdLastPrice"
+        type="number"
+      />
       <TheButton
         @click="submitForm()"
         expand="block"
@@ -60,19 +64,19 @@ export default {
   data() {
     const assetTypesValues = [
       {
-        value: 'fiat',
+        value: 'Fiat',
         displayName: 'Fiat',
       },
       {
-        value: 'crypto',
+        value: 'Crypto',
         displayName: 'Criptomoneda',
       },
       {
-        value: 'share',
+        value: 'Share',
         displayName: 'Acción',
       },
       {
-        value: 'publicTitle',
+        value: 'PublicTitle',
         displayName: 'Titulo Público',
       },
     ];
@@ -81,7 +85,7 @@ export default {
       name: '',
       symbol: '',
       type: '',
-      date: new Date().toISOString(),
+      usdLastPrice: null,
     };
 
     return {
@@ -96,16 +100,15 @@ export default {
     closeModal() {
       modalController.dismiss();
     },
-    submitForm() {
+    async submitForm() {
       const newManualAsset = {
-        id: 0,
         name: this.form.name,
         symbol: this.form.symbol,
-        type: this.form.symbol,
-        date:this.form.date,
+        type: this.form.type,
+        account_type: 'Manual',
+        usd_last_price: this.form.usdLastPrice,
       };
-      this.addNewAsset(newManualAsset);
-
+      await this.addNewAsset({ assets: [newManualAsset] });
       modalController.dismiss();
     },
   },

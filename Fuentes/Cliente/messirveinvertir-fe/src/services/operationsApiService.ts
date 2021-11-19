@@ -20,13 +20,13 @@ export default new (class {
 
   async addNewOperation(operation: OperationDto) {
     return this.iHttpHandler.post(this.path, operation, {
-      headers: { Authorization: `Bearer ${await  this.token}` },
+      headers: { Authorization: `Bearer ${await this.token}` },
     });
   }
 
   async deleteOperation(operationId: string) {
     return this.iHttpHandler.delete(this.path, operationId, {
-      headers: { Authorization: `Bearer ${await  this.token}` },
+      headers: { Authorization: `Bearer ${await this.token}` },
     });
   }
 })();

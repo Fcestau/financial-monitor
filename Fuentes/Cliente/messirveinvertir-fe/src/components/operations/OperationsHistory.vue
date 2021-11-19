@@ -149,10 +149,10 @@ export default {
     filterByPeriod(value) {
       this.period = value;
     },
-    deleteItem(item) {
-      this.deleteItemAlertConfirm(item);
+    async deleteItem(item) {
+      await this.deleteItemAlertConfirm(item.id);
     },
-    async deleteItemAlertConfirm(item) {
+    async deleteItemAlertConfirm(itemId) {
       const alert = await alertController.create({
         header: this.$t('operations.delete_operation'),
         message: this.$t('operations.sure_delete_opeartion_ask'),
@@ -168,7 +168,7 @@ export default {
           {
             text: this.$t('accept'),
             handler: () => {
-              this.deleteOperation(item);
+              this.deleteOperation({ operations: [{ id: itemId }] });
             },
           },
         ],

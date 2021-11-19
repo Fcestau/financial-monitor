@@ -70,6 +70,7 @@
     "assetLabel": "Activo",
     "operationTypeLabel": "Tipo de Operacion",
     "amountLabel": "Cantidad",
+    "usdLastPrice": "Último precio en dólares",
     "operationDateLabel": "Fecha de Operación",
     "assetValueLabel": "Valor del activo",
     "assetValuePlaceholder": "Valor en dólares",

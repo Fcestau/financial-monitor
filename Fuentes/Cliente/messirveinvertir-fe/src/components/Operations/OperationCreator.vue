@@ -12,7 +12,7 @@
       <div class="container">
         <TheSelector
           class="selector"
-          v-model="form.account"
+          v-model="form.account_id"
           interface="action-sheet"
           label="operation.accountLabel"
           :values="currentAccounts"
@@ -26,7 +26,7 @@
       <div class="container">
         <TheSelector
           class="selector"
-          v-model="form.asset"
+          v-model="form.asset_id"
           label="operation.assetLabel"
           interface="action-sheet"
           :values="currentAssets"
@@ -38,7 +38,7 @@
         </ion-buttons>
       </div>
       <TheTextInput
-        v-model="form.usdPrice"
+        v-model="form.usd_price"
         label="operation.assetValueLabel"
         :placeholder="$t('operation.assetValuePlaceholder')"
         type="number"
@@ -93,7 +93,7 @@ export default {
       this.accounts.currentAccounts.forEach((element) => {
         if (element.type === 'Manual') {
           const newAccount = {
-            value: element.name,
+            value: element.id,
             displayName: element.name,
           };
           accounts.push(newAccount);
@@ -105,7 +105,7 @@ export default {
       const assets = [];
       this.assets.currentAssets.forEach((element) => {
         const newAsset = {
-          value: element.name,
+          value: element.id,
           displayName: element.name,
         };
         assets.push(newAsset);
@@ -135,12 +135,11 @@ export default {
     ];
 
     const form = {
-      id: 0,
-      account: '',
+      account_id: null,
       quantity: null,
-      usdPrice: null,
+      usd_price: null,
       type: '',
-      asset: '',
+      asset_id: null,
       timestamp: new Date().toISOString(),
     };
 
@@ -150,29 +149,19 @@ export default {
       form,
     };
   },
+  mounted() {
+    this.getCurrentAccounts(), this.getCurrentAssets();
+  },
   methods: {
-    ...Vuex.mapActions(['addNewOperation']),
+    ...Vuex.mapActions([
+      'addNewOperation',
+      'getCurrentAccounts',
+      'getCurrentAssets',
+    ]),
 
-    submitForm(form) {
-      
-      const newOperation = {
-        ...form,
-        account: {
-          id: 0,
-          name: form.account,
-          type: 'Manual',
-          createdAt: new Date().toISOString(),
-        },
-        asset: {
-          id: 0,
-          name: form.asset,
-          symbol: form.asset,
-          type: 'Fiat',
-          date: new Date().toISOString(),
-        },
-      };
-      console.log(newOperation);
-      this.addNewOperation(newOperation);
+    async submitForm(form) {
+      await this.addNewOperation({ operations: [form] });
+      this.$router.push('/operations-history');
     },
 
     async addNewAccount() {
