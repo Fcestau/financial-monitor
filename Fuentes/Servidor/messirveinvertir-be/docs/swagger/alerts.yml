@@ -11,7 +11,7 @@
       200:
         description: Alertas asociadas al usuario
 
-post:
+  post:
     tags:
       - Alerts
     summary: Permite crear alertas asociadas a una cuenta.
@@ -47,9 +47,9 @@ post:
       201:
         description: Lista de ids de las nuevas alertas
 
-delete:
+  delete:
     tags:
-      - Accounts
+      - Alerts
     summary: Permite eliminar alertas asociadas al usuario actual a partir de sus ids.
     requestBody:
       required: true
