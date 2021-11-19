@@ -35,4 +35,7 @@ export default class Alert extends BaseModel {
 
   @belongsTo(() => Account)
   public account: BelongsTo<typeof Account>
+
+  @belongsTo(() => Account)
+  public asset: BelongsTo<typeof Account>
 }
