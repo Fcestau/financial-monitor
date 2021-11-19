@@ -26,7 +26,7 @@ export default class AlertsController {
       .orderBy('id', orderById)
       .paginate(page, limit)
 
-    return preload(alerts, ['account'])
+    return preload(alerts, ['account','asset'])
   }
 
   public async deleteAlerts({ auth, request, response }) {

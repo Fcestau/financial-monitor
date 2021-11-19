@@ -36,6 +36,7 @@ export default class Operation {
       await assetStock.load('account')
       return assetStock.account.getAvgUsdBuyPrice()
     }
+    
     return assetStock.avgUsdBuyPrice
   }
   protected getOperationQuantity(operation: { quantity: number; type: OperationType }) {
