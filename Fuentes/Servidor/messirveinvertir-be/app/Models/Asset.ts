@@ -34,4 +34,29 @@ export default class Asset extends BaseModel {
 
   @column()
   public usdLastPrice: number
+
+  @column()
+  public usdLastHourPrice: number
+
+  @column.dateTime()
+  public usdLastHourPriceUpdate: DateTime
+
+  public get hourlyDeltaPrice(): number {
+    if (!this.usdLastHourPriceUpdate) {
+      return 0
+    }
+    return ((this.usdLastHourPrice - this.usdLastPrice) / this.usdLastPrice) * 100
+  }
+
+  public async updateUsdLastHourPrice(): Promise<void> {
+    if (
+      this.usdLastHourPriceUpdate &&
+      Math.abs(this.usdLastHourPriceUpdate.diffNow('minutes').minutes) < 60
+    ) {
+      return
+    }
+    this.usdLastHourPriceUpdate = DateTime.now()
+    this.usdLastHourPrice = this.usdLastPrice
+    await this.save()
+  }
 }

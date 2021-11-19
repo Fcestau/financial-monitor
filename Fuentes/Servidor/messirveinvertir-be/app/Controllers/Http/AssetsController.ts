@@ -4,6 +4,7 @@ import AssetStock from 'App/Models/AssetStock'
 import AssetService from 'App/Assets/Service/AssetService'
 import CreateAssetsValidator from 'App/Validators/CreateAssetsValidator'
 import Asset from 'App/Models/Asset'
+import Event from '@ioc:Adonis/Core/Event'
 
 export default class AssetsController {
   public async createAssets({ request, response }) {
@@ -84,6 +85,7 @@ export default class AssetsController {
   public async fetchAssets({ auth, response }) {
     try {
       const assets = await new AssetService().syncAssetsFor(auth.user.uid!)
+      await Event.emit('fetched:assets', { uid: auth.user.uid!, assets })
       return response.json({ assets })
     } catch (e) {
       response.abort({ error: e.message })
