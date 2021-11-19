@@ -18,33 +18,51 @@
           src="../../assets/logo-messirveinvertir.png"
         ></ion-img>
       </div>
-      <TheTextInput
-        v-model="form.displayName"
-        label="displayName"
-        type="text"
-      ></TheTextInput>
-      <TheTextInput
-        v-model="form.email"
-        label="email"
-        type="email"
-      ></TheTextInput>
-      <TheTextInput
-        v-model="form.password"
-        label="password"
-        type="password"
-      ></TheTextInput>
-      <TheTextInput
-        v-model="form.repeatPassword"
-        label="repeat_password"
-        type="password"
-      ></TheTextInput>
-      <TheButton
-        @click="register()"
-        expand="block"
-        icon="closeOutline"
-        inner-text="signin"
-        class="ion-margin-top"
-      ></TheButton>
+      <Form @submit="register">
+        <Field name="display_name" v-slot="{ field }" :rules="isRequired">
+          <TheTextInput
+            v-bind="field"
+            label="displayName"
+            type="text"
+            name="display_name"
+          ></TheTextInput>
+        </Field>
+        <ErrorMessage class="error" name="display_name" />
+        <Field name="email" v-slot="{ field }" :rules="isRequired">
+          <TheTextInput
+            v-bind="field"
+            label="email"
+            type="email"
+            name="email"
+          ></TheTextInput>
+        </Field>
+        <ErrorMessage class="error" name="email" />
+        <Field name="password" v-slot="{ field }" :rules="isRequired">
+          <TheTextInput
+            v-bind="field"
+            label="password"
+            type="password"
+            name="password"
+          ></TheTextInput>
+        </Field>
+        <ErrorMessage class="error" name="password" />
+        <Field name="repeatPassword" v-slot="{ field }" :rules="isRequired">
+          <TheTextInput
+            v-bind="field"
+            label="repeat_password"
+            type="password"
+            name="repeatPassword"
+          ></TheTextInput>
+        </Field>
+        <ErrorMessage class="error" name="repeatPassword" />
+        <TheButton
+          type="submit"
+          expand="block"
+          icon="closeOutline"
+          inner-text="signin"
+          class="ion-margin-top"
+        ></TheButton>
+      </Form>
     </ion-content>
   </ion-page>
 </template>
@@ -58,29 +76,28 @@
   flex-wrap: nowrap;
   justify-content: center;
 }
+.error {
+  font-size: 12px;
+  color: #eb3333;
+}
 </style>
 <script>
 import authApiService from '@/services/authApiService';
+import { Field, Form, ErrorMessage } from 'vee-validate';
 export default {
-  data() {
-    return {
-      form: {
-        displayName: '',
-        email: '',
-        password: '',
-        repeatPassword: '',
-      },
-    };
+  components: {
+    Field,
+    Form,
+    ErrorMessage,
   },
   methods: {
-    async register() {
-      const registerData = {
-        display_name: this.form.displayName,
-        email: this.form.email,
-        password: this.form.password,
-      };
-      await authApiService.register(registerData);
+    async register(data) {
+      delete data.repeatPassword
+      await authApiService.register(data);
       this.$router.push('/login');
+    },
+    isRequired(value) {
+      return value ? true : this.$t('validation.required');
     },
   },
 };
