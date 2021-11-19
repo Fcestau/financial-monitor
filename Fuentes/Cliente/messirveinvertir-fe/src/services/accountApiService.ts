@@ -26,6 +26,7 @@ export default new (class {
 
   async deleteAccount(accountId: string) {
     return this.iHttpHandler.delete(this.path, accountId, {
+      data: accountId,
       headers: { Authorization: `Bearer ${await this.token}` },
     });
   }

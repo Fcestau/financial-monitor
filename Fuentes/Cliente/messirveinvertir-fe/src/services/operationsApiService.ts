@@ -25,7 +25,8 @@ export default new (class {
   }
 
   async deleteOperation(operationId: string) {
-    return this.iHttpHandler.delete(this.path, operationId, {
+    return this.iHttpHandler.delete(this.path, {
+      data: operationId,
       headers: { Authorization: `Bearer ${await this.token}` },
     });
   }
