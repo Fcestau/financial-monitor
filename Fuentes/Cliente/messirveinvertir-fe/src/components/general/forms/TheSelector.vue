@@ -1,6 +1,6 @@
 <template>
   <ion-item>
-    <ion-label>{{ $t(label) }}</ion-label>
+    <ion-label v-if="label">{{ $t(label) }}</ion-label>
     <ion-select v-bind="$attrs">
       <ion-select-option
         v-for="value in values"
@@ -18,7 +18,7 @@ export default {
   props: {
     label: {
       type: String,
-      required: true,
+      required: false,
     },
     values: {
       type: Array,

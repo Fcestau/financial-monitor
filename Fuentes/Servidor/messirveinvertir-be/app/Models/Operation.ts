@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import Account from 'App/Models/Account'
+import Asset from 'App/Models/Asset'
 
 export enum OperationType {
   Buy = 'Buy',
@@ -39,6 +40,9 @@ export default class Operation extends BaseModel {
 
   @belongsTo(() => Account)
   public account: BelongsTo<typeof Account>
+
+  @belongsTo(() => Asset)
+  public asset: BelongsTo<typeof Asset>
 
   public unitUsdPrice(): number {
     return this.usdPrice / this.quantity
