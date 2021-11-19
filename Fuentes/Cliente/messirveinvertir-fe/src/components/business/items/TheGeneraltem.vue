@@ -1,6 +1,6 @@
 <template>
   <ion-item>
-    <TheAvatar slot="start" :displayName="item.account.name"> </TheAvatar>
+    <TheAvatar slot="start" :displayName="item.name"> </TheAvatar>
     <div class="item">
       <ion-label>
         <h3>{{ item.name }}</h3>
