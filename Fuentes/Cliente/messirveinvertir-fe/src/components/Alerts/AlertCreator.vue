@@ -127,7 +127,7 @@ export default {
       this.accounts.currentAccounts.forEach((element) => {
         if (element.type === 'Manual') {
           const newAccount = {
-            value: element.name,
+            value: element.id,
             displayName: element.name,
           };
           accounts.push(newAccount);
@@ -139,7 +139,7 @@ export default {
       const assets = [];
       this.assets.currentAssets.forEach((element) => {
         const newAsset = {
-          value: element.name,
+          value: element.id,
           displayName: element.name,
         };
         assets.push(newAsset);
@@ -182,7 +182,7 @@ export default {
   },
   methods: {
     ...Vuex.mapActions(['addNewAlert']),
-    onSubmit(data) {
+    async onSubmit(data) {
       const newAlert = {
         ...data,
         hourlyDeltaPrice: data.creteria === 'price' ? parseFloat(data.percentageChange) : 0,
@@ -190,7 +190,9 @@ export default {
       };
       delete newAlert.percentageChange
       delete newAlert.creteria
-      this.addNewAlert(newAlert);
+      const alerts = { alerts: [newAlert]}
+      await this.addNewAlert(alerts);
+      this.$router.push('/active-alerts');
     },
 
     async addNewAccount() {
@@ -214,7 +216,7 @@ export default {
       return modal.present();
     },
     isRequired(value) {
-      return value ? true : this.$t('validation.required');
+      return value !== null ? true : this.$t('validation.required');
     },
     isPercentage(value) {
       return parseFloat(value) >= 0 && parseFloat(value) <= 100 ? true : this.$t('validation.percentage');

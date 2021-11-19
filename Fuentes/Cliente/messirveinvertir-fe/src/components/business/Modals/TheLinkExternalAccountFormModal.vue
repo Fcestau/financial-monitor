@@ -94,7 +94,6 @@ export default {
         balance: 0,
         assetType: 'USD',
       };
-      console.log(data)
       this.addNewAccount(newAccount);
       modalController.dismiss();
     },
