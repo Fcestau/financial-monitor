@@ -86,6 +86,7 @@ export default class AssetsController {
     try {
       const assets = await new AssetService().syncAssetsFor(auth.user.uid!)
       await Event.emit('fetched:assets', { uid: auth.user.uid!, assets })
+      await auth.user!.storeAccountsValuePoint()
       return response.json({ assets })
     } catch (e) {
       response.abort({ error: e.message })
