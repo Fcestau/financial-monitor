@@ -84,10 +84,13 @@
     "wallet_title_label": "Cartera",
     "total_balance": "Balance total (ARS)",
     "balance_info": "Es posible que los balances de tus activos no estén actualizados debido a un retraso del sistema.",
-    "portfolio": "Portafolio",
+    "portfolio": "Portafolio"
     "filters": "Filtros",
     "assets_name": "Nombre de Activos",
     "linked_accounts": "Cuentas Asociadas",
     "filter": "Filtrar"
+  "validation": {
+    "required": "El campo es obligatorio.",
+    "percentage": "El valor del campo debe estar entre 0 y 100"
   }
 }
