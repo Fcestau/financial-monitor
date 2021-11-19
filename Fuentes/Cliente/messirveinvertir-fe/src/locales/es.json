@@ -15,6 +15,7 @@
   "scan": "Escanear",
   "invertir_online": "Invertir Online",
   "email": "Correo electronico",
+  "displayName": "Nombre y Apellido",
   "password": "Contraseña",
   "repeat_password": "Repetir contraseña",
   "confirm": "Confirmar",
