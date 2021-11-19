@@ -38,13 +38,16 @@ export default {
       return this.alerts.currentAlerts;
     },
   },
+  async mounted() {
+    await this.getCurrentAlerts();
+  },
   methods: {
-    ...Vuex.mapActions(['deleteAlert']),
+    ...Vuex.mapActions(['deleteAlert', 'getCurrentAlerts']),
 
-    deleteItem(item) {
-      this.deleteItemAlertConfirm(item);
+    async deleteItem(item) {
+      await this.deleteItemAlertConfirm(item.id);
     },
-    async deleteItemAlertConfirm(item) {
+    async deleteItemAlertConfirm(itemId) {
       const alert = await alertController.create({
         header: this.$t('alerts.delete_alert'),
         message: this.$t('alerts.sure_delete_alert_ask'),
@@ -60,7 +63,7 @@ export default {
           {
             text: this.$t('accept'),
             handler: () => {
-              this.deleteAlert(item);
+              this.deleteAlert({ alerts: [{ id: itemId }] });
             },
           },
         ],
