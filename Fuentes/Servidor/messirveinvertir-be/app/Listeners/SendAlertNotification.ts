@@ -10,7 +10,6 @@ export default class SendAlertNotification {
 
   private async notify(uid: string, asset: Asset) {
     const pendingAlerts = await Alert.getPendingAlerts(uid, asset)
-    console.log(pendingAlerts)
     await Promise.all(
       pendingAlerts.map(async (alert) => {
         await SendAlertNotification.sendNotification(uid, asset)
@@ -24,7 +23,7 @@ export default class SendAlertNotification {
   private static sendNotification(uid: string, asset: Asset) {
     const notification = {
       title: `${asset.symbol} está en movimiento!`,
-      body: `El precio varió un ${asset.hourlyDeltaPrice}% en la última hora hasta los ${asset.symbol} ${asset.usdLastPrice}`,
+      body: `El precio varió un ${asset.hourlyDeltaPrice}% en la última hora hasta los U$D ${asset.usdLastPrice}`,
       topic: uid,
     }
     return Event.emit('new:notification', notification)
