@@ -59,15 +59,14 @@ export default {
     closeModal() {
       modalController.dismiss();
     },
-    submitForm() {
+
+    async submitForm() {
       const newManualAccount = {
-        id: 0,
         name: this.form.name,
         type: 'Manual',
-        createdAt: new Date().toISOString(),
-        avatar: this.form.name,
+        data: [],
       };
-      this.addNewAccount(newManualAccount);
+      await this.addNewAccount({ accounts: [newManualAccount] });
       modalController.dismiss();
     },
   },
