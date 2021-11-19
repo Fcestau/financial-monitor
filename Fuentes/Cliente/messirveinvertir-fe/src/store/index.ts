@@ -1,86 +1,23 @@
 import { Account } from '@/models/Account';
 import { Asset } from '@/models/Asset';
 import { Operation } from '@/models/Operation';
+import operationApiService from '@/services/operationsApiService';
+import assetApiService from '@/services/assetApiService';
+import accountApiService from '@/services/accountApiService';
 import { createStore } from 'vuex';
 
 export default createStore({
   state: {
     operations: {
-      currentOperations: [
-        {
-          id: 0,
-          account: {
-            id: 0,
-            name: 'BINANCE',
-            type: 'Manual',
-            createdAt: new Date().toISOString(),
-            avatar:
-              'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
-          },
-          asset: {
-            id: 0,
-            name: 'IOL',
-            symbol: 'string',
-            type: 'Fiat',
-            date: new Date().toISOString(),
-          },
-          quantity: 300,
-          usdPrice: 300,
-          type: 'Venta',
-          timestamp: '06/05/2021:18:20',
-          avatar:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMbqQ53w7h-Ns5pWxR4S-Liy-1eTEyDyLSlm7rrAgEXlfU0LsVQ2sZLzzK13W9CqHcDDM&usqp=CAU',
-        },
-        {
-          id: 1,
-          account: {
-            id: 1,
-            name: 'BINANCE',
-            type: 'Manual',
-            createdAt: new Date().toISOString(),
-            avatar:
-              'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
-          },
-          asset: {
-            id: 0,
-            name: 'string',
-            symbol: 'string',
-            type: 'Fiat',
-            date: new Date().toISOString(),
-          },
-          quantity: 300,
-          usdPrice: 300,
-          type: 'Venta',
-          timestamp: '06/05/2021:18:20',
-          avatar:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMbqQ53w7h-Ns5pWxR4S-Liy-1eTEyDyLSlm7rrAgEXlfU0LsVQ2sZLzzK13W9CqHcDDM&usqp=CAU',
-        },
-      ],
+      currentOperations: [],
       loading: false,
     },
     accounts: {
-      currentAccounts: [
-        {
-          id: 0,
-          name: 'string',
-          type: 'Manual',
-          createdAt: new Date().toISOString(),
-          avatar:
-            'https://play-lh.googleusercontent.com/FMYg7BS3gM5hANcoHJ45vB_2yOV_na6EJUFTxYq8CuZbgpB2qqCr7D9zx3SJo8m1xTmb',
-        },
-      ],
+      currentAccounts: [],
       loading: false,
     },
     assets: {
-      currentAssets: [
-        {
-          id: 0,
-          name: 'string',
-          symbol: 'string',
-          type: 'Fiat',
-          date: new Date().toISOString(),
-        },
-      ],
+      currentAssets: [],
       loading: false,
     },
     alerts: {
@@ -157,6 +94,10 @@ export default createStore({
   },
   mutations: {
     // Operations
+    addOperationsInStore(state, operations) {
+      (state.operations.currentOperations as Operation[]) = operations;
+    },
+
     addNewOperation(state, newOperation) {
       (state.operations.currentOperations as Operation[]).push(newOperation);
     },
@@ -169,8 +110,8 @@ export default createStore({
     },
 
     // Assets
-    getCurrentAssets(state) {
-      return state.assets.currentAssets;
+    addAssetsInStore(state, assets) {
+      (state.assets.currentAssets as Asset[]) = assets;
     },
 
     addNewAsset(state, newAsset) {
@@ -185,8 +126,8 @@ export default createStore({
     },
 
     // Accounts
-    getCurrentAccounts(state) {
-      return state.accounts.currentAccounts;
+    addAccountsInStore(state, accounts) {
+      (state.accounts.currentAccounts as Account[]) = accounts;
     },
 
     addNewAccount(state, newAccount) {
@@ -214,8 +155,10 @@ export default createStore({
   },
   actions: {
     // Operations
-    getCurrentOperations({ commit }) {
-      commit('getCurrentOperations');
+    async getCurrentOperations({ commit }) {
+      const data = await operationApiService.getAllOperations();
+      const operations = await data.data.data;
+      commit('addOperationsInStore', operations);
     },
 
     addNewOperation({ commit }, newOperation) {
@@ -227,8 +170,10 @@ export default createStore({
     },
 
     // Accounts
-    getCurrentAccounts({ commit }) {
-      commit('getCurrentAccounts');
+    async getCurrentAccounts({ commit }) {
+      const data = await accountApiService.getAllAccounts();
+      const accounts = await data.data.data;
+      commit('addAccountsInStore', accounts);
     },
 
     addNewAccount({ commit }, newAccount) {
@@ -240,8 +185,10 @@ export default createStore({
     },
 
     // Assets
-    getCurrentAssets({ commit }) {
-      commit('getCurrentAssets');
+    async getCurrentAssets({ commit }) {
+      const data = await assetApiService.getAllAssets();
+      const assets = await data.data.data;
+      commit('addAssetsInStore', assets);
     },
 
     addNewAsset({ commit }, newAsset) {

@@ -123,19 +123,24 @@ export default {
   computed: {
     ...Vuex.mapState(['operations']),
     currentOperations() {
-      this.operations.currentOperations.forEach((element) => {
-        if (element.type === 'Compra') {
-          element.color = 'success';
-        } else {
-          element.color = 'danger';
-        }
-      });
+      if (this.operations.currentOperations.length > 0) {
+        this.operations.currentOperations.forEach((element) => {
+          if (element.type === 'Compra') {
+            element.color = 'success';
+          } else {
+            element.color = 'danger';
+          }
+        });
+      }
 
       return this.operations.currentOperations;
     },
   },
+  async mounted() {
+    await this.getCurrentOperations();
+  },
   methods: {
-    ...Vuex.mapActions(['deleteOperation']),
+    ...Vuex.mapActions(['deleteOperation', 'getCurrentOperations']),
 
     dateLabel(date) {
       //TODO: realizar el formateo correcto
