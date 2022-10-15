@@ -1,9 +1,11 @@
+import * as IonComponents from '@ionic/vue';
+import store from './store'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
 
 import { IonicVue } from '@ionic/vue';
-
+import { createI18n } from 'vue-i18n'
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
 
@@ -27,17 +29,24 @@ import './theme/variables.css';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
 // Call the element loader after the platform has been bootstrapped
+import es from "./locales/es.json";
 defineCustomElements(window);
 
+const i18n = createI18n({
+  locale: 'es',
+  fallbackLocale: 'es',
+  messages: { es }
+})
+
 const app = createApp(App)
+  .use(store)
   .use(IonicVue)
-  .use(router);
+  .use(router)
+  .use(i18n)
 
 const files = require.context('./components/', true, /\.vue$/i);
 // @ts-ignore
 files.keys().map(key => app.component(key.split('/').pop().split('.')[0], files(key).default));
-
-import * as IonComponents from '@ionic/vue';
 
 Object.keys(IonComponents).forEach(key => {
   if (/^Ion[A-Z]\w+$/.test(key)) {
@@ -45,7 +54,7 @@ Object.keys(IonComponents).forEach(key => {
     app.component(key, IonComponents[key]);
   }
 });
-  
+
 router.isReady().then(() => {
   app.mount('#app');
 });

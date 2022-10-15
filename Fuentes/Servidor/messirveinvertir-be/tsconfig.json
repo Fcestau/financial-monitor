@@ -30,7 +30,8 @@
       "@adonisjs/repl",
       "adonis5-swagger",
       "@adonisjs/lucid",
-      "@adonisjs/auth"
+      "@adonisjs/auth",
+      "adonis-fcm"
     ]
   }
 }

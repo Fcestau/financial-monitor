@@ -6,11 +6,11 @@
     parameters:
       - $ref: '#/components/parameters/page'
       - $ref: '#/components/parameters/limit'
-      - $ref: '#/components/parameters/orderById'
+      - $ref: '#/components/parameters/order_by_id'
     responses:
       200:
         description: Cuentas asociadas al usuario
-  
+
   post:
     tags:
       - Accounts
@@ -34,6 +34,14 @@
                       required: true
                       type: string
                       enum: [IOL, Manual]
+                    data:
+                      required: true
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                        password:
+                          type: string
     responses:
       201:
         description: Lista de ids de las nuevas cuentas
@@ -56,7 +64,7 @@
                   properties:
                     id:
                       required: true
-                      type: string
+                      type: number
     responses:
       204:
         description: Las cuentas fueron eliminadas

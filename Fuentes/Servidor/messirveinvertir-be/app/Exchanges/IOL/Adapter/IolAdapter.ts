@@ -1,7 +1,12 @@
 import { AxiosInstance } from 'axios'
 import axios from 'axios'
-import { GetOperationsFilter, Operation } from 'App/Exchanges/IOL/Domain/Operation'
+import {
+  GetOperationsFilter,
+  IolOperation,
+  PosicionModel,
+} from 'App/Exchanges/IOL/Domain/IolOperation'
 import IolAdapterInterface, { IolAuthenticationInterface, Token } from 'App/Exchanges/IOL'
+import { Exception } from '@poppinss/utils'
 
 interface AdapterConfig {
   base: string
@@ -29,7 +34,7 @@ export default class IolAdapter implements IolAdapterInterface {
     return this.config.auth.authenticate(username, password)
   }
 
-  public async getOperations(filter?: GetOperationsFilter): Promise<Operation> {
+  public async getOperations(filter?: GetOperationsFilter): Promise<IolOperation[]> {
     return (await this.axios())
       .get('/api/v2/operaciones', {
         params: {
@@ -38,6 +43,26 @@ export default class IolAdapter implements IolAdapterInterface {
           'filtro.fechaHasta': filter?.to,
         },
       })
-      .then((r) => r.data)
+      .catch(this.onError)
+      .then(this.handleResponse)
+  }
+
+  public async getPositions(): Promise<PosicionModel[]> {
+    return (await this.axios())
+      .get('/api/v2/portafolio/argentina')
+      .catch(this.onError)
+      .then((r) => this.handleResponse(r).activos)
+  }
+
+  protected onError(e): void {
+    console.log(e)
+    throw new Exception(e.response.data.error_description || e.response.data.message)
+  }
+
+  protected handleResponse(r: any): any {
+    if (r.data.message) {
+      throw new Exception(`IOL Error: ${r.data.message}`)
+    }
+    return r.data
   }
 }

@@ -24,7 +24,10 @@ Route.group(() => {
   require('./routes/api/v1/index')
 }).prefix('/api/v1')
 
-Route.get('/ping', 'PingController.ping')
+Route.group(() => {
+  Route.get('', 'PingController.ping')
+  Route.post('/notification', 'PingController.notification').middleware('auth')
+}).prefix('/ping')
 Route.get('/', async ({ response }) => {
   return response.redirect('/docs')
 })

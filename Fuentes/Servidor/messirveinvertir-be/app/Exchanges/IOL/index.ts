@@ -1,4 +1,8 @@
-import { GetOperationsFilter, Operation } from 'App/Exchanges/IOL/Domain/Operation'
+import {
+  GetOperationsFilter,
+  IolOperation,
+  PosicionModel,
+} from 'App/Exchanges/IOL/Domain/IolOperation'
 
 export interface Token {
   'access_token': string
@@ -13,5 +17,6 @@ export interface IolAuthenticationInterface {
 
 export default interface IolAdapterInterface {
   authenticate(username: string, password: string): Promise<Token>
-  getOperations(filter?: GetOperationsFilter): Promise<Operation>
+  getOperations(filter?: GetOperationsFilter): Promise<IolOperation[]>
+  getPositions(): Promise<PosicionModel[]>
 }

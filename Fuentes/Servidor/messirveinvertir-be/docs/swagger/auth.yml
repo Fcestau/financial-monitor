@@ -1,8 +1,8 @@
-/api/v1/auth/login:
+/api/v1/auth/register:
   post:
     tags:
       - Authentication
-    summary: Permite autenticar un usuario por email y contraseña.
+    summary: Permite registrar un nuevo usuario en el sistema.
     requestBody:
        required: true
        content:
@@ -10,10 +10,31 @@
            schema:
              type: object
              properties:
+               display_name:
+                 type: string
                email:
                  type: string
                password:
                  type: string
+    responses:
+      200:
+        description: Información del usuario registrado.
+/api/v1/auth/login:
+  post:
+    tags:
+      - Authentication
+    summary: Permite autenticar un usuario por email y contraseña.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
     responses:
       200:
         description: Token del usuario autenticado
